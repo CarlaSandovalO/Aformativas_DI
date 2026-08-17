@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actividad Formativa - Decidir con DI</title>
+<style>
+:root{
+  --teal:#17a9b8;--teal-dark:#087d8d;--teal-soft:#eaf8f8;--ink:#082b3a;--muted:#6f8b95;
+  --line:#cfe5e7;--ok:#1fa57d;--ok-bg:#eaf8f2;--bad:#cc5a52;--bad-bg:#fff1ef;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#edf8f8;color:var(--ink)}
+.shell{max-width:1080px;margin:20px auto;background:#fff;border-radius:26px;box-shadow:0 0 0 1px #dceced;overflow:hidden}
+.header{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 28px;border-bottom:1px solid var(--line)}
+.head-left{display:flex;gap:14px;align-items:flex-start}
+.badge{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#1fb7c4,#128f9d);color:#fff;font-size:24px;font-weight:700}
+.header h1{font-size:21px;margin:0 0 4px}.header .sub{font-size:15px;color:#4f6f79}.time{font-size:15px;font-weight:700;color:#4f6f79;padding-top:8px}
+.progress-wrap{padding:14px 28px 18px;background:#f7fbfb;border-bottom:1px solid var(--line)}
+.progress{display:grid;grid-template-columns:repeat(4,1fr);align-items:start}
+.step{text-align:center;position:relative}.step:before{content:"";position:absolute;top:17px;left:50%;right:-50%;height:2px;background:#cfe5e7;z-index:0}.step:last-child:before{display:none}
+.dot{margin:0 auto 7px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #b7d6da;color:#6d8c95;background:#fff;font-weight:700;position:relative;z-index:1}
+.step.active .dot{background:var(--teal);color:#fff;border-color:var(--teal);box-shadow:0 0 0 5px #dff5f6}.step.done .dot{background:#e8fbf8;color:var(--ok);border-color:#5bd1c5}
+.step .label{font-size:14px;color:#718c95}.step.active .label{color:var(--teal-dark);font-weight:700}
+.screen{display:none;padding:34px 54px 42px;min-height:500px}.screen.active{display:block}
+.kicker{text-align:center;color:var(--teal-dark);letter-spacing:2px;font-weight:800;font-size:16px;text-transform:uppercase;margin-bottom:18px}
+.intro-icon{width:72px;height:72px;border-radius:50%;margin:10px auto 22px;background:linear-gradient(145deg,#14b5c2,#1396a0);color:#fff;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:14px -4px 0 -8px #6ed7dd}
+.big-title{text-align:center;font-size:38px;line-height:1.12;margin:0 auto 18px;max-width:850px;font-weight:500}
+.instructions{max-width:820px;margin:0 auto 28px;text-align:center;font-size:21px;line-height:1.55;color:#58737c}
+.center{text-align:center}.btn{display:inline-block;border:none;border-radius:14px;background:linear-gradient(90deg,#0f919e,#20b8c7);color:#fff;padding:16px 28px;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 10px 22px rgba(12,145,158,.16)}
+.btn.secondary{background:#eaf8f8;color:var(--teal-dark);box-shadow:none;border:1px solid #b7e4e6}
+.context{max-width:800px;margin:0 auto 24px;padding:18px 22px;border-left:4px solid #61d1cc;border-radius:14px;background:#edf9f8;color:#335d67;font-size:18px;line-height:1.45}
+.question{text-align:center;font-size:36px;line-height:1.18;margin:16px auto 26px;max-width:900px;font-weight:500}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px;margin:0 auto}
+.option{min-height:145px;border:1.5px solid #c9e0e3;border-radius:18px;background:#fff;padding:28px 18px 18px;cursor:pointer;text-align:center;font-size:18px;font-weight:700;color:#0b2d39}
+.option .mini{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#e9f8f8;border:1px solid #c5e6e8;margin:0 auto 14px;color:#0d92a2;font-size:16px}
+.option.correct{border-color:var(--ok);background:#effaf5}.option.wrong{border-color:#ea7d72;background:#fff3f1}
+.feedback{display:none;max-width:900px;margin:18px auto 0;border-radius:16px;padding:18px 20px;font-size:17px;line-height:1.5}.feedback.show{display:block}.feedback.ok{background:var(--ok-bg);border:1px solid #a9dfcc}.feedback.bad{background:var(--bad-bg);border:1px solid #efb4ae}.feedback strong{display:block;margin-bottom:6px;font-size:19px}
+.footer-row{max-width:900px;margin:18px auto 0;display:flex;justify-content:space-between;align-items:center}.count{font-size:14px;color:#78939b;font-weight:700}
+@media(max-width:760px){.shell{margin:0;border-radius:0}.header{padding:14px 16px}.screen{padding:28px 18px 34px}.big-title{font-size:30px}.question{font-size:29px}.instructions{font-size:19px}.options{grid-template-columns:1fr}.progress-wrap{padding-left:10px;padding-right:10px}.step .label{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="header"><div class="head-left"><div class="badge">1</div><div><h1>Actividad Formativa</h1><div class="sub">Decidir con DI</div></div></div><div class="time">◷ 4–6 min</div></div>
+<div class="progress-wrap"><div class="progress">
+<div class="step active" id="step1"><div class="dot">1</div><div class="label">Delegar</div></div>
+<div class="step" id="step2"><div class="dot">2</div><div class="label">Diseñar</div></div>
+<div class="step" id="step3"><div class="dot">3</div><div class="label">Verificar</div></div>
+<div class="step" id="step4"><div class="dot">4</div><div class="label">Proteger</div></div>
+</div></div>
+
+<section class="screen active" id="screen0">
+<div class="intro-icon">?</div>
+<h2 class="big-title">La IA puede hacerlo…<br><span style="color:#1699a5">¿pero debería hacerlo?</span></h2>
+<div class="instructions"><strong>Instrucciones:</strong> A continuación, se le presentan decisiones breves. Lea cada situación, seleccione el papel que debería tener la IA y revise la retroalimentación. El objetivo es reconocer qué puede delegarse, qué requiere supervisión y qué responsabilidad debe conservar el diseñador instruccional.</div>
+<div class="center"><button class="btn" onclick="go(1)">Comenzar →</button></div>
+</section>
+
+<section class="screen" id="screen1">
+<div class="kicker">Situación 1 de 4</div>
+<div class="question">Resumir cinco documentos que usted proporciona.</div>
+<div class="options">
+<div class="option" onclick="answer(this,true,'f1')"><div class="mini">✓</div>Puede apoyarme la IA</div>
+<div class="option" onclick="answer(this,false,'f1')"><div class="mini">!</div>IA + supervisión del DI</div>
+<div class="option" onclick="answer(this,false,'f1')"><div class="mini">•</div>Decisión humana / No delegar</div>
+</div>
+<div class="feedback ok" id="f1-ok"><strong>✓ Decisión acertada</strong>La IA puede agilizar la síntesis de información existente. El diseñador debe comprobar que el resumen represente correctamente las fuentes.</div>
+<div class="feedback bad" id="f1-bad"><strong>! Revise su decisión</strong>La síntesis puede delegarse como tarea de apoyo. La responsabilidad del DI está en revisar fidelidad, pertinencia y posibles omisiones.</div>
+<div class="footer-row"><div class="count">Decisión 1 de 4</div><button class="btn" onclick="go(2)">Continuar →</button></div>
+</section>
+
+<section class="screen" id="screen2">
+<div class="kicker">Actividad 2 · Diseñar</div>
+<div class="context">◇ El resultado de aprendizaje busca que el estudiante analice alternativas y justifique una decisión profesional. Una IA puede generar la respuesta completa en segundos.</div>
+<div class="question">¿Cuál sería la mejor decisión de diseño?</div>
+<div class="options">
+<div class="option" onclick="answer(this,false,'f2')"><div class="mini">A</div>Prohibir cualquier uso de IA para garantizar que el estudiante piense.</div>
+<div class="option" onclick="answer(this,false,'f2')"><div class="mini">B</div>Permitir que la IA genere toda la respuesta y pedir al estudiante que revise si está bien redactada.</div>
+<div class="option" onclick="answer(this,true,'f2')"><div class="mini">C</div>Permitir apoyo de IA para explorar alternativas, pero exigir que el estudiante compare, cuestione y justifique personalmente la decisión final.</div>
+</div>
+<div class="feedback ok" id="f2-ok"><strong>✓ Decisión acertada</strong>El objetivo no es conservar toda la dificultad, sino proteger el esfuerzo que tiene valor formativo. Si el aprendizaje requiere analizar y justificar, esas operaciones deben seguir ocurriendo en el estudiante.</div>
+<div class="feedback bad" id="f2-bad"><strong>! Revise su decisión</strong>Diseñar con IA también implica decidir dónde la tecnología puede aliviar carga y dónde conviene conservar el esfuerzo que produce aprendizaje.</div>
+<div class="footer-row"><div class="count">Decisión 2 de 4</div><button class="btn" onclick="go(3)">Continuar →</button></div>
+</section>
+
+<section class="screen" id="screen3">
+<div class="kicker">Actividad 3 · Verificar</div>
+<div class="context">◇ Para fundamentar una actividad de aprendizaje, solicita referencias académicas a una IA. Recibe autores, año, título y DOI. La respuesta parece sólida y profesional.</div>
+<div class="question">¿Qué debería hacer antes de utilizar esas referencias?</div>
+<div class="options">
+<div class="option" onclick="answer(this,false,'f3')"><div class="mini">A</div>Incorporarlas porque incluyen todos los datos bibliográficos.</div>
+<div class="option" onclick="answer(this,true,'f3')"><div class="mini">B</div>Verificar que existan, sean accesibles y realmente respalden la afirmación antes de utilizarlas.</div>
+<div class="option" onclick="answer(this,false,'f3')"><div class="mini">C</div>Pedir cinco referencias adicionales y seleccionar las que aparezcan con mayor frecuencia.</div>
+</div>
+<div class="feedback ok" id="f3-ok"><strong>✓ Decisión acertada</strong>La existencia de una referencia no basta. También debe comprobarse su pertinencia, actualidad y relación real con la afirmación que se desea sustentar.</div>
+<div class="feedback bad" id="f3-bad"><strong>! Revise su decisión</strong>La apariencia académica no garantiza veracidad. Verificar fuentes forma parte de la responsabilidad profesional del diseñador.</div>
+<div class="footer-row"><div class="count">Decisión 3 de 4</div><button class="btn" onclick="go(4)">Continuar →</button></div>
+</section>
+
+<section class="screen" id="screen4">
+<div class="kicker">Actividad 4 · Proteger</div>
+<div class="context">◇ Necesita analizar comentarios de estudiantes para mejorar un curso. El archivo incluye nombres, correos electrónicos, calificaciones individuales y observaciones personales.</div>
+<div class="question">¿Qué debería hacer antes de cargar el archivo en una herramienta de IA?</div>
+<div class="options">
+<div class="option" onclick="answer(this,false,'f4')"><div class="mini">A</div>Cargarlo completo porque se utilizará únicamente con fines académicos.</div>
+<div class="option" onclick="answer(this,false,'f4')"><div class="mini">B</div>Convertirlo a PDF para que los datos estén protegidos.</div>
+<div class="option" onclick="answer(this,true,'f4')"><div class="mini">C</div>Revisar las políticas institucionales, anonimizar los datos innecesarios y compartir solo lo requerido.</div>
+</div>
+<div class="feedback ok" id="f4-ok"><strong>✓ Decisión acertada</strong>Antes de usar IA con información de participantes, deben revisarse políticas, minimizar datos y proteger la privacidad. La finalidad académica no elimina la responsabilidad sobre la información.</div>
+<div class="feedback bad" id="f4-bad"><strong>! Revise su decisión</strong>El formato del archivo no protege por sí mismo los datos. Primero deben aplicarse criterios de privacidad, minimización y cumplimiento institucional.</div>
+<div class="footer-row"><div class="count">Decisión 4 de 4</div><button class="btn" onclick="go(5)">Finalizar →</button></div>
+</section>
+
+<section class="screen" id="screen5">
+<div class="kicker">Cierre</div>
+<h2 class="big-title">Diseñar con IA también es <span style="color:#1699a5">decidir.</span></h2>
+<div class="instructions">La IA puede ampliar opciones, acelerar tareas y apoyar la producción. El valor profesional del diseñador instruccional está en contextualizar, seleccionar, verificar, proteger y decidir con criterio pedagógico.</div>
+<div class="center"><button class="btn secondary" onclick="restart()">Reiniciar actividad</button></div>
+</section>
+</div>
+<script>
+function go(n){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById('screen'+n).classList.add('active');
+ let a=Math.min(Math.max(n,1),4);
+ document.querySelectorAll('.step').forEach((s,i)=>{s.classList.remove('active','done');if(i+1<a)s.classList.add('done');else if(i+1===a)s.classList.add('active')});
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function answer(el,ok,id){
+ const c=el.parentElement;c.querySelectorAll('.option').forEach(o=>o.classList.remove('correct','wrong'));
+ document.getElementById(id+'-ok').classList.remove('show');document.getElementById(id+'-bad').classList.remove('show');
+ el.classList.add(ok?'correct':'wrong');document.getElementById(id+(ok?'-ok':'-bad')).classList.add('show');
+}
+function restart(){
+ document.querySelectorAll('.feedback').forEach(f=>f.classList.remove('show'));document.querySelectorAll('.option').forEach(o=>o.classList.remove('correct','wrong'));go(0);
+}
+</script>
+</body>
+</html>
