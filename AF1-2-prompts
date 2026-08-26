@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Actividad Formativa 2</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:8px;
+  background:#F4FAFB;
+  font-family:Poppins, Arial, sans-serif;
+  color:#0B2B3D;
+}
+
+.activity{
+  max-width:1000px;
+  margin:0 auto;
+  background:#ffffff;
+  border:1px solid #D6EEF2;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+/* PROGRESO */
+
+.progress{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  padding:10px 16px;
+  background:#F8FCFD;
+  border-bottom:1px solid #DCE6E9;
+}
+
+.step{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:1.5px solid #B9DBE1;
+  background:#ffffff;
+  color:#6B8791;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+}
+
+.step.active{
+  background:#00B3C7;
+  border-color:#00B3C7;
+  color:#ffffff;
+}
+
+.step.done{
+  background:#2D8692;
+  border-color:#2D8692;
+  color:#ffffff;
+}
+
+.line{
+  width:42px;
+  height:1.5px;
+  background:#CBE5E9;
+}
+
+/* CONTENIDO */
+
+.content{
+  padding:24px 40px 32px;
+}
+
+.question-screen{
+  display:none;
+}
+
+.question-screen.active{
+  display:block;
+}
+
+.kicker{
+  margin:0 0 8px;
+  color:#078A9A;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.question{
+  margin:0 0 20px;
+  font-size:20px;
+  line-height:1.45;
+  font-weight:600;
+}
+
+.context{
+  margin:0 0 20px;
+  padding:16px 18px;
+  background:#F4FAFB;
+  border-left:4px solid #2D8692;
+  border-radius:0 10px 10px 0;
+  font-size:16px;
+  line-height:1.55;
+  color:#314753;
+}
+
+.options{
+  display:grid;
+  gap:11px;
+}
+
+.option{
+  width:100%;
+  border:1.5px solid #C6DCE1;
+  border-radius:11px;
+  background:#ffffff;
+  padding:15px 17px;
+  text-align:left;
+  font-family:inherit;
+  font-size:16px;
+  line-height:1.4;
+  color:#0B2B3D;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.option:hover{
+  border-color:#00B3C7;
+  background:#F8FCFD;
+}
+
+.option strong{
+  color:#078A9A;
+  margin-right:8px;
+}
+
+.option.wrong{
+  border:2px solid #E54B4B;
+  background:#FFF5F5;
+}
+
+.option.correct{
+  border:2px solid #2A9D71;
+  background:#F1FBF6;
+}
+
+.option:disabled{
+  cursor:default;
+}
+
+/* RETROALIMENTACIÓN */
+
+.feedback{
+  display:none;
+  margin-top:20px;
+  padding:15px 17px;
+  border-radius:10px;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.feedback.show{
+  display:block;
+}
+
+.feedback.wrong{
+  background:#FFF3F3;
+  border:1px solid #F1BBBB;
+  color:#932F2F;
+}
+
+.feedback.correct{
+  background:#F0FAF5;
+  border:1px solid #B7DFC9;
+  color:#17633F;
+}
+
+.actions{
+  display:none;
+  margin-top:16px;
+}
+
+.actions.show{
+  display:flex;
+  justify-content:flex-end;
+}
+
+.action-btn{
+  border:0;
+  border-radius:9px;
+  background:#00A6B8;
+  color:#ffffff;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:700;
+  padding:11px 20px;
+  cursor:pointer;
+}
+
+.action-btn:hover{
+  background:#078A9A;
+}
+
+/* EMPAREJAMIENTO */
+
+.match-intro{
+  margin-bottom:16px;
+  font-size:16px;
+  color:#526B76;
+}
+
+.match-list{
+  display:grid;
+  gap:10px;
+}
+
+.match-row{
+  display:grid;
+  grid-template-columns:1fr 180px;
+  gap:14px;
+  align-items:center;
+  padding:13px 14px;
+  border:1px solid #D6E6E9;
+  border-radius:10px;
+  background:#ffffff;
+}
+
+.match-text{
+  font-size:15px;
+  line-height:1.45;
+  color:#314753;
+}
+
+.match-select{
+  width:100%;
+  padding:10px 9px;
+  border:1.5px solid #BED8DE;
+  border-radius:8px;
+  background:#ffffff;
+  font-family:inherit;
+  font-size:14px;
+  color:#0B2B3D;
+}
+
+.match-select.wrong{
+  border:2px solid #E54B4B;
+  background:#FFF5F5;
+}
+
+.match-select.correct{
+  border:2px solid #2A9D71;
+  background:#F1FBF6;
+}
+
+.check-area{
+  margin-top:20px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+/* FINAL */
+
+.finish{
+  text-align:center;
+  padding:24px 10px;
+}
+
+.finish-icon{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  margin:0 auto 16px;
+  background:#00B3C7;
+  color:#ffffff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:700;
+}
+
+.finish h2{
+  margin:0 0 10px;
+  font-size:24px;
+}
+
+.finish p{
+  max-width:650px;
+  margin:0 auto 22px;
+  font-size:16px;
+  line-height:1.55;
+  color:#526B76;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  body{
+    padding:4px;
+  }
+
+  .content{
+    padding:20px 16px 26px;
+  }
+
+  .question{
+    font-size:18px;
+  }
+
+  .line{
+    width:24px;
+  }
+
+  .match-row{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="activity">
+
+  <!-- PROGRESO -->
+  <div class="progress">
+
+    <div class="step active" id="step1">1</div>
+    <div class="line"></div>
+
+    <div class="step" id="step2">2</div>
+    <div class="line"></div>
+
+    <div class="step" id="step3">3</div>
+    <div class="line"></div>
+
+    <div class="step" id="step4">4</div>
+
+  </div>
+
+  <div class="content">
+
+    <!-- PREGUNTA 1 -->
+
+    <div class="question-screen active" id="q1">
+
+      <p class="kicker">Pregunta 1</p>
+
+      <p class="question">
+        Un diseñador instruccional escribe el siguiente prompt:
+      </p>
+
+      <div class="context">
+        “Diseñe una actividad para enseñar liderazgo.”
+      </div>
+
+      <p class="question" style="font-size:18px;">
+        ¿Cuál de las siguientes versiones mejora de forma más pertinente la solicitud?
+      </p>
+
+      <div class="options">
+
+        <button class="option" onclick="answer(1,'A',this)">
+          <strong>A.</strong>
+          Diseñe una actividad para enseñar liderazgo. Sea creativo, innovador y detallado.
+        </button>
+
+        <button class="option" onclick="answer(1,'B',this)">
+          <strong>B.</strong>
+          Actúe como experto en liderazgo y proponga una actividad interesante para estudiantes.
+        </button>
+
+        <button class="option" onclick="answer(1,'C',this)">
+          <strong>C.</strong>
+          Estoy diseñando una formación virtual para supervisores recién promovidos que necesitan practicar conversaciones de retroalimentación. Proponga tres actividades de máximo 30 minutos que requieran analizar situaciones y justificar una decisión.
+        </button>
+
+        <button class="option" onclick="answer(1,'D',this)">
+          <strong>D.</strong>
+          Diseñe cinco actividades sobre liderazgo e incluya introducción, objetivos, metodología, recursos, evaluación y conclusiones.
+        </button>
+
+      </div>
+
+      <div class="feedback" id="feedback1"></div>
+      <div class="actions" id="actions1"></div>
+
+    </div>
+
+
+    <!-- PREGUNTA 2 -->
+
+    <div class="question-screen" id="q2">
+
+      <p class="kicker">Pregunta 2</p>
+
+      <p class="question">
+        La IA propone tres actividades para una formación virtual. Las propuestas parecen adecuadas, pero el diseñador no está seguro de si realmente responden al propósito de aprendizaje.
+      </p>
+
+      <p class="question" style="font-size:18px;">
+        ¿Cuál sería la acción más pertinente?
+      </p>
+
+      <div class="options">
+
+        <button class="option" onclick="answer(2,'A',this)">
+          <strong>A.</strong>
+          Solicitar que compare las propuestas, identifique fortalezas, debilidades y supuestos, y luego revisarlas con criterios pedagógicos.
+        </button>
+
+        <button class="option" onclick="answer(2,'B',this)">
+          <strong>B.</strong>
+          Elegir la propuesta que esté mejor redactada y desarrollarla.
+        </button>
+
+        <button class="option" onclick="answer(2,'C',this)">
+          <strong>C.</strong>
+          Pedir a la IA que amplíe las tres propuestas con más información.
+        </button>
+
+        <button class="option" onclick="answer(2,'D',this)">
+          <strong>D.</strong>
+          Utilizar las tres propuestas para evitar descartar una alternativa potencialmente útil.
+        </button>
+
+      </div>
+
+      <div class="feedback" id="feedback2"></div>
+      <div class="actions" id="actions2"></div>
+
+    </div>
+
+
+    <!-- PREGUNTA 3 -->
+
+    <div class="question-screen" id="q3">
+
+      <p class="kicker">Pregunta 3</p>
+
+      <p class="question">
+        Al justificar una actividad, la IA incluye la siguiente afirmación:
+      </p>
+
+      <div class="context">
+        “Esta estrategia aumenta en un 40 % la retención del aprendizaje y es especialmente efectiva en adultos.”
+      </div>
+
+      <p class="question" style="font-size:18px;">
+        ¿Qué debería hacer el diseñador antes de utilizar esta información?
+      </p>
+
+      <div class="options">
+
+        <button class="option" onclick="answer(3,'A',this)">
+          <strong>A.</strong>
+          Mantenerla porque el dato es específico y fortalece la justificación.
+        </button>
+
+        <button class="option" onclick="answer(3,'B',this)">
+          <strong>B.</strong>
+          Pedir a la IA que explique con mayor detalle por qué se obtiene ese porcentaje.
+        </button>
+
+        <button class="option" onclick="answer(3,'C',this)">
+          <strong>C.</strong>
+          Eliminar la actividad porque contiene información generada por IA.
+        </button>
+
+        <button class="option" onclick="answer(3,'D',this)">
+          <strong>D.</strong>
+          Verificar el dato y su fuente antes de incorporarlo al contenido o utilizarlo para justificar la decisión de diseño.
+        </button>
+
+      </div>
+
+      <div class="feedback" id="feedback3"></div>
+      <div class="actions" id="actions3"></div>
+
+    </div>
+
+
+    <!-- PREGUNTA 4 -->
+
+    <div class="question-screen" id="q4">
+
+      <p class="kicker">Pregunta 4</p>
+
+      <p class="question">
+        Ayude a estructurar un mejor prompt
+      </p>
+
+      <div class="context">
+        Estoy diseñando una formación virtual para supervisores recién promovidos que necesitan practicar cómo conducir conversaciones de retroalimentación. Actúe como especialista en Diseño Instruccional para formación de adultos. Tome como referencia actividades basadas en situaciones profesionales en las que el participante deba analizar alternativas antes de decidir. Proponga tres actividades para practicar conversaciones de retroalimentación. Cada actividad debe durar un máximo de 20 minutos, poder realizarse de forma virtual y requerir que el participante justifique una decisión. Después de generar las propuestas, compárelas, identifique posibles debilidades y recomiende cuál sería más pertinente.
+      </div>
+
+      <p class="match-intro">
+        Empareje cada fragmento del prompt con el componente de <strong>CRETA+R</strong> que representa.
+      </p>
+
+      <div class="match-list">
+
+        <div class="match-row">
+
+          <div class="match-text">
+            “Estoy diseñando una formación virtual para supervisores recién promovidos que necesitan practicar cómo conducir conversaciones de retroalimentación.”
+          </div>
+
+          <select class="match-select" data-answer="Contexto">
+            <option value="">Seleccione</option>
+            <option>Contexto</option>
+            <option>Rol</option>
+            <option>Ejemplo</option>
+            <option>Tarea</option>
+            <option>Ajustar</option>
+            <option>Refinar</option>
+          </select>
+
+        </div>
+
+
+        <div class="match-row">
+
+          <div class="match-text">
+            “Actúe como especialista en Diseño Instruccional para formación de adultos.”
+          </div>
+
+          <select class="match-select" data-answer="Rol">
+            <option value="">Seleccione</option>
+            <option>Contexto</option>
+            <option>Rol</option>
+            <option>Ejemplo</option>
+            <option>Tarea</option>
+            <option>Ajustar</option>
+            <option>Refinar</option>
+          </select>
+
+        </div>
+
+
+        <div class="match-row">
+
+          <div class="match-text">
+            “Tome como referencia actividades basadas en situaciones profesionales en las que el participante deba analizar alternativas antes de decidir.”
+          </div>
+
+          <select class="match-select" data-answer="Ejemplo">
+            <option value="">Seleccione</option>
+            <option>Contexto</option>
+            <option>Rol</option>
+            <option>Ejemplo</option>
+            <option>Tarea</option>
+            <option>Ajustar</option>
+            <option>Refinar</option>
+          </select>
+
+        </div>
+
+
+        <div class="match-row">
+
+          <div class="match-text">
+            “Proponga tres actividades para practicar conversaciones de retroalimentación.”
+          </div>
+
+          <select class="match-select" data-answer="Tarea">
+            <option value="">Seleccione</option>
+            <option>Contexto</option>
+            <option>Rol</option>
+            <option>Ejemplo</option>
+            <option>Tarea</option>
+            <option>Ajustar</option>
+            <option>Refinar</option>
+          </select>
+
+        </div>
+
+
+        <div class="match-row">
+
+          <div class="match-text">
+            “Cada actividad debe durar un máximo de 20 minutos, poder realizarse de forma virtual y requerir que el participante justifique una decisión.”
+          </div>
+
+          <select class="match-select" data-answer="Ajustar">
+            <option value="">Seleccione</option>
+            <option>Contexto</option>
+            <option>Rol</option>
+            <option>Ejemplo</option>
+            <option>Tarea</option>
+            <option>Ajustar</option>
+            <option>Refinar</option>
+          </select>
+
+        </div>
+
+
+        <div class="match-row">
+
+          <div class="match-text">
+            “Después de generar las propuestas, compárelas, identifique posibles debilidades y recomiende cuál sería más pertinente.”
+          </div>
+
+          <select class="match-select" data-answer="Refinar">
+            <option value="">Seleccione</option>
+            <option>Contexto</option>
+            <option>Rol</option>
+            <option>Ejemplo</option>
+            <option>Tarea</option>
+            <option>Ajustar</option>
+            <option>Refinar</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class="check-area">
+        <button class="action-btn" onclick="checkMatching()">
+          Comprobar
+        </button>
+      </div>
+
+      <div class="feedback" id="feedback4"></div>
+      <div class="actions" id="actions4"></div>
+
+    </div>
+
+
+    <!-- FINAL -->
+
+    <div class="question-screen" id="finish">
+
+      <div class="finish">
+
+        <div class="finish-icon">✓</div>
+
+        <h2>Actividad completada</h2>
+
+        <p>
+          Ha revisado cómo formular instrucciones más útiles, cuestionar una primera respuesta, verificar información y reconocer los componentes de CRETA+R dentro de una interacción.
+        </p>
+
+        <button class="action-btn" onclick="restartActivity()">
+          Volver a realizar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+const correctAnswers = {
+  1: "C",
+  2: "A",
+  3: "D"
+};
+
+const correctFeedback = {
+
+  1:
+  "La solicitud incorpora información relevante sobre los participantes, el contexto, la tarea y las condiciones que orientan la respuesta.",
+
+  2:
+  "La primera respuesta es un punto de partida. Cuestionar y comparar las propuestas permite revisarlas antes de tomar una decisión.",
+
+  3:
+  "Un dato específico debe verificarse antes de utilizarlo como fundamento de una decisión o incorporarlo al contenido."
+
+};
+
+const wrongFeedback = {
+
+  1:
+  "Revise qué información ayuda realmente a comprender la situación. Un prompt más largo no necesariamente es mejor; debe aportar información relevante para orientar la respuesta.",
+
+  2:
+  "Antes de seleccionar o ampliar una propuesta, conviene analizar sus fortalezas, limitaciones y relación con el propósito de aprendizaje.",
+
+  3:
+  "La claridad o precisión aparente de una respuesta no garantiza su veracidad. Los datos que sustentan una decisión deben comprobarse."
+
+};
+
+
+function answer(questionNumber, selected, button){
+
+  const screen = document.getElementById("q" + questionNumber);
+  const buttons = screen.querySelectorAll(".option");
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+  });
+
+  const feedback = document.getElementById("feedback" + questionNumber);
+  const actions = document.getElementById("actions" + questionNumber);
+
+  feedback.className = "feedback show";
+  actions.className = "actions show";
+
+  if(selected === correctAnswers[questionNumber]){
+
+    button.classList.add("correct");
+
+    feedback.classList.add("correct");
+    feedback.innerHTML =
+      "<strong>Correcto.</strong> " +
+      correctFeedback[questionNumber];
+
+    actions.innerHTML =
+      '<button class="action-btn" onclick="nextQuestion(' +
+      questionNumber +
+      ')">Continuar →</button>';
+
+  }else{
+
+    button.classList.add("wrong");
+
+    feedback.classList.add("wrong");
+    feedback.innerHTML =
+      "<strong>Revise su respuesta.</strong> " +
+      wrongFeedback[questionNumber];
+
+    actions.innerHTML =
+      '<button class="action-btn" onclick="retryQuestion(' +
+      questionNumber +
+      ')">Intentar de nuevo</button>';
+
+  }
+
+}
+
+
+function retryQuestion(questionNumber){
+
+  const screen = document.getElementById("q" + questionNumber);
+
+  const buttons = screen.querySelectorAll(".option");
+
+  buttons.forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove("wrong","correct");
+  });
+
+  const feedback = document.getElementById("feedback" + questionNumber);
+  const actions = document.getElementById("actions" + questionNumber);
+
+  feedback.className = "feedback";
+  feedback.innerHTML = "";
+
+  actions.className = "actions";
+  actions.innerHTML = "";
+
+}
+
+
+function nextQuestion(current){
+
+  document.getElementById("q" + current).classList.remove("active");
+
+  const step = document.getElementById("step" + current);
+
+  if(step){
+    step.classList.remove("active");
+    step.classList.add("done");
+  }
+
+  if(current < 4){
+
+    const next = current + 1;
+
+    document.getElementById("q" + next).classList.add("active");
+
+    document.getElementById("step" + next).classList.add("active");
+
+  }else{
+
+    document.getElementById("finish").classList.add("active");
+
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function checkMatching(){
+
+  const selects = document.querySelectorAll("#q4 .match-select");
+
+  let allSelected = true;
+  let allCorrect = true;
+
+  selects.forEach(select => {
+
+    select.classList.remove("wrong","correct");
+
+    if(select.value === ""){
+      allSelected = false;
+      allCorrect = false;
+      return;
+    }
+
+    if(select.value === select.dataset.answer){
+      select.classList.add("correct");
+    }else{
+      select.classList.add("wrong");
+      allCorrect = false;
+    }
+
+  });
+
+  const feedback = document.getElementById("feedback4");
+  const actions = document.getElementById("actions4");
+
+  if(!allSelected){
+
+    feedback.className = "feedback wrong show";
+    feedback.innerHTML =
+      "<strong>Complete todos los emparejamientos.</strong> Revise cada fragmento antes de comprobar.";
+
+    return;
+  }
+
+  if(allCorrect){
+
+    feedback.className = "feedback correct show";
+
+    feedback.innerHTML =
+      "<strong>Correcto.</strong> Cada componente cumple una función diferente dentro de la interacción. CRETA+R ayuda a organizar la información relevante, pero no obliga a utilizar siempre todos sus elementos.";
+
+    actions.className = "actions show";
+
+    actions.innerHTML =
+      '<button class="action-btn" onclick="nextQuestion(4)">Finalizar →</button>';
+
+    selects.forEach(select => {
+      select.disabled = true;
+    });
+
+  }else{
+
+    feedback.className = "feedback wrong show";
+
+    feedback.innerHTML =
+      "<strong>Revise los elementos marcados.</strong> Piense qué fragmentos sitúan el contexto, definen la perspectiva, muestran una referencia, establecen la tarea, fijan condiciones o permiten continuar mejorando la respuesta.";
+
+    actions.className = "actions show";
+
+    actions.innerHTML =
+      '<button class="action-btn" onclick="retryMatching()">Intentar de nuevo</button>';
+
+  }
+
+}
+
+
+function retryMatching(){
+
+  const selects = document.querySelectorAll("#q4 .match-select");
+
+  selects.forEach(select => {
+    select.disabled = false;
+    select.classList.remove("wrong","correct");
+  });
+
+  const feedback = document.getElementById("feedback4");
+  const actions = document.getElementById("actions4");
+
+  feedback.className = "feedback";
+  feedback.innerHTML = "";
+
+  actions.className = "actions";
+  actions.innerHTML = "";
+
+}
+
+
+function restartActivity(){
+
+  document.querySelectorAll(".question-screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById("q1").classList.add("active");
+
+  document.querySelectorAll(".step").forEach(step => {
+    step.classList.remove("active","done");
+  });
+
+  document.getElementById("step1").classList.add("active");
+
+  for(let q=1; q<=3; q++){
+
+    const screen = document.getElementById("q" + q);
+
+    screen.querySelectorAll(".option").forEach(btn => {
+      btn.disabled = false;
+      btn.classList.remove("wrong","correct");
+    });
+
+    document.getElementById("feedback" + q).className = "feedback";
+    document.getElementById("feedback" + q).innerHTML = "";
+
+    document.getElementById("actions" + q).className = "actions";
+    document.getElementById("actions" + q).innerHTML = "";
+
+  }
+
+  document.querySelectorAll("#q4 .match-select").forEach(select => {
+
+    select.value = "";
+    select.disabled = false;
+    select.classList.remove("wrong","correct");
+
+  });
+
+  document.getElementById("feedback4").className = "feedback";
+  document.getElementById("feedback4").innerHTML = "";
+
+  document.getElementById("actions4").className = "actions";
+  document.getElementById("actions4").innerHTML = "";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+</script>
+
+</body>
+</html>
