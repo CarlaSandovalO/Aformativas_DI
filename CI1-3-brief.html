@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CI1-3-certeza</title>
+<title>CI1-5-brief</title>
 
 <style>
 
@@ -44,7 +44,6 @@ body{
   font-size:15px;
   font-weight:700;
   cursor:pointer;
-  transition:.15s ease;
 }
 
 .tab:hover{
@@ -90,26 +89,27 @@ body{
 
   <div class="tabs">
 
-    <button class="tab active" type="button" onclick="showInfo('se',this)">
-      Sé
+    <button class="tab active" type="button" onclick="showInfo('necesidad',this)">
+      Necesidad
     </button>
 
-    <button class="tab" type="button" onclick="showInfo('infiero',this)">
-      Infiero
+    <button class="tab" type="button" onclick="showInfo('evidencia',this)">
+      Evidencia
     </button>
 
-    <button class="tab" type="button" onclick="showInfo('supongo',this)">
-      Supongo
+    <button class="tab" type="button" onclick="showInfo('vacios',this)">
+      Vacíos
     </button>
 
-    <button class="tab" type="button" onclick="showInfo('investigar',this)">
-      Necesito investigar
+    <button class="tab" type="button" onclick="showInfo('decisiones',this)">
+      Decisiones
     </button>
 
   </div>
 
+
   <div class="detail" id="detail">
-    <strong>Sé:</strong> Tengo evidencia, datos o información disponible que respalda este dato.
+    <strong>Necesidad:</strong> ¿Está claro qué problema, necesidad o situación origina el proyecto?
   </div>
 
 </div>
@@ -119,17 +119,17 @@ body{
 
 const content = {
 
-  se:
-  "<strong>Sé:</strong> Tengo evidencia, datos o información disponible que respalda este dato.",
+  necesidad:
+  "<strong>Necesidad:</strong> ¿Está claro qué problema, necesidad o situación origina el proyecto?",
 
-  infiero:
-  "<strong>Infiero:</strong> Lo interpreto a partir de la evidencia disponible.",
+  evidencia:
+  "<strong>Evidencia:</strong> ¿Qué datos, documentos, registros o testimonios respaldan lo que se afirma?",
 
-  supongo:
-  "<strong>Supongo:</strong> Lo estoy dando por cierto, pero todavía no cuento con evidencia suficiente.",
+  vacios:
+  "<strong>Vacíos:</strong> ¿Qué información todavía falta o requiere validación?",
 
-  investigar:
-  "<strong>Necesito investigar:</strong> Debo recopilar o validar esta información antes de utilizarla para tomar una decisión."
+  decisiones:
+  "<strong>Decisiones:</strong> ¿Qué elementos ya pueden utilizarse como base para avanzar y cuáles todavía no?"
 
 };
 
