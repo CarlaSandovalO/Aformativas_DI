@@ -29,16 +29,87 @@ body{
   overflow:hidden;
 }
 
+/* PANTALLAS */
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+/* PORTADA */
+
+.cover{
+  padding:44px 40px 46px;
+  text-align:center;
+}
+
+.cover-icon{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  margin:0 auto 20px;
+  background:#00B3C7;
+  color:#ffffff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:700;
+}
+
+.cover h1{
+  margin:0 0 8px;
+  font-size:27px;
+  line-height:1.25;
+  color:#0B2B3D;
+}
+
+.cover h2{
+  margin:0 auto 20px;
+  max-width:700px;
+  font-size:21px;
+  line-height:1.4;
+  font-weight:500;
+  color:#078A9A;
+}
+
+.cover p{
+  max-width:760px;
+  margin:0 auto 22px;
+  font-size:16px;
+  line-height:1.6;
+  color:#526B76;
+}
+
+.cover-topics{
+  max-width:680px;
+  margin:0 auto 26px;
+  padding:13px 20px;
+  background:#F4FAFB;
+  border:1px solid #D6EEF2;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:600;
+  color:#0B2B3D;
+}
+
 /* PROGRESO */
 
 .progress{
-  display:flex;
+  display:none;
   justify-content:center;
   align-items:center;
   gap:7px;
   padding:10px 16px;
   background:#F8FCFD;
   border-bottom:1px solid #DCE6E9;
+}
+
+.progress.show{
+  display:flex;
 }
 
 .step{
@@ -79,14 +150,6 @@ body{
   padding:24px 40px 32px;
 }
 
-.question-screen{
-  display:none;
-}
-
-.question-screen.active{
-  display:block;
-}
-
 .kicker{
   margin:0 0 8px;
   color:#078A9A;
@@ -101,6 +164,10 @@ body{
   font-size:20px;
   line-height:1.45;
   font-weight:600;
+}
+
+.question.small{
+  font-size:18px;
 }
 
 .context{
@@ -158,7 +225,7 @@ body{
   cursor:default;
 }
 
-/* RETROALIMENTACIÓN */
+/* FEEDBACK */
 
 .feedback{
   display:none;
@@ -272,7 +339,7 @@ body{
 
 .finish{
   text-align:center;
-  padding:24px 10px;
+  padding:28px 10px;
 }
 
 .finish-icon{
@@ -310,6 +377,18 @@ body{
     padding:4px;
   }
 
+  .cover{
+    padding:32px 20px 34px;
+  }
+
+  .cover h1{
+    font-size:24px;
+  }
+
+  .cover h2{
+    font-size:19px;
+  }
+
   .content{
     padding:20px 16px 26px;
   }
@@ -335,8 +414,42 @@ body{
 
 <div class="activity">
 
+  <!-- PORTADA -->
+
+  <div class="screen active" id="cover">
+
+    <div class="cover">
+
+      <div class="cover-icon">?</div>
+
+      <h1>De un prompt básico a una interacción útil</h1>
+
+      <h2>
+        ¿Cómo convertir una primera solicitud en una interacción más estratégica con IA?
+      </h2>
+
+      <p>
+        Revise cada situación y seleccione o empareje la respuesta que considere más adecuada.
+        Si su elección no es correcta, consulte la retroalimentación e inténtelo nuevamente.
+        <strong>Avanzará cuando encuentre la respuesta adecuada.</strong>
+      </p>
+
+      <div class="cover-topics">
+        Formular &nbsp;&middot;&nbsp; Cuestionar &nbsp;&middot;&nbsp; Verificar &nbsp;&middot;&nbsp; Estructurar
+      </div>
+
+      <button class="action-btn" onclick="startActivity()">
+        Comenzar →
+      </button>
+
+    </div>
+
+  </div>
+
+
   <!-- PROGRESO -->
-  <div class="progress">
+
+  <div class="progress" id="progress">
 
     <div class="step active" id="step1">1</div>
     <div class="line"></div>
@@ -351,11 +464,13 @@ body{
 
   </div>
 
-  <div class="content">
+
+  <div class="content" id="content" style="display:none;">
+
 
     <!-- PREGUNTA 1 -->
 
-    <div class="question-screen active" id="q1">
+    <div class="screen active" id="q1">
 
       <p class="kicker">Pregunta 1</p>
 
@@ -367,7 +482,7 @@ body{
         “Diseñe una actividad para enseñar liderazgo.”
       </div>
 
-      <p class="question" style="font-size:18px;">
+      <p class="question small">
         ¿Cuál de las siguientes versiones mejora de forma más pertinente la solicitud?
       </p>
 
@@ -403,7 +518,7 @@ body{
 
     <!-- PREGUNTA 2 -->
 
-    <div class="question-screen" id="q2">
+    <div class="screen" id="q2">
 
       <p class="kicker">Pregunta 2</p>
 
@@ -411,7 +526,7 @@ body{
         La IA propone tres actividades para una formación virtual. Las propuestas parecen adecuadas, pero el diseñador no está seguro de si realmente responden al propósito de aprendizaje.
       </p>
 
-      <p class="question" style="font-size:18px;">
+      <p class="question small">
         ¿Cuál sería la acción más pertinente?
       </p>
 
@@ -447,7 +562,7 @@ body{
 
     <!-- PREGUNTA 3 -->
 
-    <div class="question-screen" id="q3">
+    <div class="screen" id="q3">
 
       <p class="kicker">Pregunta 3</p>
 
@@ -459,7 +574,7 @@ body{
         “Esta estrategia aumenta en un 40 % la retención del aprendizaje y es especialmente efectiva en adultos.”
       </div>
 
-      <p class="question" style="font-size:18px;">
+      <p class="question small">
         ¿Qué debería hacer el diseñador antes de utilizar esta información?
       </p>
 
@@ -495,7 +610,7 @@ body{
 
     <!-- PREGUNTA 4 -->
 
-    <div class="question-screen" id="q4">
+    <div class="screen" id="q4">
 
       <p class="kicker">Pregunta 4</p>
 
@@ -514,7 +629,6 @@ body{
       <div class="match-list">
 
         <div class="match-row">
-
           <div class="match-text">
             “Estoy diseñando una formación virtual para supervisores recién promovidos que necesitan practicar cómo conducir conversaciones de retroalimentación.”
           </div>
@@ -528,12 +642,10 @@ body{
             <option>Ajustar</option>
             <option>Refinar</option>
           </select>
-
         </div>
 
 
         <div class="match-row">
-
           <div class="match-text">
             “Actúe como especialista en Diseño Instruccional para formación de adultos.”
           </div>
@@ -547,12 +659,10 @@ body{
             <option>Ajustar</option>
             <option>Refinar</option>
           </select>
-
         </div>
 
 
         <div class="match-row">
-
           <div class="match-text">
             “Tome como referencia actividades basadas en situaciones profesionales en las que el participante deba analizar alternativas antes de decidir.”
           </div>
@@ -566,12 +676,10 @@ body{
             <option>Ajustar</option>
             <option>Refinar</option>
           </select>
-
         </div>
 
 
         <div class="match-row">
-
           <div class="match-text">
             “Proponga tres actividades para practicar conversaciones de retroalimentación.”
           </div>
@@ -585,12 +693,10 @@ body{
             <option>Ajustar</option>
             <option>Refinar</option>
           </select>
-
         </div>
 
 
         <div class="match-row">
-
           <div class="match-text">
             “Cada actividad debe durar un máximo de 20 minutos, poder realizarse de forma virtual y requerir que el participante justifique una decisión.”
           </div>
@@ -604,12 +710,10 @@ body{
             <option>Ajustar</option>
             <option>Refinar</option>
           </select>
-
         </div>
 
 
         <div class="match-row">
-
           <div class="match-text">
             “Después de generar las propuestas, compárelas, identifique posibles debilidades y recomiende cuál sería más pertinente.”
           </div>
@@ -623,7 +727,6 @@ body{
             <option>Ajustar</option>
             <option>Refinar</option>
           </select>
-
         </div>
 
       </div>
@@ -642,7 +745,7 @@ body{
 
     <!-- FINAL -->
 
-    <div class="question-screen" id="finish">
+    <div class="screen" id="finish">
 
       <div class="finish">
 
@@ -663,6 +766,7 @@ body{
     </div>
 
   </div>
+
 </div>
 
 
@@ -701,6 +805,24 @@ const wrongFeedback = {
 };
 
 
+function startActivity(){
+
+  document.getElementById("cover").classList.remove("active");
+
+  document.getElementById("progress").classList.add("show");
+
+  document.getElementById("content").style.display = "block";
+
+  document.getElementById("q1").classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
 function answer(questionNumber, selected, button){
 
   const screen = document.getElementById("q" + questionNumber);
@@ -716,11 +838,13 @@ function answer(questionNumber, selected, button){
   feedback.className = "feedback show";
   actions.className = "actions show";
 
+
   if(selected === correctAnswers[questionNumber]){
 
     button.classList.add("correct");
 
     feedback.classList.add("correct");
+
     feedback.innerHTML =
       "<strong>Correcto.</strong> " +
       correctFeedback[questionNumber];
@@ -735,6 +859,7 @@ function answer(questionNumber, selected, button){
     button.classList.add("wrong");
 
     feedback.classList.add("wrong");
+
     feedback.innerHTML =
       "<strong>Revise su respuesta.</strong> " +
       wrongFeedback[questionNumber];
@@ -783,6 +908,7 @@ function nextQuestion(current){
     step.classList.add("done");
   }
 
+
   if(current < 4){
 
     const next = current + 1;
@@ -793,9 +919,12 @@ function nextQuestion(current){
 
   }else{
 
+    document.getElementById("progress").classList.remove("show");
+
     document.getElementById("finish").classList.add("active");
 
   }
+
 
   window.scrollTo({
     top:0,
@@ -812,6 +941,7 @@ function checkMatching(){
   let allSelected = true;
   let allCorrect = true;
 
+
   selects.forEach(select => {
 
     select.classList.remove("wrong","correct");
@@ -822,26 +952,36 @@ function checkMatching(){
       return;
     }
 
+
     if(select.value === select.dataset.answer){
+
       select.classList.add("correct");
+
     }else{
+
       select.classList.add("wrong");
       allCorrect = false;
+
     }
 
   });
 
+
   const feedback = document.getElementById("feedback4");
   const actions = document.getElementById("actions4");
+
 
   if(!allSelected){
 
     feedback.className = "feedback wrong show";
+
     feedback.innerHTML =
       "<strong>Complete todos los emparejamientos.</strong> Revise cada fragmento antes de comprobar.";
 
     return;
+
   }
+
 
   if(allCorrect){
 
@@ -855,9 +995,11 @@ function checkMatching(){
     actions.innerHTML =
       '<button class="action-btn" onclick="nextQuestion(4)">Finalizar →</button>';
 
+
     selects.forEach(select => {
       select.disabled = true;
     });
+
 
   }else{
 
@@ -881,8 +1023,10 @@ function retryMatching(){
   const selects = document.querySelectorAll("#q4 .match-select");
 
   selects.forEach(select => {
+
     select.disabled = false;
     select.classList.remove("wrong","correct");
+
   });
 
   const feedback = document.getElementById("feedback4");
@@ -899,11 +1043,17 @@ function retryMatching(){
 
 function restartActivity(){
 
-  document.querySelectorAll(".question-screen").forEach(screen => {
+  document.querySelectorAll(".screen").forEach(screen => {
     screen.classList.remove("active");
   });
 
-  document.getElementById("q1").classList.add("active");
+
+  document.getElementById("cover").classList.add("active");
+
+  document.getElementById("progress").classList.remove("show");
+
+  document.getElementById("content").style.display = "none";
+
 
   document.querySelectorAll(".step").forEach(step => {
     step.classList.remove("active","done");
@@ -911,13 +1061,16 @@ function restartActivity(){
 
   document.getElementById("step1").classList.add("active");
 
+
   for(let q=1; q<=3; q++){
 
     const screen = document.getElementById("q" + q);
 
     screen.querySelectorAll(".option").forEach(btn => {
+
       btn.disabled = false;
       btn.classList.remove("wrong","correct");
+
     });
 
     document.getElementById("feedback" + q).className = "feedback";
@@ -928,6 +1081,7 @@ function restartActivity(){
 
   }
 
+
   document.querySelectorAll("#q4 .match-select").forEach(select => {
 
     select.value = "";
@@ -936,11 +1090,13 @@ function restartActivity(){
 
   });
 
+
   document.getElementById("feedback4").className = "feedback";
   document.getElementById("feedback4").innerHTML = "";
 
   document.getElementById("actions4").className = "actions";
   document.getElementById("actions4").innerHTML = "";
+
 
   window.scrollTo({
     top:0,
