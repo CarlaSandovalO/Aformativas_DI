@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Del contexto al brief</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#ffffff;
+  font-family:Poppins,Arial,sans-serif;
+  color:#0B2B3D;
+}
+
+body{
+  padding:24px;
+}
+
+.wrap{
+  max-width:920px;
+  margin:0 auto;
+}
+
+.cover{
+  text-align:center;
+  padding:36px 24px 30px;
+}
+
+.cover h1{
+  margin:0 0 14px;
+  font-size:30px;
+  line-height:1.2;
+  color:#0B2B3D;
+}
+
+.cover p{
+  margin:0 auto 20px;
+  max-width:690px;
+  font-size:17px;
+  line-height:1.6;
+  color:#526B76;
+}
+
+.btn{
+  border:0;
+  border-radius:8px;
+  background:#00B3C7;
+  color:#ffffff;
+  padding:12px 24px;
+  font-family:inherit;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.progress{
+  display:none;
+  justify-content:center;
+  gap:9px;
+  margin:0 0 24px;
+}
+
+.step{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1.5px solid #C6DCE1;
+  background:#F8FCFD;
+  color:#526B76;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:700;
+}
+
+.step.active{
+  background:#00B3C7;
+  border-color:#00B3C7;
+  color:#ffffff;
+}
+
+.step.done{
+  background:#2D8692;
+  border-color:#2D8692;
+  color:#ffffff;
+}
+
+.card{
+  display:none;
+  border:1px solid #DCE6E9;
+  border-radius:12px;
+  padding:26px;
+  background:#ffffff;
+}
+
+.card.active{
+  display:block;
+}
+
+.question-number{
+  font-size:14px;
+  font-weight:700;
+  color:#2D8692;
+  margin-bottom:8px;
+}
+
+.card h2{
+  margin:0 0 16px;
+  font-size:22px;
+  line-height:1.35;
+  color:#0B2B3D;
+}
+
+.case{
+  background:#F4FAFB;
+  border-left:4px solid #62BED3;
+  padding:16px 18px;
+  margin:0 0 20px;
+  font-size:16px;
+  line-height:1.55;
+}
+
+.options{
+  display:grid;
+  gap:10px;
+}
+
+.option{
+  width:100%;
+  text-align:left;
+  border:1.5px solid #D6EEF2;
+  border-radius:8px;
+  background:#F8FCFD;
+  color:#0B2B3D;
+  padding:13px 15px;
+  font-family:inherit;
+  font-size:15px;
+  line-height:1.45;
+  cursor:pointer;
+}
+
+.option:hover{
+  border-color:#00B3C7;
+}
+
+.option.correct{
+  border-color:#2D8692;
+  background:#EAF7F9;
+}
+
+.option.wrong{
+  border-color:#C54B4B;
+  background:#FFF4F4;
+}
+
+.feedback{
+  display:none;
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius:8px;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.feedback.correct{
+  display:block;
+  background:#EAF7F9;
+  border:1px solid #B9DEE3;
+}
+
+.feedback.wrong{
+  display:block;
+  background:#FFF4F4;
+  border:1px solid #E8BABA;
+}
+
+.next{
+  display:none;
+  margin-top:18px;
+  text-align:right;
+}
+
+.match-grid{
+  display:grid;
+  gap:14px;
+}
+
+.match-item{
+  border:1px solid #DCE6E9;
+  border-radius:9px;
+  padding:15px;
+  background:#F8FCFD;
+}
+
+.match-item p{
+  margin:0 0 10px;
+  font-size:15px;
+  line-height:1.45;
+}
+
+.match-item select{
+  width:100%;
+  padding:10px;
+  border:1px solid #C6DCE1;
+  border-radius:7px;
+  font-family:inherit;
+  font-size:15px;
+  color:#0B2B3D;
+  background:#ffffff;
+}
+
+.finish{
+  display:none;
+  text-align:center;
+  padding:40px 24px;
+  border:1px solid #D6EEF2;
+  border-radius:12px;
+  background:#F8FCFD;
+}
+
+.finish h2{
+  margin:0 0 14px;
+  font-size:26px;
+}
+
+.finish p{
+  margin:0 auto;
+  max-width:700px;
+  font-size:16px;
+  line-height:1.6;
+  color:#526B76;
+}
+
+@media(max-width:650px){
+
+  body{
+    padding:14px;
+  }
+
+  .cover{
+    padding:24px 12px;
+  }
+
+  .cover h1{
+    font-size:25px;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<!-- PORTADA -->
+
+<div class="cover" id="cover">
+
+  <h1>Del contexto al brief</h1>
+
+  <p>
+    Revise c&oacute;mo distinguir evidencia y supuestos, utilizar la IA para analizar informaci&oacute;n y tomar decisiones antes de consolidar el brief de un proyecto.
+  </p>
+
+  <button class="btn" onclick="startActivity()">Comenzar</button>
+
+</div>
+
+
+<!-- PROGRESO -->
+
+<div class="progress" id="progress">
+  <div class="step active" id="step1">1</div>
+  <div class="step" id="step2">2</div>
+  <div class="step" id="step3">3</div>
+  <div class="step" id="step4">4</div>
+</div>
+
+
+<!-- PREGUNTA 1 -->
+
+<div class="card active" id="q1">
+
+  <div class="question-number">Pregunta 1 de 4</div>
+
+  <h2>&iquest;Dato o supuesto?</h2>
+
+  <div class="case">
+    Durante una reuni&oacute;n inicial, el responsable del proyecto comenta:
+    <br><br>
+    <strong>
+      &ldquo;Creo que los nuevos supervisores tienen dificultades para dar retroalimentaci&oacute;n porque les falta confianza.&rdquo;
+    </strong>
+    <br><br>
+    Todav&iacute;a no se han realizado entrevistas ni se cuenta con informaci&oacute;n que confirme esa explicaci&oacute;n.
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(1,'A',this)">
+      A. Como evidencia, porque proviene del responsable del proyecto.
+    </button>
+
+    <button class="option" onclick="answer(1,'B',this)">
+      B. Como una necesidad confirmada que puede incorporarse al brief.
+    </button>
+
+    <button class="option" onclick="answer(1,'C',this)">
+      C. Como un supuesto que necesita contrastarse con evidencia.
+    </button>
+
+    <button class="option" onclick="answer(1,'D',this)">
+      D. Como informaci&oacute;n que debe descartarse porque no proviene de los participantes.
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback1"></div>
+
+  <div class="next" id="next1">
+    <button class="btn" onclick="nextQuestion(1)">Continuar</button>
+  </div>
+
+</div>
+
+
+<!-- PREGUNTA 2 -->
+
+<div class="card" id="q2">
+
+  <div class="question-number">Pregunta 2 de 4</div>
+
+  <h2>Analizar una entrevista con IA</h2>
+
+  <div class="case">
+    Despu&eacute;s de una entrevista con el responsable de un proyecto, el dise&ntilde;ador obtiene la transcripci&oacute;n completa.
+    <br><br>
+    &iquest;Cu&aacute;l ser&iacute;a el uso m&aacute;s pertinente de la IA en este momento?
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(2,'A',this)">
+      A. Pedir que identifique necesidades, patrones, restricciones y aspectos que requieren validaci&oacute;n, trabajando con la informaci&oacute;n de la transcripci&oacute;n.
+    </button>
+
+    <button class="option" onclick="answer(2,'B',this)">
+      B. Pedir que construya directamente el perfil completo de los participantes para ahorrar tiempo.
+    </button>
+
+    <button class="option" onclick="answer(2,'C',this)">
+      C. Solicitar que dise&ntilde;e las actividades del curso a partir de la entrevista.
+    </button>
+
+    <button class="option" onclick="answer(2,'D',this)">
+      D. Pedir que complete la informaci&oacute;n que el responsable no pudo proporcionar.
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback2"></div>
+
+  <div class="next" id="next2">
+    <button class="btn" onclick="nextQuestion(2)">Continuar</button>
+  </div>
+
+</div>
+
+
+<!-- PREGUNTA 3 -->
+
+<div class="card" id="q3">
+
+  <div class="question-number">Pregunta 3 de 4</div>
+
+  <h2>Antes de cerrar el brief</h2>
+
+  <div class="case">
+    Un dise&ntilde;ador prepara este brief preliminar:
+    <br><br>
+    <strong>Necesidad:</strong> mejorar la comunicaci&oacute;n de los supervisores.<br>
+    <strong>Participantes:</strong> supervisores reci&eacute;n promovidos.<br>
+    <strong>Modalidad:</strong> virtual.<br>
+    <strong>Duraci&oacute;n:</strong> 2 horas.<br>
+    <strong>Resultado esperado:</strong> conducir conversaciones de retroalimentaci&oacute;n de forma efectiva.
+    <br><br>
+    Sin embargo, todav&iacute;a no sabe qu&eacute; dificultades presentan actualmente los supervisores ni qu&eacute; evidencia respalda la necesidad.
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(3,'A',this)">
+      A. Pedir a la IA que complete las caracter&iacute;sticas que probablemente tengan los supervisores.
+    </button>
+
+    <button class="option" onclick="answer(3,'B',this)">
+      B. Comenzar el dise&ntilde;o porque ya cuenta con los elementos principales.
+    </button>
+
+    <button class="option" onclick="answer(3,'C',this)">
+      C. Transformar inmediatamente el resultado esperado en actividades.
+    </button>
+
+    <button class="option" onclick="answer(3,'D',this)">
+      D. Registrar los vac&iacute;os de informaci&oacute;n e identificar qu&eacute; necesita investigar o validar.
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback3"></div>
+
+  <div class="next" id="next3">
+    <button class="btn" onclick="nextQuestion(3)">Continuar</button>
+  </div>
+
+</div>
+
+
+<!-- PREGUNTA 4 -->
+
+<div class="card" id="q4">
+
+  <div class="question-number">Pregunta 4 de 4</div>
+
+  <h2>&iquest;Qu&eacute; hacer con las observaciones de la IA?</h2>
+
+  <p style="font-size:16px; line-height:1.55; margin:0 0 18px;">
+    El dise&ntilde;ador pide a la IA una segunda revisi&oacute;n de su brief. Seleccione la decisi&oacute;n profesional m&aacute;s adecuada para cada observaci&oacute;n.
+  </p>
+
+  <div class="match-grid">
+
+    <div class="match-item">
+      <p>
+        <strong>1.</strong> &ldquo;Los registros proporcionados muestran baja participaci&oacute;n en las actividades de pr&aacute;ctica.&rdquo;
+      </p>
+
+      <select id="match1">
+        <option value="">Seleccione...</option>
+        <option value="aceptar">Aceptar</option>
+        <option value="modificar">Modificar / validar</option>
+        <option value="descartar">Descartar</option>
+      </select>
+    </div>
+
+
+    <div class="match-item">
+      <p>
+        <strong>2.</strong> &ldquo;La baja participaci&oacute;n podr&iacute;a estar relacionada con la duraci&oacute;n de las actividades, pero ser&iacute;a necesario comprobarlo.&rdquo;
+      </p>
+
+      <select id="match2">
+        <option value="">Seleccione...</option>
+        <option value="aceptar">Aceptar</option>
+        <option value="modificar">Modificar / validar</option>
+        <option value="descartar">Descartar</option>
+      </select>
+    </div>
+
+
+    <div class="match-item">
+      <p>
+        <strong>3.</strong> &ldquo;Los participantes seguramente tienen poca experiencia tecnol&oacute;gica.&rdquo; No existe informaci&oacute;n que lo respalde.
+      </p>
+
+      <select id="match3">
+        <option value="">Seleccione...</option>
+        <option value="aceptar">Aceptar</option>
+        <option value="modificar">Modificar / validar</option>
+        <option value="descartar">Descartar</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div style="margin-top:18px;">
+    <button class="btn" onclick="checkMatching()">Comprobar</button>
+  </div>
+
+  <div class="feedback" id="feedback4"></div>
+
+  <div class="next" id="next4">
+    <button class="btn" onclick="finishActivity()">Finalizar</button>
+  </div>
+
+</div>
+
+
+<!-- CIERRE -->
+
+<div class="finish" id="finish">
+
+  <h2>Actividad completada</h2>
+
+  <p>
+    Ha revisado c&oacute;mo distinguir evidencia y supuestos, analizar informaci&oacute;n con apoyo de IA, reconocer vac&iacute;os y valorar cr&iacute;ticamente sus observaciones antes de consolidar un brief.
+  </p>
+
+</div>
+
+</div>
+
+
+<script>
+
+const correctAnswers = {
+  1:"C",
+  2:"A",
+  3:"D"
+};
+
+const correctFeedback = {
+
+  1:
+  "Correcto. La afirmación puede orientar el análisis, pero todavía no cuenta con evidencia suficiente para tratarla como un hecho del proyecto.",
+
+  2:
+  "Correcto. La IA puede ayudar a organizar y analizar la evidencia disponible sin convertir los vacíos de información en datos del proyecto.",
+
+  3:
+  "Correcto. Un brief puede contener información pendiente. Lo importante es hacer visibles esos vacíos en lugar de completarlos con supuestos."
+
+};
+
+const wrongFeedback = {
+
+  1:
+  "Revise la diferencia entre una posible explicación y una afirmación que ya está respaldada por evidencia.",
+
+  2:
+  "En esta etapa todavía estamos comprendiendo el proyecto. La IA puede apoyar el análisis de la evidencia, pero no debería inventar información ni adelantar decisiones de diseño.",
+
+  3:
+  "El brief no necesita tener todas las respuestas, pero sí debe mostrar qué información está respaldada y qué todavía requiere validación."
+
+};
+
+
+function startActivity(){
+
+  document.getElementById("cover").style.display="none";
+  document.getElementById("progress").style.display="flex";
+  document.getElementById("q1").style.display="block";
+
+}
+
+
+function answer(question,selected,button){
+
+  const feedback=document.getElementById("feedback"+question);
+  const next=document.getElementById("next"+question);
+
+  document.querySelectorAll("#q"+question+" .option").forEach(function(option){
+    option.classList.remove("wrong");
+    option.classList.remove("correct");
+  });
+
+  if(selected===correctAnswers[question]){
+
+    button.classList.add("correct");
+
+    feedback.className="feedback correct";
+    feedback.innerHTML=correctFeedback[question];
+
+    next.style.display="block";
+
+    document.querySelectorAll("#q"+question+" .option").forEach(function(option){
+      option.disabled=true;
+    });
+
+  }else{
+
+    button.classList.add("wrong");
+
+    feedback.className="feedback wrong";
+    feedback.innerHTML=wrongFeedback[question];
+
+    next.style.display="none";
+
+  }
+
+}
+
+
+function nextQuestion(current){
+
+  document.getElementById("q"+current).classList.remove("active");
+  document.getElementById("q"+current).style.display="none";
+
+  document.getElementById("step"+current).classList.remove("active");
+  document.getElementById("step"+current).classList.add("done");
+
+  const next=current+1;
+
+  document.getElementById("q"+next).classList.add("active");
+  document.getElementById("q"+next).style.display="block";
+
+  document.getElementById("step"+next).classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function checkMatching(){
+
+  const a=document.getElementById("match1").value;
+  const b=document.getElementById("match2").value;
+  const c=document.getElementById("match3").value;
+
+  const feedback=document.getElementById("feedback4");
+  const next=document.getElementById("next4");
+
+  if(
+    a==="aceptar" &&
+    b==="modificar" &&
+    c==="descartar"
+  ){
+
+    feedback.className="feedback correct";
+
+    feedback.innerHTML=
+    "Correcto. Las observaciones de la IA no se incorporan automáticamente. El diseñador debe valorar cuáles están respaldadas, cuáles requieren validación y cuáles se basan en supuestos no sustentados.";
+
+    next.style.display="block";
+
+    document.getElementById("match1").disabled=true;
+    document.getElementById("match2").disabled=true;
+    document.getElementById("match3").disabled=true;
+
+  }else{
+
+    feedback.className="feedback wrong";
+
+    feedback.innerHTML=
+    "Revise la relación de cada afirmación con la evidencia disponible. Una observación respaldada puede incorporarse; una interpretación puede requerir validación y un supuesto sin evidencia puede descartarse.";
+
+    next.style.display="none";
+
+  }
+
+}
+
+
+function finishActivity(){
+
+  document.getElementById("q4").style.display="none";
+
+  document.getElementById("step4").classList.remove("active");
+  document.getElementById("step4").classList.add("done");
+
+  document.getElementById("finish").style.display="block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+</script>
+
+</body>
+</html>
