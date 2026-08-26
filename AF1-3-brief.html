@@ -29,6 +29,8 @@ body{
   margin:0 auto;
 }
 
+/* PORTADA */
+
 .cover{
   text-align:center;
   padding:36px 24px 30px;
@@ -49,6 +51,8 @@ body{
   color:#526B76;
 }
 
+/* BOTONES */
+
 .btn{
   border:0;
   border-radius:8px;
@@ -64,6 +68,8 @@ body{
 .btn:hover{
   opacity:.9;
 }
+
+/* PROGRESO */
 
 .progress{
   display:none;
@@ -97,6 +103,8 @@ body{
   border-color:#2D8692;
   color:#ffffff;
 }
+
+/* PREGUNTAS */
 
 .card{
   display:none;
@@ -133,6 +141,8 @@ body{
   line-height:1.55;
 }
 
+/* OPCIONES */
+
 .options{
   display:grid;
   gap:10px;
@@ -166,6 +176,8 @@ body{
   background:#FFF4F4;
 }
 
+/* RETROALIMENTACIÓN */
+
 .feedback{
   display:none;
   margin-top:16px;
@@ -192,6 +204,8 @@ body{
   margin-top:18px;
   text-align:right;
 }
+
+/* EMPAREJAMIENTO */
 
 .match-grid{
   display:grid;
@@ -222,6 +236,8 @@ body{
   background:#ffffff;
 }
 
+/* CIERRE */
+
 .finish{
   display:none;
   text-align:center;
@@ -243,6 +259,8 @@ body{
   line-height:1.6;
   color:#526B76;
 }
+
+/* RESPONSIVE */
 
 @media(max-width:650px){
 
@@ -278,10 +296,13 @@ body{
   <h1>Del contexto al brief</h1>
 
   <p>
-    Revise c&oacute;mo distinguir evidencia y supuestos, utilizar la IA para analizar informaci&oacute;n y tomar decisiones antes de consolidar el brief de un proyecto.
+    Revise c&oacute;mo distinguir evidencia y supuestos, utilizar la IA para analizar
+    informaci&oacute;n y tomar decisiones antes de consolidar el brief de un proyecto.
   </p>
 
-  <button class="btn" onclick="startActivity()">Comenzar</button>
+  <button class="btn" type="button" onclick="startActivity()">
+    Comenzar
+  </button>
 
 </div>
 
@@ -289,46 +310,60 @@ body{
 <!-- PROGRESO -->
 
 <div class="progress" id="progress">
+
   <div class="step active" id="step1">1</div>
   <div class="step" id="step2">2</div>
   <div class="step" id="step3">3</div>
   <div class="step" id="step4">4</div>
+
 </div>
 
 
 <!-- PREGUNTA 1 -->
 
-<div class="card active" id="q1">
+<div class="card" id="q1">
 
-  <div class="question-number">Pregunta 1 de 4</div>
+  <div class="question-number">
+    Pregunta 1 de 4
+  </div>
 
-  <h2>&iquest;Dato o supuesto?</h2>
+  <h2>
+    &iquest;Dato o supuesto?
+  </h2>
 
   <div class="case">
+
     Durante una reuni&oacute;n inicial, el responsable del proyecto comenta:
+
     <br><br>
+
     <strong>
-      &ldquo;Creo que los nuevos supervisores tienen dificultades para dar retroalimentaci&oacute;n porque les falta confianza.&rdquo;
+      &ldquo;Creo que los nuevos supervisores tienen dificultades para dar
+      retroalimentaci&oacute;n porque les falta confianza.&rdquo;
     </strong>
+
     <br><br>
-    Todav&iacute;a no se han realizado entrevistas ni se cuenta con informaci&oacute;n que confirme esa explicaci&oacute;n.
+
+    Todav&iacute;a no se han realizado entrevistas ni se cuenta con
+    informaci&oacute;n que confirme esa explicaci&oacute;n.
+
   </div>
 
   <div class="options">
 
-    <button class="option" onclick="answer(1,'A',this)">
+    <button class="option" type="button" onclick="answer(1,'A',this)">
       A. Como evidencia, porque proviene del responsable del proyecto.
     </button>
 
-    <button class="option" onclick="answer(1,'B',this)">
+    <button class="option" type="button" onclick="answer(1,'B',this)">
       B. Como una necesidad confirmada que puede incorporarse al brief.
     </button>
 
-    <button class="option" onclick="answer(1,'C',this)">
+    <button class="option" type="button" onclick="answer(1,'C',this)">
       C. Como un supuesto que necesita contrastarse con evidencia.
     </button>
 
-    <button class="option" onclick="answer(1,'D',this)">
+    <button class="option" type="button" onclick="answer(1,'D',this)">
       D. Como informaci&oacute;n que debe descartarse porque no proviene de los participantes.
     </button>
 
@@ -337,7 +372,11 @@ body{
   <div class="feedback" id="feedback1"></div>
 
   <div class="next" id="next1">
-    <button class="btn" onclick="nextQuestion(1)">Continuar</button>
+
+    <button class="btn" type="button" onclick="nextQuestion(1)">
+      Continuar
+    </button>
+
   </div>
 
 </div>
@@ -347,31 +386,42 @@ body{
 
 <div class="card" id="q2">
 
-  <div class="question-number">Pregunta 2 de 4</div>
+  <div class="question-number">
+    Pregunta 2 de 4
+  </div>
 
-  <h2>Analizar una entrevista con IA</h2>
+  <h2>
+    Analizar una entrevista con IA
+  </h2>
 
   <div class="case">
-    Despu&eacute;s de una entrevista con el responsable de un proyecto, el dise&ntilde;ador obtiene la transcripci&oacute;n completa.
+
+    Despu&eacute;s de una entrevista con el responsable de un proyecto,
+    el dise&ntilde;ador obtiene la transcripci&oacute;n completa.
+
     <br><br>
+
     &iquest;Cu&aacute;l ser&iacute;a el uso m&aacute;s pertinente de la IA en este momento?
+
   </div>
 
   <div class="options">
 
-    <button class="option" onclick="answer(2,'A',this)">
-      A. Pedir que identifique necesidades, patrones, restricciones y aspectos que requieren validaci&oacute;n, trabajando con la informaci&oacute;n de la transcripci&oacute;n.
+    <button class="option" type="button" onclick="answer(2,'A',this)">
+      A. Pedir que identifique necesidades, patrones, restricciones y aspectos
+      que requieren validaci&oacute;n, trabajando con la informaci&oacute;n de la transcripci&oacute;n.
     </button>
 
-    <button class="option" onclick="answer(2,'B',this)">
-      B. Pedir que construya directamente el perfil completo de los participantes para ahorrar tiempo.
+    <button class="option" type="button" onclick="answer(2,'B',this)">
+      B. Pedir que construya directamente el perfil completo de los participantes
+      para ahorrar tiempo.
     </button>
 
-    <button class="option" onclick="answer(2,'C',this)">
+    <button class="option" type="button" onclick="answer(2,'C',this)">
       C. Solicitar que dise&ntilde;e las actividades del curso a partir de la entrevista.
     </button>
 
-    <button class="option" onclick="answer(2,'D',this)">
+    <button class="option" type="button" onclick="answer(2,'D',this)">
       D. Pedir que complete la informaci&oacute;n que el responsable no pudo proporcionar.
     </button>
 
@@ -380,7 +430,11 @@ body{
   <div class="feedback" id="feedback2"></div>
 
   <div class="next" id="next2">
-    <button class="btn" onclick="nextQuestion(2)">Continuar</button>
+
+    <button class="btn" type="button" onclick="nextQuestion(2)">
+      Continuar
+    </button>
+
   </div>
 
 </div>
@@ -390,37 +444,48 @@ body{
 
 <div class="card" id="q3">
 
-  <div class="question-number">Pregunta 3 de 4</div>
+  <div class="question-number">
+    Pregunta 3 de 4
+  </div>
 
-  <h2>Antes de cerrar el brief</h2>
+  <h2>
+    Antes de cerrar el brief
+  </h2>
 
   <div class="case">
+
     Un dise&ntilde;ador prepara este brief preliminar:
+
     <br><br>
+
     <strong>Necesidad:</strong> mejorar la comunicaci&oacute;n de los supervisores.<br>
     <strong>Participantes:</strong> supervisores reci&eacute;n promovidos.<br>
     <strong>Modalidad:</strong> virtual.<br>
     <strong>Duraci&oacute;n:</strong> 2 horas.<br>
     <strong>Resultado esperado:</strong> conducir conversaciones de retroalimentaci&oacute;n de forma efectiva.
+
     <br><br>
-    Sin embargo, todav&iacute;a no sabe qu&eacute; dificultades presentan actualmente los supervisores ni qu&eacute; evidencia respalda la necesidad.
+
+    Sin embargo, todav&iacute;a no sabe qu&eacute; dificultades presentan actualmente
+    los supervisores ni qu&eacute; evidencia respalda la necesidad.
+
   </div>
 
   <div class="options">
 
-    <button class="option" onclick="answer(3,'A',this)">
+    <button class="option" type="button" onclick="answer(3,'A',this)">
       A. Pedir a la IA que complete las caracter&iacute;sticas que probablemente tengan los supervisores.
     </button>
 
-    <button class="option" onclick="answer(3,'B',this)">
+    <button class="option" type="button" onclick="answer(3,'B',this)">
       B. Comenzar el dise&ntilde;o porque ya cuenta con los elementos principales.
     </button>
 
-    <button class="option" onclick="answer(3,'C',this)">
+    <button class="option" type="button" onclick="answer(3,'C',this)">
       C. Transformar inmediatamente el resultado esperado en actividades.
     </button>
 
-    <button class="option" onclick="answer(3,'D',this)">
+    <button class="option" type="button" onclick="answer(3,'D',this)">
       D. Registrar los vac&iacute;os de informaci&oacute;n e identificar qu&eacute; necesita investigar o validar.
     </button>
 
@@ -429,7 +494,11 @@ body{
   <div class="feedback" id="feedback3"></div>
 
   <div class="next" id="next3">
-    <button class="btn" onclick="nextQuestion(3)">Continuar</button>
+
+    <button class="btn" type="button" onclick="nextQuestion(3)">
+      Continuar
+    </button>
+
   </div>
 
 </div>
@@ -439,19 +508,27 @@ body{
 
 <div class="card" id="q4">
 
-  <div class="question-number">Pregunta 4 de 4</div>
+  <div class="question-number">
+    Pregunta 4 de 4
+  </div>
 
-  <h2>&iquest;Qu&eacute; hacer con las observaciones de la IA?</h2>
+  <h2>
+    &iquest;Qu&eacute; hacer con las observaciones de la IA?
+  </h2>
 
   <p style="font-size:16px; line-height:1.55; margin:0 0 18px;">
-    El dise&ntilde;ador pide a la IA una segunda revisi&oacute;n de su brief. Seleccione la decisi&oacute;n profesional m&aacute;s adecuada para cada observaci&oacute;n.
+    El dise&ntilde;ador pide a la IA una segunda revisi&oacute;n de su brief.
+    Seleccione la decisi&oacute;n profesional m&aacute;s adecuada para cada observaci&oacute;n.
   </p>
 
   <div class="match-grid">
 
     <div class="match-item">
+
       <p>
-        <strong>1.</strong> &ldquo;Los registros proporcionados muestran baja participaci&oacute;n en las actividades de pr&aacute;ctica.&rdquo;
+        <strong>1.</strong>
+        &ldquo;Los registros proporcionados muestran baja participaci&oacute;n
+        en las actividades de pr&aacute;ctica.&rdquo;
       </p>
 
       <select id="match1">
@@ -460,12 +537,16 @@ body{
         <option value="modificar">Modificar / validar</option>
         <option value="descartar">Descartar</option>
       </select>
+
     </div>
 
 
     <div class="match-item">
+
       <p>
-        <strong>2.</strong> &ldquo;La baja participaci&oacute;n podr&iacute;a estar relacionada con la duraci&oacute;n de las actividades, pero ser&iacute;a necesario comprobarlo.&rdquo;
+        <strong>2.</strong>
+        &ldquo;La baja participaci&oacute;n podr&iacute;a estar relacionada con la duraci&oacute;n
+        de las actividades, pero ser&iacute;a necesario comprobarlo.&rdquo;
       </p>
 
       <select id="match2">
@@ -474,12 +555,16 @@ body{
         <option value="modificar">Modificar / validar</option>
         <option value="descartar">Descartar</option>
       </select>
+
     </div>
 
 
     <div class="match-item">
+
       <p>
-        <strong>3.</strong> &ldquo;Los participantes seguramente tienen poca experiencia tecnol&oacute;gica.&rdquo; No existe informaci&oacute;n que lo respalde.
+        <strong>3.</strong>
+        &ldquo;Los participantes seguramente tienen poca experiencia tecnol&oacute;gica.&rdquo;
+        No existe informaci&oacute;n que lo respalde.
       </p>
 
       <select id="match3">
@@ -488,18 +573,27 @@ body{
         <option value="modificar">Modificar / validar</option>
         <option value="descartar">Descartar</option>
       </select>
+
     </div>
 
   </div>
 
   <div style="margin-top:18px;">
-    <button class="btn" onclick="checkMatching()">Comprobar</button>
+
+    <button class="btn" type="button" onclick="checkMatching()">
+      Comprobar
+    </button>
+
   </div>
 
   <div class="feedback" id="feedback4"></div>
 
   <div class="next" id="next4">
-    <button class="btn" onclick="finishActivity()">Finalizar</button>
+
+    <button class="btn" type="button" onclick="finishActivity()">
+      Finalizar
+    </button>
+
   </div>
 
 </div>
@@ -509,10 +603,14 @@ body{
 
 <div class="finish" id="finish">
 
-  <h2>Actividad completada</h2>
+  <h2>
+    Actividad completada
+  </h2>
 
   <p>
-    Ha revisado c&oacute;mo distinguir evidencia y supuestos, analizar informaci&oacute;n con apoyo de IA, reconocer vac&iacute;os y valorar cr&iacute;ticamente sus observaciones antes de consolidar un brief.
+    Ha revisado c&oacute;mo distinguir evidencia y supuestos, analizar informaci&oacute;n
+    con apoyo de IA, reconocer vac&iacute;os y valorar cr&iacute;ticamente sus observaciones
+    antes de consolidar un brief.
   </p>
 
 </div>
@@ -522,11 +620,16 @@ body{
 
 <script>
 
+/* RESPUESTAS CORRECTAS */
+
 const correctAnswers = {
   1:"C",
   2:"A",
   3:"D"
 };
+
+
+/* RETROALIMENTACIÓN CORRECTA */
 
 const correctFeedback = {
 
@@ -540,6 +643,9 @@ const correctFeedback = {
   "Correcto. Un brief puede contener información pendiente. Lo importante es hacer visibles esos vacíos en lugar de completarlos con supuestos."
 
 };
+
+
+/* RETROALIMENTACIÓN DE REINTENTO */
 
 const wrongFeedback = {
 
@@ -555,66 +661,15 @@ const wrongFeedback = {
 };
 
 
+/* INICIAR */
+
 function startActivity(){
 
   document.getElementById("cover").style.display="none";
+
   document.getElementById("progress").style.display="flex";
-  document.getElementById("q1").style.display="block";
 
-}
-
-
-function answer(question,selected,button){
-
-  const feedback=document.getElementById("feedback"+question);
-  const next=document.getElementById("next"+question);
-
-  document.querySelectorAll("#q"+question+" .option").forEach(function(option){
-    option.classList.remove("wrong");
-    option.classList.remove("correct");
-  });
-
-  if(selected===correctAnswers[question]){
-
-    button.classList.add("correct");
-
-    feedback.className="feedback correct";
-    feedback.innerHTML=correctFeedback[question];
-
-    next.style.display="block";
-
-    document.querySelectorAll("#q"+question+" .option").forEach(function(option){
-      option.disabled=true;
-    });
-
-  }else{
-
-    button.classList.add("wrong");
-
-    feedback.className="feedback wrong";
-    feedback.innerHTML=wrongFeedback[question];
-
-    next.style.display="none";
-
-  }
-
-}
-
-
-function nextQuestion(current){
-
-  document.getElementById("q"+current).classList.remove("active");
-  document.getElementById("q"+current).style.display="none";
-
-  document.getElementById("step"+current).classList.remove("active");
-  document.getElementById("step"+current).classList.add("done");
-
-  const next=current+1;
-
-  document.getElementById("q"+next).classList.add("active");
-  document.getElementById("q"+next).style.display="block";
-
-  document.getElementById("step"+next).classList.add("active");
+  document.getElementById("q1").classList.add("active");
 
   window.scrollTo({
     top:0,
@@ -624,14 +679,130 @@ function nextQuestion(current){
 }
 
 
+/* RESPONDER PREGUNTAS 1-3 */
+
+function answer(question,selected,button){
+
+  const feedback =
+    document.getElementById("feedback"+question);
+
+  const next =
+    document.getElementById("next"+question);
+
+
+  document
+  .querySelectorAll("#q"+question+" .option")
+  .forEach(function(option){
+
+    option.classList.remove("wrong");
+    option.classList.remove("correct");
+
+  });
+
+
+  if(selected===correctAnswers[question]){
+
+    button.classList.add("correct");
+
+    feedback.className =
+      "feedback correct";
+
+    feedback.innerHTML =
+      correctFeedback[question];
+
+    next.style.display =
+      "block";
+
+
+    document
+    .querySelectorAll("#q"+question+" .option")
+    .forEach(function(option){
+
+      option.disabled=true;
+
+    });
+
+  }
+
+  else{
+
+    button.classList.add("wrong");
+
+    feedback.className =
+      "feedback wrong";
+
+    feedback.innerHTML =
+      wrongFeedback[question];
+
+    next.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* SIGUIENTE PREGUNTA */
+
+function nextQuestion(current){
+
+  const currentCard =
+    document.getElementById("q"+current);
+
+  currentCard.classList.remove("active");
+
+
+  document
+  .getElementById("step"+current)
+  .classList.remove("active");
+
+  document
+  .getElementById("step"+current)
+  .classList.add("done");
+
+
+  const next =
+    current+1;
+
+
+  document
+  .getElementById("q"+next)
+  .classList.add("active");
+
+
+  document
+  .getElementById("step"+next)
+  .classList.add("active");
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* PREGUNTA 4 */
+
 function checkMatching(){
 
-  const a=document.getElementById("match1").value;
-  const b=document.getElementById("match2").value;
-  const c=document.getElementById("match3").value;
+  const a =
+    document.getElementById("match1").value;
 
-  const feedback=document.getElementById("feedback4");
-  const next=document.getElementById("next4");
+  const b =
+    document.getElementById("match2").value;
+
+  const c =
+    document.getElementById("match3").value;
+
+
+  const feedback =
+    document.getElementById("feedback4");
+
+  const next =
+    document.getElementById("next4");
+
 
   if(
     a==="aceptar" &&
@@ -639,39 +810,60 @@ function checkMatching(){
     c==="descartar"
   ){
 
-    feedback.className="feedback correct";
+    feedback.className =
+      "feedback correct";
 
-    feedback.innerHTML=
-    "Correcto. Las observaciones de la IA no se incorporan automáticamente. El diseñador debe valorar cuáles están respaldadas, cuáles requieren validación y cuáles se basan en supuestos no sustentados.";
+    feedback.innerHTML =
+      "Correcto. Las observaciones de la IA no se incorporan automáticamente. El diseñador debe valorar cuáles están respaldadas, cuáles requieren validación y cuáles se basan en supuestos no sustentados.";
 
-    next.style.display="block";
+    next.style.display =
+      "block";
+
 
     document.getElementById("match1").disabled=true;
     document.getElementById("match2").disabled=true;
     document.getElementById("match3").disabled=true;
 
-  }else{
+  }
 
-    feedback.className="feedback wrong";
+  else{
 
-    feedback.innerHTML=
-    "Revise la relación de cada afirmación con la evidencia disponible. Una observación respaldada puede incorporarse; una interpretación puede requerir validación y un supuesto sin evidencia puede descartarse.";
+    feedback.className =
+      "feedback wrong";
 
-    next.style.display="none";
+    feedback.innerHTML =
+      "Revise la relación de cada afirmación con la evidencia disponible. Una observación respaldada puede incorporarse; una interpretación puede requerir validación y un supuesto sin evidencia puede descartarse.";
+
+    next.style.display =
+      "none";
 
   }
 
 }
 
 
+/* FINALIZAR */
+
 function finishActivity(){
 
-  document.getElementById("q4").style.display="none";
+  document
+  .getElementById("q4")
+  .classList.remove("active");
 
-  document.getElementById("step4").classList.remove("active");
-  document.getElementById("step4").classList.add("done");
 
-  document.getElementById("finish").style.display="block";
+  document
+  .getElementById("step4")
+  .classList.remove("active");
+
+  document
+  .getElementById("step4")
+  .classList.add("done");
+
+
+  document
+  .getElementById("finish")
+  .style.display="block";
+
 
   window.scrollTo({
     top:0,
