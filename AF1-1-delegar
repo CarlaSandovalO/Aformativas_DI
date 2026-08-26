@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>¿Qué delegaría a la IA?</title>
+
+<style>
+
+:root{
+  --teal:#17A9B8;
+  --teal-dark:#087D8D;
+  --teal-soft:#EAF8F8;
+  --ink:#0B2B3D;
+  --muted:#58737C;
+  --line:#CFE5E7;
+  --ok:#1F8F68;
+  --ok-bg:#EFFAF5;
+  --bad:#CC514B;
+  --bad-bg:#FFF3F1;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:8px;
+  background:#F4FAFB;
+  font-family:Poppins,Arial,Helvetica,sans-serif;
+  color:var(--ink);
+}
+
+.activity{
+  max-width:1000px;
+  margin:0 auto;
+  background:#FFFFFF;
+  border:1px solid #D6EEF2;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+
+/* PANTALLAS */
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+
+/* PORTADA */
+
+.cover{
+  padding:44px 40px 46px;
+  text-align:center;
+}
+
+.cover-icon{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  margin:0 auto 20px;
+  background:#00B3C7;
+  color:#FFFFFF;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:700;
+}
+
+.cover h1{
+  margin:0 0 8px;
+  font-size:27px;
+  line-height:1.25;
+  color:#0B2B3D;
+}
+
+.cover h2{
+  margin:0 auto 20px;
+  max-width:700px;
+  font-size:21px;
+  line-height:1.4;
+  font-weight:500;
+  color:#078A9A;
+}
+
+.cover p{
+  max-width:760px;
+  margin:0 auto 22px;
+  font-size:16px;
+  line-height:1.6;
+  color:#526B76;
+}
+
+.cover-topics{
+  max-width:720px;
+  margin:0 auto 26px;
+  padding:13px 20px;
+  background:#F4FAFB;
+  border:1px solid #D6EEF2;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:600;
+  color:#0B2B3D;
+}
+
+
+/* PROGRESO */
+
+.progress{
+  display:none;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  padding:10px 16px;
+  background:#F8FCFD;
+  border-bottom:1px solid #DCE6E9;
+}
+
+.progress.show{
+  display:flex;
+}
+
+.step{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:1.5px solid #B9DBE1;
+  background:#FFFFFF;
+  color:#6B8791;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+}
+
+.step.active{
+  background:#00B3C7;
+  border-color:#00B3C7;
+  color:#FFFFFF;
+}
+
+.step.done{
+  background:#2D8692;
+  border-color:#2D8692;
+  color:#FFFFFF;
+}
+
+.line{
+  width:42px;
+  height:1.5px;
+  background:#CBE5E9;
+}
+
+
+/* CONTENIDO */
+
+.content{
+  display:none;
+  padding:24px 40px 32px;
+}
+
+.kicker{
+  margin:0 0 12px;
+  text-align:center;
+  color:#078A9A;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.context{
+  max-width:820px;
+  margin:0 auto 20px;
+  padding:16px 18px;
+  background:#F4FAFB;
+  border-left:4px solid #2D8692;
+  border-radius:0 10px 10px 0;
+  font-size:16px;
+  line-height:1.55;
+  color:#314753;
+}
+
+.question{
+  max-width:850px;
+  margin:0 auto 22px;
+  text-align:center;
+  font-size:20px;
+  line-height:1.45;
+  font-weight:600;
+}
+
+
+/* OPCIONES */
+
+.options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  max-width:860px;
+  margin:0 auto;
+}
+
+.option{
+  min-height:105px;
+  border:1.5px solid #C6DCE1;
+  border-radius:12px;
+  background:#FFFFFF;
+  padding:18px 14px;
+  cursor:pointer;
+  text-align:center;
+  font-family:inherit;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.35;
+  color:#0B2B3D;
+  transition:.15s ease;
+}
+
+.option:hover:not(:disabled),
+.option:focus:not(:disabled){
+  background:#F8FCFD;
+  border-color:#00B3C7;
+}
+
+.option:disabled{
+  cursor:default;
+}
+
+.mini{
+  width:30px;
+  height:30px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#E9F8F8;
+  border:1px solid #C5E6E8;
+  margin:0 auto 11px;
+  color:#0D92A2;
+  font-size:14px;
+}
+
+.option.correct{
+  border:2px solid var(--ok);
+  background:var(--ok-bg);
+}
+
+.option.wrong{
+  border:2px solid #E56E65;
+  background:var(--bad-bg);
+}
+
+
+/* RETROALIMENTACIÓN */
+
+.feedback{
+  display:none;
+  max-width:860px;
+  margin:18px auto 0;
+  border-radius:10px;
+  padding:15px 17px;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.feedback.show{
+  display:block;
+}
+
+.feedback.ok{
+  background:#F0FAF5;
+  border:1px solid #B7DFC9;
+  color:#17633F;
+}
+
+.feedback.bad{
+  background:#FFF3F3;
+  border:1px solid #F1BBBB;
+  color:#932F2F;
+}
+
+.feedback strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+
+/* BOTONES */
+
+.actions{
+  display:none;
+  max-width:860px;
+  margin:16px auto 0;
+  justify-content:flex-end;
+}
+
+.actions.show{
+  display:flex;
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  background:#00A6B8;
+  color:#FFFFFF;
+  padding:11px 20px;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn:hover,
+.btn:focus{
+  background:#078A9A;
+}
+
+.btn.secondary{
+  background:#EAF8F8;
+  color:#087D8D;
+  border:1px solid #B7E4E6;
+}
+
+
+/* FINAL */
+
+.finish{
+  text-align:center;
+  padding:30px 20px;
+}
+
+.finish-icon{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  margin:0 auto 16px;
+  background:#00B3C7;
+  color:#FFFFFF;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:700;
+}
+
+.finish h2{
+  margin:0 0 10px;
+  font-size:24px;
+}
+
+.finish p{
+  max-width:680px;
+  margin:0 auto 22px;
+  font-size:16px;
+  line-height:1.55;
+  color:#526B76;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  body{
+    padding:4px;
+  }
+
+  .cover{
+    padding:32px 20px 34px;
+  }
+
+  .cover h1{
+    font-size:24px;
+  }
+
+  .cover h2{
+    font-size:19px;
+  }
+
+  .content{
+    padding:20px 16px 26px;
+  }
+
+  .question{
+    font-size:18px;
+  }
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+  .option{
+    min-height:auto;
+  }
+
+  .line{
+    width:24px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="activity">
+
+
+<!-- PORTADA -->
+
+<div class="screen active" id="cover">
+
+  <div class="cover">
+
+    <div class="cover-icon">?</div>
+
+    <h1>
+      La IA puede hacerlo...
+    </h1>
+
+    <h2>
+      ¿pero qué papel debería tener?
+    </h2>
+
+    <p>
+      Lea cada situación y seleccione el nivel de participación que considere más adecuado.
+      Si su elección no es correcta, revise la retroalimentación e inténtelo nuevamente.
+      <strong>Avanzará cuando encuentre la respuesta adecuada.</strong>
+    </p>
+
+    <div class="cover-topics">
+      IA puede apoyar
+      &nbsp;&middot;&nbsp;
+      IA + supervisión
+      &nbsp;&middot;&nbsp;
+      Decisión profesional
+    </div>
+
+    <button class="btn" onclick="startActivity()">
+      Comenzar →
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- PROGRESO -->
+
+<div class="progress" id="progress">
+
+  <div class="step active" id="step1">1</div>
+  <div class="line"></div>
+
+  <div class="step" id="step2">2</div>
+  <div class="line"></div>
+
+  <div class="step" id="step3">3</div>
+  <div class="line"></div>
+
+  <div class="step" id="step4">4</div>
+
+</div>
+
+
+<div class="content" id="content">
+
+
+<!-- PREGUNTA 1 -->
+
+<div class="screen active" id="q1">
+
+  <p class="kicker">
+    Pregunta 1
+  </p>
+
+  <div class="question">
+    Necesita resumir cinco documentos que usted mismo proporciona a la herramienta.
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(1,'A',this)">
+      <div class="mini">A</div>
+      IA puede apoyar
+    </button>
+
+    <button class="option" onclick="answer(1,'B',this)">
+      <div class="mini">B</div>
+      Decisión profesional
+    </button>
+
+    <button class="option" onclick="answer(1,'C',this)">
+      <div class="mini">C</div>
+      IA + supervisión
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback1"></div>
+  <div class="actions" id="actions1"></div>
+
+</div>
+
+
+<!-- PREGUNTA 2 -->
+
+<div class="screen" id="q2">
+
+  <p class="kicker">
+    Pregunta 2
+  </p>
+
+  <div class="context">
+    Dispone de registros de participación, resultados de evaluación y comentarios
+    de estudiantes de un curso con alta deserción.
+  </div>
+
+  <div class="question">
+    Desea utilizar IA para identificar posibles factores asociados al abandono.
+    ¿Qué nivel de participación sería más adecuado?
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(2,'A',this)">
+      <div class="mini">A</div>
+      Decisión profesional
+    </button>
+
+    <button class="option" onclick="answer(2,'B',this)">
+      <div class="mini">B</div>
+      IA + supervisión
+    </button>
+
+    <button class="option" onclick="answer(2,'C',this)">
+      <div class="mini">C</div>
+      IA puede apoyar
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback2"></div>
+  <div class="actions" id="actions2"></div>
+
+</div>
+
+
+<!-- PREGUNTA 3 -->
+
+<div class="screen" id="q3">
+
+  <p class="kicker">
+    Pregunta 3
+  </p>
+
+  <div class="context">
+    Necesita diseñar un curso nuevo, pero todavía no dispone de información
+    sobre los conocimientos, necesidades o características de los participantes.
+  </div>
+
+  <div class="question">
+    ¿Qué papel debería tener la IA si se plantea construir el perfil de los participantes?
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(3,'A',this)">
+      <div class="mini">A</div>
+      IA + supervisión
+    </button>
+
+    <button class="option" onclick="answer(3,'B',this)">
+      <div class="mini">B</div>
+      IA puede apoyar
+    </button>
+
+    <button class="option" onclick="answer(3,'C',this)">
+      <div class="mini">C</div>
+      Decisión profesional
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback3"></div>
+  <div class="actions" id="actions3"></div>
+
+</div>
+
+
+<!-- PREGUNTA 4 -->
+
+<div class="screen" id="q4">
+
+  <p class="kicker">
+    Pregunta 4
+  </p>
+
+  <div class="context">
+    Proporciona a una IA información sobre la necesidad, los participantes,
+    el contexto y el resultado esperado.
+  </div>
+
+  <div class="question">
+    Le solicita una propuesta inicial de actividades y evaluación para una unidad.
+    ¿Qué nivel de participación sería más adecuado?
+  </div>
+
+  <div class="options">
+
+    <button class="option" onclick="answer(4,'A',this)">
+      <div class="mini">A</div>
+      IA + supervisión
+    </button>
+
+    <button class="option" onclick="answer(4,'B',this)">
+      <div class="mini">B</div>
+      Decisión profesional
+    </button>
+
+    <button class="option" onclick="answer(4,'C',this)">
+      <div class="mini">C</div>
+      IA puede apoyar
+    </button>
+
+  </div>
+
+  <div class="feedback" id="feedback4"></div>
+  <div class="actions" id="actions4"></div>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="screen" id="finish">
+
+  <div class="finish">
+
+    <div class="finish-icon">✓</div>
+
+    <h2>
+      Actividad completada
+    </h2>
+
+    <p>
+      La IA puede apoyar tareas, ampliar posibilidades y colaborar en el análisis.
+      A medida que aumenta la interpretación, el impacto o la responsabilidad de una decisión,
+      también debe aumentar la intervención profesional.
+    </p>
+
+    <button class="btn secondary" onclick="restartActivity()">
+      Volver a realizar
+    </button>
+
+  </div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<script>
+
+
+const correctAnswers = {
+  1:"A",
+  2:"B",
+  3:"C",
+  4:"A"
+};
+
+
+const correctFeedback = {
+
+  1:
+  "La IA puede agilizar la síntesis porque trabaja con información disponible y el resultado puede contrastarse directamente con los documentos originales.",
+
+  2:
+  "La IA puede identificar patrones y relaciones iniciales, pero interpretar esos patrones requiere revisar los datos, el contexto y otras explicaciones posibles.",
+
+  3:
+  "La información que todavía no existe debe investigarse o recopilarse. La IA no debería convertir supuestos sobre los participantes en datos del proyecto.",
+
+  4:
+  "La IA puede generar una propuesta inicial, pero la alineación, pertinencia y factibilidad deben revisarse antes de incorporarla al diseño."
+
+};
+
+
+const wrongFeedback = {
+
+  1:
+  "En este caso existe información concreta y el resultado es fácil de verificar. La IA puede utilizarse como apoyo para agilizar la síntesis.",
+
+  2:
+  "Aquí la IA no solo organiza información: también ayuda a interpretar posibles relaciones. Por eso el resultado necesita supervisión profesional.",
+
+  3:
+  "Si no existe evidencia sobre los participantes, una descripción generada por IA sería una inferencia y no un diagnóstico del proyecto.",
+
+  4:
+  "La propuesta afecta decisiones pedagógicas importantes. La IA puede aportar alternativas, pero el resultado necesita revisión profesional."
+
+};
+
+
+function startActivity(){
+
+  document
+    .getElementById("cover")
+    .classList.remove("active");
+
+  document
+    .getElementById("progress")
+    .classList.add("show");
+
+  document
+    .getElementById("content")
+    .style.display="block";
+
+  document
+    .getElementById("q1")
+    .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function answer(questionNumber,selected,button){
+
+  const screen =
+    document.getElementById("q"+questionNumber);
+
+  const options =
+    screen.querySelectorAll(".option");
+
+  const feedback =
+    document.getElementById("feedback"+questionNumber);
+
+  const actions =
+    document.getElementById("actions"+questionNumber);
+
+
+  options.forEach(function(option){
+    option.disabled=true;
+  });
+
+
+  feedback.className="feedback show";
+  actions.className="actions show";
+
+
+  if(selected===correctAnswers[questionNumber]){
+
+    button.classList.add("correct");
+
+    feedback.classList.add("ok");
+
+    feedback.innerHTML=
+      "<strong>Decisión acertada</strong>"+
+      correctFeedback[questionNumber];
+
+    actions.innerHTML=
+      '<button class="btn" onclick="nextQuestion('+
+      questionNumber+
+      ')">Continuar →</button>';
+
+  }
+
+  else{
+
+    button.classList.add("wrong");
+
+    feedback.classList.add("bad");
+
+    feedback.innerHTML=
+      "<strong>Revise su decisión</strong>"+
+      wrongFeedback[questionNumber];
+
+    actions.innerHTML=
+      '<button class="btn" onclick="retryQuestion('+
+      questionNumber+
+      ')">Intentar de nuevo</button>';
+
+  }
+
+}
+
+
+function retryQuestion(questionNumber){
+
+  const screen =
+    document.getElementById("q"+questionNumber);
+
+  screen
+    .querySelectorAll(".option")
+    .forEach(function(option){
+
+      option.disabled=false;
+      option.classList.remove("correct","wrong");
+
+    });
+
+
+  const feedback =
+    document.getElementById("feedback"+questionNumber);
+
+  const actions =
+    document.getElementById("actions"+questionNumber);
+
+
+  feedback.className="feedback";
+  feedback.innerHTML="";
+
+  actions.className="actions";
+  actions.innerHTML="";
+
+}
+
+
+function nextQuestion(current){
+
+  document
+    .getElementById("q"+current)
+    .classList.remove("active");
+
+
+  const currentStep =
+    document.getElementById("step"+current);
+
+  if(currentStep){
+
+    currentStep.classList.remove("active");
+    currentStep.classList.add("done");
+
+  }
+
+
+  if(current<4){
+
+    const next=current+1;
+
+    document
+      .getElementById("q"+next)
+      .classList.add("active");
+
+    document
+      .getElementById("step"+next)
+      .classList.add("active");
+
+  }
+
+  else{
+
+    document
+      .getElementById("progress")
+      .classList.remove("show");
+
+    document
+      .getElementById("finish")
+      .classList.add("active");
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function restartActivity(){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(function(screen){
+      screen.classList.remove("active");
+    });
+
+
+  document
+    .getElementById("cover")
+    .classList.add("active");
+
+
+  document
+    .getElementById("progress")
+    .classList.remove("show");
+
+
+  document
+    .getElementById("content")
+    .style.display="none";
+
+
+  document
+    .querySelectorAll(".step")
+    .forEach(function(step){
+
+      step.classList.remove("active","done");
+
+    });
+
+
+  document
+    .getElementById("step1")
+    .classList.add("active");
+
+
+  for(let q=1;q<=4;q++){
+
+    const screen=
+      document.getElementById("q"+q);
+
+
+    screen
+      .querySelectorAll(".option")
+      .forEach(function(option){
+
+        option.disabled=false;
+        option.classList.remove("correct","wrong");
+
+      });
+
+
+    document
+      .getElementById("feedback"+q)
+      .className="feedback";
+
+    document
+      .getElementById("feedback"+q)
+      .innerHTML="";
+
+
+    document
+      .getElementById("actions"+q)
+      .className="actions";
+
+    document
+      .getElementById("actions"+q)
+      .innerHTML="";
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+</script>
+
+</body>
+</html>
