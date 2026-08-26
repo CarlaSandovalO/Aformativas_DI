@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Distinga lo que sabe de lo que supone</title>
+<title>CI1-3-certeza</title>
 
 <style>
 
@@ -12,10 +12,11 @@
   box-sizing:border-box;
 }
 
+html,
 body{
   margin:0;
-  padding:8px;
-  background:#F4FAFB;
+  padding:0;
+  background:#ffffff;
   font-family:Poppins, Arial, sans-serif;
   color:#0B2B3D;
 }
@@ -23,35 +24,24 @@ body{
 .wrap{
   max-width:1000px;
   margin:0 auto;
-  background:#ffffff;
-  border:1px solid #D6EEF2;
-  border-radius:14px;
-  padding:24px;
-}
-
-.intro{
-  margin:0 0 18px;
-  font-size:16px;
-  line-height:1.55;
-  color:#526B76;
-  text-align:center;
 }
 
 .tabs{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:18px;
+  gap:8px;
+  margin:0 0 5px 0;
 }
 
 .tab{
   border:1.5px solid #C6DCE1;
-  border-radius:10px;
-  background:#ffffff;
+  border-radius:8px;
+  background:#F8FCFD;
   color:#0B2B3D;
-  padding:13px 10px;
+  padding:8px 6px;
+  min-height:40px;
   font-family:inherit;
-  font-size:16px;
+  font-size:15px;
   font-weight:700;
   cursor:pointer;
   transition:.15s ease;
@@ -59,7 +49,6 @@ body{
 
 .tab:hover{
   border-color:#00B3C7;
-  background:#F8FCFD;
 }
 
 .tab.active{
@@ -69,53 +58,25 @@ body{
 }
 
 .detail{
-  min-height:118px;
-  padding:20px 22px;
-  background:#F4FAFB;
-  border-left:4px solid #2D8692;
-  border-radius:0 10px 10px 0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.detail-title{
-  margin:0 0 7px;
-  font-size:20px;
-  font-weight:700;
-  color:#0B2B3D;
-}
-
-.detail-text{
   margin:0;
-  font-size:16px;
-  line-height:1.55;
-  color:#314753;
-}
-
-.note{
-  margin:18px 0 0;
-  padding:13px 16px;
-  background:#F8FCFD;
-  border:1px solid #D6EEF2;
-  border-radius:9px;
+  padding:5px 10px 2px;
   font-size:15px;
-  line-height:1.5;
+  line-height:1.35;
   color:#526B76;
 }
 
-@media(max-width:700px){
+.detail strong{
+  color:#0B2B3D;
+}
 
-  .wrap{
-    padding:18px 14px;
-  }
+@media(max-width:650px){
 
   .tabs{
     grid-template-columns:repeat(2,1fr);
   }
 
   .tab{
-    font-size:15px;
+    font-size:14px;
   }
 
 }
@@ -126,10 +87,6 @@ body{
 <body>
 
 <div class="wrap">
-
-  <p class="intro">
-    Seleccione cada opción para identificar con qué nivel de certeza cuenta respecto a la información de su proyecto.
-  </p>
 
   <div class="tabs">
 
@@ -151,22 +108,8 @@ body{
 
   </div>
 
-
-  <div class="detail">
-
-    <div class="detail-title" id="detailTitle">
-      Sé
-    </div>
-
-    <p class="detail-text" id="detailText">
-      Tengo evidencia, datos o información disponible que respalda este dato.
-    </p>
-
-  </div>
-
-
-  <div class="note">
-    <strong>Importante:</strong> estas categorías no son etapas. Utilícelas para reconocer qué información puede utilizar, cuál está interpretando y qué necesita confirmar antes de tomar una decisión.
+  <div class="detail" id="detail">
+    <strong>Sé:</strong> Tengo evidencia, datos o información disponible que respalda este dato.
   </div>
 
 </div>
@@ -176,44 +119,31 @@ body{
 
 const content = {
 
-  se:{
-    title:"Sé",
-    text:"Tengo evidencia, datos o información disponible que respalda este dato."
-  },
+  se:
+  "<strong>Sé:</strong> Tengo evidencia, datos o información disponible que respalda este dato.",
 
-  infiero:{
-    title:"Infiero",
-    text:"Interpreto este dato a partir de la evidencia disponible, pero reconozco que existe un proceso de análisis."
-  },
+  infiero:
+  "<strong>Infiero:</strong> Lo interpreto a partir de la evidencia disponible.",
 
-  supongo:{
-    title:"Supongo",
-    text:"Estoy dando esta idea por cierta, pero todavía no cuento con evidencia suficiente para confirmarla."
-  },
+  supongo:
+  "<strong>Supongo:</strong> Lo estoy dando por cierto, pero todavía no cuento con evidencia suficiente.",
 
-  investigar:{
-    title:"Necesito investigar",
-    text:"Debo recopilar, verificar o consultar esta información antes de utilizarla para tomar una decisión de diseño."
-  }
+  investigar:
+  "<strong>Necesito investigar:</strong> Debo recopilar o validar esta información antes de utilizarla para tomar una decisión."
 
 };
 
 
 function showInfo(key,button){
 
-  document
-    .querySelectorAll(".tab")
-    .forEach(function(tab){
-      tab.classList.remove("active");
-    });
+  document.querySelectorAll(".tab").forEach(function(tab){
+    tab.classList.remove("active");
+  });
 
   button.classList.add("active");
 
-  document.getElementById("detailTitle").textContent =
-    content[key].title;
-
-  document.getElementById("detailText").textContent =
-    content[key].text;
+  document.getElementById("detail").innerHTML =
+    content[key];
 
 }
 
