@@ -9,11 +9,13 @@
 html,body{margin:0;padding:0;background:#ffffff;font-family:Poppins,Arial,sans-serif;color:#0B2B3D;}
 .wrap{max-width:1000px;margin:0 auto;padding:2px;}
 .accordion{border:1px solid #D6EEF2;border-radius:10px;overflow:hidden;background:#F8FCFD;}
-.trigger{width:100%;border:0;background:#F4FAFB;color:#0B2B3D;padding:16px 18px;font-family:inherit;display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;text-align:left;}
+.trigger{width:100%;border:0;background:#F4FAFB;color:#0B2B3D;padding:14px 18px;font-family:inherit;display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;text-align:left;}
 .trigger:hover{background:#EEF8FA;}
 .trigger-left{display:flex;align-items:center;gap:12px;}
 .badge{display:inline-flex;align-items:center;justify-content:center;min-width:86px;height:28px;padding:0 10px;border-radius:999px;background:#2D8692;color:#fff;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+.title-group{display:flex;flex-direction:column;gap:2px;}
 .title{font-size:17px;font-weight:700;line-height:1.3;}
+.hint{font-size:12.5px;font-weight:400;color:#607985;line-height:1.25;}
 .arrow{font-size:22px;color:#00B3C7;transition:transform .2s ease;line-height:1;}
 .trigger.open .arrow{transform:rotate(180deg);}
 .content{display:none;padding:18px;background:#FFFFFF;border-top:1px solid #D6EEF2;}
@@ -30,6 +32,7 @@ html,body{margin:0;padding:0;background:#ffffff;font-family:Poppins,Arial,sans-s
   .structure{grid-template-columns:repeat(2,1fr);}
   .badge{display:none;}
   .title{font-size:16px;}
+  .hint{font-size:12px;}
 }
 </style>
 </head>
@@ -39,7 +42,10 @@ html,body{margin:0;padding:0;background:#ffffff;font-family:Poppins,Arial,sans-s
     <button class="trigger" type="button" id="trigger" aria-expanded="false" onclick="toggleAccordion()">
       <span class="trigger-left">
         <span class="badge">Bonus track</span>
-        <span class="title">¿Está bien formulado el resultado?</span>
+        <span class="title-group">
+          <span class="title">¿Está bien formulado el resultado?</span>
+          <span class="hint">Haga clic para descubrirlo</span>
+        </span>
       </span>
       <span class="arrow">⌄</span>
     </button>
