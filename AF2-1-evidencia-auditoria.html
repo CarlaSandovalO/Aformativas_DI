@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AF2-1 Del resultado a la auditoría</title>
+  <style>
+    *{box-sizing:border-box;}
+    body{margin:0;padding:24px 16px;font-family:Poppins,Arial,sans-serif;background:#F7FAFB;color:#0B2B3D;}
+    .wrap{max-width:1100px;margin:0 auto;background:#FFFFFF;border:1px solid #D6EEF2;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(11,43,61,0.06);}
+    .head{padding:22px 28px 18px;background:#F4FAFB;border-bottom:1px solid #D6EEF2;}
+    .head-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .badge{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,#2D8692,#00B3C7);color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;flex:0 0 auto;}
+    .head h1{margin:0;font-size:20px;line-height:1.2;color:#0B2B3D;}
+    .head p{margin:8px 0 0;font-size:15px;color:#35505C;line-height:1.6;}
+    .content{padding:28px;}
+    .question-box{width:100%;border-collapse:collapse;margin:0 0 24px;background:#F5FBFC;border:1px solid #D6EEF2;}
+    .question-box td.icon{width:62px;text-align:center;vertical-align:middle;padding:16px 10px;background:#EAF7F9;border-right:1px solid #D6EEF2;}
+    .question-circle{width:36px;height:36px;line-height:36px;margin:0 auto;border-radius:50%;background:#00B3C7;color:#FFFFFF;font-size:20px;font-weight:700;}
+    .question-box td.text{padding:16px 18px;font-size:16px;color:#0B2B3D;}
+    .mini-note{background:#FFFFFF;border-left:5px solid #2D8692;padding:14px 16px;margin:0 0 22px;font-size:15px;color:#35505C;line-height:1.6;}
+    .bank{background:#F8FCFD;border:1px dashed #A7D6DE;border-radius:16px;padding:18px;margin-bottom:24px;}
+    .bank-title{font-size:17px;font-weight:700;margin:0 0 12px;color:#0B2B3D;}
+    .bank-sub{font-size:14px;color:#4C6470;margin:0 0 16px;line-height:1.5;}
+    .cards{display:flex;flex-wrap:wrap;gap:14px;}
+    .card{width:calc(50% - 7px);background:#FFFFFF;border:1px solid #CBE7EC;border-radius:14px;padding:14px;cursor:grab;font-size:15px;line-height:1.5;color:#0B2B3D;box-shadow:0 2px 8px rgba(11,43,61,0.04);transition:all .2s ease;}
+    .card:hover{transform:translateY(-2px);border-color:#62BED3;}
+    .card.dragging{opacity:.55;}
+    .zones{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+    .zone{background:#FAFCFD;border:1px solid #D6EEF2;border-radius:16px;min-height:250px;display:flex;flex-direction:column;overflow:hidden;}
+    .zone-head{padding:14px 16px;font-size:17px;font-weight:700;color:#0B2B3D;}
+    .zone.result .zone-head{background:#EAF7F9;border-bottom:1px solid #D6EEF2;}
+    .zone.evidence .zone-head{background:#EEF8FA;border-bottom:1px solid #D6EEF2;}
+    .zone.audit .zone-head{background:#F3F8F9;border-bottom:1px solid #D6EEF2;}
+    .zone-sub{padding:0 16px 12px;font-size:14px;color:#53707C;line-height:1.5;}
+    .drop-area{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px;min-height:160px;background:#FFFFFF;}
+    .drop-area.over{background:#F5FBFC;outline:2px dashed #62BED3;outline-offset:-8px;}
+    .drop-area .placeholder{font-size:14px;color:#7A919B;line-height:1.5;background:#FAFCFD;border:1px dashed #D6EEF2;border-radius:12px;padding:16px;}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;}
+    .btn{border:none;border-radius:12px;padding:13px 22px;font-family:Poppins,Arial,sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s ease;}
+    .btn-primary{background:#00B3C7;color:#FFFFFF;}
+    .btn-primary:hover{background:#07A2B3;}
+    .btn-secondary{background:#EAF7F9;color:#0B2B3D;border:1px solid #CBE7EC;}
+    .feedback{display:none;border-radius:14px;padding:16px 18px;font-size:15px;line-height:1.6;margin-bottom:20px;}
+    .feedback.ok{display:block;background:#EDF9F1;border:1px solid #BEE3C7;color:#1F5D33;}
+    .feedback.error{display:block;background:#FFF4F4;border:1px solid #F1C5C5;color:#9A2E2E;}
+    .feedback strong{display:block;margin-bottom:6px;font-size:16px;}
+    .correct{border-color:#7ECF9A !important;background:#F3FCF6 !important;}
+    .incorrect{border-color:#F2A7A7 !important;background:#FFF6F6 !important;}
+    .closing{background:#0B2B3D;color:#FFFFFF;border-radius:14px;padding:18px 20px;text-align:center;font-size:15px;line-height:1.6;}
+    @media(max-width:900px){.zones{grid-template-columns:1fr}.card{width:100%}}
+    @media(max-width:600px){body{padding:10px}.content{padding:18px}.head{padding:18px}.head h1{font-size:18px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="head-top">
+      <div class="badge">1</div>
+      <div>
+        <h1>Actividad formativa</h1>
+        <p>Del resultado a la auditoría</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <table class="question-box">
+      <tr>
+        <td class="icon"><div class="question-circle">?</div></td>
+        <td class="text"><strong>¿Puede distinguir un resultado, una evidencia y una instrucción útil para auditar con IA?</strong></td>
+      </tr>
+    </table>
+
+    <div class="mini-note">Arrastre cada tarjeta a la columna que corresponda. <strong>Pista:</strong> pregúntese si el texto describe <strong>lo que se espera lograr</strong>, <strong>lo que permitirá demostrarlo</strong> o <strong>lo que le pediría a la IA para revisar la propuesta</strong>.</div>
+
+    <div class="bank">
+      <div class="bank-title">Tarjetas para arrastrar</div>
+      <div class="bank-sub">Coloque cada tarjeta en una de estas tres categorías: <strong>Resultado</strong>, <strong>Evidencia</strong> o <strong>Auditar con IA</strong>.</div>
+      <div class="cards" id="cardBank">
+        <div class="card" draggable="true" data-type="resultado">Analizar alternativas para resolver un conflicto laboral y justificar la decisión más adecuada según el contexto.</div>
+        <div class="card" draggable="true" data-type="evidencia">Análisis de un caso con comparación de alternativas y justificación de una decisión.</div>
+        <div class="card" draggable="true" data-type="auditoria">Revisa si esta evidencia realmente permite demostrar el resultado esperado y señala posibles desajustes.</div>
+        <div class="card" draggable="true" data-type="resultado">Elaborar una recomendación de mejora a partir del análisis de una situación de desempeño.</div>
+        <div class="card" draggable="true" data-type="evidencia">Entrega de una recomendación argumentada basada en la situación analizada y en criterios definidos.</div>
+        <div class="card" draggable="true" data-type="auditoria">Identifica supuestos, vacíos de información y aspectos del contexto que deberían revisarse antes de aceptar esta propuesta.</div>
+      </div>
+    </div>
+
+    <div class="zones">
+      <div class="zone result">
+        <div class="zone-head">Resultado</div>
+        <div class="zone-sub">¿Qué debe ser capaz de hacer el participante?</div>
+        <div class="drop-area" data-zone="resultado"><div class="placeholder">Arrastre aquí las tarjetas que describen el aprendizaje o desempeño esperado.</div></div>
+      </div>
+      <div class="zone evidence">
+        <div class="zone-head">Evidencia</div>
+        <div class="zone-sub">¿Qué permitirá demostrar ese aprendizaje?</div>
+        <div class="drop-area" data-zone="evidencia"><div class="placeholder">Arrastre aquí las tarjetas que describen el producto, desempeño o evidencia.</div></div>
+      </div>
+      <div class="zone audit">
+        <div class="zone-head">Auditar con IA</div>
+        <div class="zone-sub">¿Qué instrucción le daría a la IA para revisar?</div>
+        <div class="drop-area" data-zone="auditoria"><div class="placeholder">Arrastre aquí las tarjetas que funcionan como instrucción para revisar o auditar.</div></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="checkBtn">Validar</button>
+      <button class="btn btn-secondary" id="resetBtn">Reintentar</button>
+    </div>
+
+    <div id="feedbackBox" class="feedback"></div>
+    <div class="closing"><strong>Idea clave:</strong> primero defina el resultado, luego identifique la evidencia y después utilice la IA para revisar si ambas realmente guardan coherencia.</div>
+  </div>
+</div>
+
+<script>
+const cards=document.querySelectorAll('.card');
+const dropAreas=document.querySelectorAll('.drop-area');
+const bank=document.getElementById('cardBank');
+const feedbackBox=document.getElementById('feedbackBox');
+const checkBtn=document.getElementById('checkBtn');
+const resetBtn=document.getElementById('resetBtn');
+let draggedCard=null;
+
+function refreshPlaceholders(){
+  dropAreas.forEach(area=>{
+    const placeholder=area.querySelector('.placeholder');
+    const realCards=Array.from(area.children).filter(el=>el.classList.contains('card'));
+    if(placeholder){placeholder.style.display=realCards.length>0?'none':'block';}
+  });
+}
+
+cards.forEach(card=>{
+  card.addEventListener('dragstart',()=>{draggedCard=card;setTimeout(()=>card.classList.add('dragging'),0);});
+  card.addEventListener('dragend',()=>{card.classList.remove('dragging');draggedCard=null;});
+});
+
+bank.addEventListener('dragover',e=>e.preventDefault());
+bank.addEventListener('drop',e=>{e.preventDefault();if(draggedCard){bank.appendChild(draggedCard);refreshPlaceholders();}});
+
+dropAreas.forEach(area=>{
+  area.addEventListener('dragover',e=>{e.preventDefault();area.classList.add('over');});
+  area.addEventListener('dragleave',()=>area.classList.remove('over'));
+  area.addEventListener('drop',e=>{e.preventDefault();area.classList.remove('over');if(draggedCard){area.appendChild(draggedCard);refreshPlaceholders();}});
+});
+
+function clearMarks(){
+  document.querySelectorAll('.card').forEach(card=>card.classList.remove('correct','incorrect'));
+  feedbackBox.className='feedback';
+  feedbackBox.innerHTML='';
+}
+
+checkBtn.addEventListener('click',()=>{
+  clearMarks();
+  let totalPlaced=0;
+  let correctCount=0;
+  dropAreas.forEach(area=>{
+    const zoneType=area.getAttribute('data-zone');
+    const areaCards=Array.from(area.children).filter(el=>el.classList.contains('card'));
+    areaCards.forEach(card=>{
+      totalPlaced++;
+      if(card.getAttribute('data-type')===zoneType){card.classList.add('correct');correctCount++;}
+      else{card.classList.add('incorrect');}
+    });
+  });
+  const totalCards=document.querySelectorAll('.card').length;
+  if(totalPlaced<totalCards){
+    feedbackBox.className='feedback error';
+    feedbackBox.innerHTML='<strong>Revise su organización</strong>Aún hay tarjetas sin clasificar. Complete las tres categorías y luego valide nuevamente.';
+    return;
+  }
+  if(correctCount===totalCards){
+    feedbackBox.className='feedback ok';
+    feedbackBox.innerHTML='<strong>¡Muy bien!</strong>Ha distinguido correctamente el resultado, la evidencia y las instrucciones para auditar con IA.';
+  }else{
+    feedbackBox.className='feedback error';
+    feedbackBox.innerHTML='<strong>Aún hay tarjetas por revisar</strong>Resultado = lo que se espera lograr; evidencia = lo que lo demuestra; auditoría = lo que le pide a la IA para revisar la propuesta.';
+  }
+});
+
+resetBtn.addEventListener('click',()=>{
+  clearMarks();
+  Array.from(document.querySelectorAll('.card')).forEach(card=>bank.appendChild(card));
+  refreshPlaceholders();
+});
+
+refreshPlaceholders();
+</script>
+</body>
+</html>
