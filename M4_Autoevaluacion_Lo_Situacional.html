@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pausa para reflexión - Lo situacional</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#F4FAFB;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+body{padding:10px}
+.wrap{max-width:1000px;margin:0 auto;background:#fff;border:1px solid #D6EEF2;border-radius:14px;overflow:hidden}
+.hero{padding:38px 34px 32px;text-align:center;border-bottom:1px solid #E2F0F2}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#078A9A;margin-bottom:8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 8px} .subtitle{font-size:19px;color:#078A9A;margin:0 0 16px;font-weight:500}
+.hero p{max-width:760px;margin:0 auto;font-size:15.5px;line-height:1.6;color:#526B76}
+.notice{max-width:820px;margin:20px auto 0;background:#F4FAFB;border:1px solid #D6EEF2;border-radius:10px;padding:13px 16px;font-size:14px;line-height:1.5;color:#35505C}
+.content{padding:28px 32px 34px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 auto 24px;max-width:800px}
+.scale div{background:#F8FCFD;border:1px solid #D6EEF2;border-radius:9px;padding:10px;text-align:center;font-size:12.5px;line-height:1.35;color:#526B76}.scale strong{display:block;color:#0B2B3D;font-size:15px;margin-bottom:3px}
+.section{margin:0 0 28px}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}.badge{width:36px;height:36px;border-radius:50%;background:#00A6B8;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:0 0 auto}.section h2{font-size:19px;margin:0}.section-desc{font-size:14px;color:#657D87;margin:4px 0 0}
+.item{border:1px solid #DCEBED;border-radius:11px;padding:15px 16px;margin:10px 0;background:#FCFEFE}.statement{font-size:14.5px;line-height:1.5;margin-bottom:12px;color:#284551}.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.likert label{cursor:pointer;border:1px solid #CFE1E5;border-radius:8px;padding:9px 5px;text-align:center;font-size:13px;background:#fff;transition:.15s}.likert input{position:absolute;opacity:0;pointer-events:none}.likert label:has(input:checked){background:#E5F7F8;border-color:#00A6B8;color:#076E7B;font-weight:700}.likert label:hover{border-color:#00A6B8;background:#F3FBFC}
+.reflection{margin-top:14px;padding:14px;background:#F8FCFD;border-radius:10px;border:1px solid #D6EEF2}.reflection label{display:block;font-size:14px;font-weight:700;margin-bottom:8px}.reflection textarea{width:100%;min-height:82px;resize:vertical;border:1px solid #C7DDE1;border-radius:8px;padding:10px;font:14px/1.45 inherit;color:#284551;background:#fff}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}.btn{border:0;border-radius:9px;background:#00A6B8;color:#fff;padding:11px 18px;font:700 14px inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn:hover{background:#078A9A}.btn.secondary{background:#EAF8F8;color:#087D8D;border:1px solid #B7E4E6}.btn.ghost{background:#fff;color:#526B76;border:1px solid #CFE1E5}
+.warning{display:none;margin:18px auto 0;max-width:760px;background:#FFF6E9;border:1px solid #F2D39D;color:#7A5317;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.45}
+.results{display:none;margin-top:30px;border-top:1px solid #DCEBED;padding-top:26px}.results h2{text-align:center;font-size:22px;margin:0 0 6px}.results-intro{text-align:center;color:#657D87;font-size:14px;line-height:1.5;max-width:720px;margin:0 auto 20px}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:820px;margin:0 auto}.result-card{border:1px solid #D6EEF2;border-radius:11px;padding:15px;background:#FCFEFE}.result-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:9px}.result-name{font-weight:700}.score{font-size:18px;font-weight:700;color:#078A9A}.bar{height:9px;background:#E8F1F3;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:#00A6B8;border-radius:99px;width:0;transition:.4s}.overall{max-width:820px;margin:14px auto 0;background:#F4FAFB;border:1px solid #D6EEF2;border-radius:11px;padding:15px;text-align:center}.overall strong{font-size:18px;color:#0B2B3D}.guidance{max-width:820px;margin:14px auto 0;background:#F0FAF5;border:1px solid #B7DFC9;border-radius:11px;padding:14px 16px;font-size:14px;line-height:1.55;color:#285A37}.privacy{text-align:center;font-size:12.5px;color:#7A919B;margin-top:18px}
+@media(max-width:720px){body{padding:4px}.hero{padding:30px 18px 26px}.content{padding:22px 14px 28px}.scale{grid-template-columns:1fr}.likert{grid-template-columns:repeat(5,minmax(46px,1fr));overflow-x:auto}.result-grid{grid-template-columns:1fr}}
+@media print{body{background:#fff;padding:0}.wrap{border:0}.actions,.scale,.warning,.privacy{display:none!important}.item{break-inside:avoid}.results{display:block!important}.hero{padding-top:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">Pausa para reflexión · Kit del Negociador</div>
+    <h1>Lo situacional</h1>
+    <div class="subtitle">Autoevaluación del negociador</div>
+    <p>Responde pensando en una negociación real reciente o próxima. Esta actividad no busca asignarte una calificación, sino ayudarte a reconocer cómo analizas a las personas, el contexto y las posibilidades antes de negociar.</p>
+    <div class="notice">Selecciona una respuesta en cada afirmación. Al finalizar recibirás un resultado descriptivo por dimensión. Tus respuestas se procesan únicamente en este navegador y no se envían a un servidor.</div>
+  </div>
+
+  <div class="content">
+    <div class="scale">
+      <div><strong>1</strong>Totalmente en desacuerdo</div>
+      <div><strong>2</strong>En desacuerdo</div>
+      <div><strong>3</strong>Ni de acuerdo ni en desacuerdo</div>
+      <div><strong>4</strong>De acuerdo</div>
+      <div><strong>5</strong>Totalmente de acuerdo</div>
+    </div>
+
+    <form id="quizForm"></form>
+
+    <div class="actions">
+      <button type="button" class="btn" id="calcBtn">Ver mis resultados</button>
+      <a class="btn secondary" href="M4_Autoevaluacion_Lo_Situacional.xlsx" download>Descargar versión en Excel</a>
+      <button type="button" class="btn ghost" id="resetBtn">Limpiar respuestas</button>
+    </div>
+    <div class="warning" id="warning">Completa las 17 afirmaciones antes de calcular tus resultados.</div>
+
+    <section class="results" id="results">
+      <h2>Tu autoevaluación situacional</h2>
+      <p class="results-intro">Los promedios muestran cómo valoraste tu práctica actual en cada dimensión. No corresponden a un diagnóstico ni a un nivel de competencia.</p>
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="overall">Promedio general: <strong id="overallScore">-</strong> / 5</div>
+      <div class="guidance" id="guidance"></div>
+      <div class="actions">
+        <button type="button" class="btn secondary" onclick="window.print()">Imprimir / guardar como PDF</button>
+      </div>
+      <div class="privacy">Conserva esta reflexión: forma parte de tu Kit del Negociador.</div>
+    </section>
+  </div>
+</div>
+<script>
+const sections=[
+ {key:'personas',title:'Personas',subtitle:'Comprensión del Opuesto Complemento (O.C.)',items:[
+  'Antes de negociar, dedico tiempo a analizar quién es mi Opuesto Complemento.',
+  'Considero los posibles intereses, necesidades, actitudes y valores del O.C., no solo sus demandas.',
+  'Soy consciente de que puedo enfrentar un O.C.D. y adapto mi estrategia a ello.',
+  'Observo señales verbales y no verbales para comprender mejor al O.C.',
+  'Evito asumir que el O.C. piensa o decide como yo.'
+ ],reflection:'¿Qué tan preparado(a) llegas normalmente a la mesa respecto a las personas con las que negocias?'},
+ {key:'contexto',title:'Contexto',subtitle:'Lectura del entorno negociador',items:[
+  'Analizo el contexto cultural y relacional antes de negociar.',
+  'Reconozco cómo la historia previa entre los negociadores influye.',
+  'Ajusto mi forma de comunicarme según el contexto y no solo según mi preferencia personal.',
+  'Soy consciente de las presiones externas (tiempo, poder, jerarquía) que influyen en la negociación.',
+  'Evito negociar como si todas las situaciones fueran iguales.'
+ ],reflection:'¿Qué elementos del contexto sueles subestimar cuando negocias?'},
+ {key:'posibilidades',title:'Posibilidades',subtitle:'Evaluación realista de la negociación',items:[
+  'Evalúo si existen condiciones reales para negociar antes de sentarme a la mesa.',
+  'Tengo claridad sobre mi Nivel Básico de Negociación (NBN).',
+  'Reconozco cuándo una situación no es negociable sino impositiva.',
+  'Sé identificar el momento adecuado para retirarme sin arrepentimientos.',
+  'Prefiero no negociar antes que aceptar acuerdos que vulneren mis valores.'
+ ],reflection:'¿Qué te cuesta más: iniciar una negociación o decidir retirarte?'},
+ {key:'integracion',title:'Integración situacional',subtitle:'Síntesis',items:[
+  'Integro personas, contexto y posibilidades antes de definir mi estrategia.',
+  'Siento que este capítulo me ayuda a negociar con mayor conciencia y realismo.'
+ ],reflection:'Elabora una conclusión sobre el capítulo y los ajustes que incorporarás para la siguiente negociación.'}
+];
+
+const form=document.getElementById('quizForm');
+sections.forEach((sec,si)=>{
+ const block=document.createElement('section'); block.className='section';
+ block.innerHTML=`<div class="section-head"><div class="badge">${si+1}</div><div><h2>${sec.title}</h2><p class="section-desc">${sec.subtitle}</p></div></div>`;
+ sec.items.forEach((text,ii)=>{
+   const item=document.createElement('div'); item.className='item';
+   const name=`${sec.key}_${ii+1}`;
+   item.innerHTML=`<div class="statement">${ii+1}. ${text}</div><div class="likert">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="${name}" value="${v}">${v}</label>`).join('')}</div>`;
+   block.appendChild(item);
+ });
+ const ref=document.createElement('div'); ref.className='reflection';
+ ref.innerHTML=`<label for="ref_${sec.key}">${sec.reflection}</label><textarea id="ref_${sec.key}" placeholder="Escribe aquí tu reflexión..."></textarea>`;
+ block.appendChild(ref); form.appendChild(block);
+});
+
+function calculate(){
+ const scores={}; let totalAnswered=0,totalSum=0,totalItems=0;
+ sections.forEach(sec=>{
+   let sum=0,count=0;
+   sec.items.forEach((_,ii)=>{
+     totalItems++;
+     const chosen=document.querySelector(`input[name="${sec.key}_${ii+1}"]:checked`);
+     if(chosen){const v=Number(chosen.value);sum+=v;count++;totalSum+=v;totalAnswered++;}
+   });
+   scores[sec.key]={name:sec.title,avg:count?sum/count:0,count};
+ });
+ const warning=document.getElementById('warning');
+ if(totalAnswered!==totalItems){warning.style.display='block';document.getElementById('results').style.display='none';warning.scrollIntoView({behavior:'smooth',block:'center'});return;}
+ warning.style.display='none';
+ const grid=document.getElementById('resultGrid');grid.innerHTML='';
+ let lowest=null;
+ Object.entries(scores).forEach(([key,data])=>{
+   if(!lowest||data.avg<lowest.avg) lowest={key,...data};
+   const card=document.createElement('div');card.className='result-card';
+   card.innerHTML=`<div class="result-top"><div class="result-name">${data.name}</div><div class="score">${data.avg.toFixed(1)}</div></div><div class="bar"><span style="width:${data.avg/5*100}%"></span></div>`;
+   grid.appendChild(card);
+ });
+ document.getElementById('overallScore').textContent=(totalSum/totalItems).toFixed(1);
+ document.getElementById('guidance').innerHTML=`Observa tus resultados. La dimensión con el promedio más bajo en esta autoevaluación es <strong>${lowest.name}</strong>. Úsala como punto de partida para revisar qué prácticas deseas fortalecer. También considera tus respuestas abiertas: pueden ayudarte a definir ajustes concretos para tu próxima negociación.`;
+ const results=document.getElementById('results');results.style.display='block';results.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('calcBtn').addEventListener('click',calculate);
+document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('¿Deseas borrar todas tus respuestas?')){form.reset();document.querySelectorAll('textarea').forEach(t=>t.value='');document.getElementById('results').style.display='none';document.getElementById('warning').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}});
+</script>
+</body>
+</html>
