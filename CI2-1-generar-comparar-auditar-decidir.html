@@ -27,14 +27,15 @@ html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-seri
 .item{background:#F8FCFD;border:1px solid #DCE6E9;border-radius:8px;padding:10px 11px}
 .item strong{display:block;font-size:13.5px;margin-bottom:4px;color:#0B2B3D}
 .item span{font-size:13px;line-height:1.4;color:#526B76}
-.prompt{margin-top:10px;border-left:4px solid #00B3C7;background:#F5FBFC;padding:10px 12px;font-size:13px;line-height:1.45;color:#35505C}
+.iterate{margin-top:10px;border-left:4px solid #00B3C7;background:#F5FBFC;padding:10px 12px;font-size:13px;line-height:1.45;color:#35505C}
+.iterate strong{color:#0B2B3D}
 @keyframes fade{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:720px){.steps{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<p class="intro">Haga clic en cada momento para observar cómo cambia el papel de la IA y la decisión del diseñador.</p>
+<p class="intro">Haga clic en cada momento para observar cómo cambia el papel de la IA y cómo puede continuar la conversación sin empezar de cero.</p>
 <div class="steps">
 <button class="step active" type="button" onclick="showStep('generar',this)"><div class="icon">+</div><strong>Generar</strong><span>Amplíe opciones</span></button>
 <button class="step" type="button" onclick="showStep('comparar',this)"><div class="icon">↔</div><strong>Comparar</strong><span>Contraste alternativas</span></button>
@@ -45,16 +46,16 @@ html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-seri
 </div>
 <script>
 const data={
-generar:{tag:'Momento 1',title:'Generar',lead:'La IA ayuda a abrir posibilidades. La primera respuesta se toma como punto de partida, no como solución final.',q:'¿Qué opciones distintas podría explorar?',ai:'Proponer evidencias, experiencias o variantes a partir del mismo resultado.',human:'Revisar si las opciones realmente responden al propósito y al contexto.',prompt:'Pida varias alternativas claramente diferentes y evite que la IA elija por usted todavía.'},
-comparar:{tag:'Momento 2',title:'Comparar',lead:'Después de generar, conviene detener la producción y contrastar las alternativas disponibles.',q:'¿Qué permite observar cada opción y bajo qué condiciones?',ai:'Organizar diferencias, ventajas, limitaciones y requerimientos de cada alternativa.',human:'Definir qué criterios pesan más para este proyecto.',prompt:'Pida que compare las opciones sin añadir nuevas propuestas.'},
-auditar:{tag:'Momento 3',title:'Auditar',lead:'La IA cambia de rol: deja de proponer y funciona como una segunda mirada crítica.',q:'¿Qué podría estar desalineado, incompleto o sustentado en supuestos?',ai:'Detectar vacíos, incoherencias, supuestos y condiciones no consideradas.',human:'Valorar si cada observación realmente exige un ajuste.',prompt:'Indique explícitamente: “No proponga una nueva solución todavía; primero señale qué debería revisarse”.'},
-decidir:{tag:'Momento 4',title:'Decidir',lead:'La decisión final permanece en manos del diseñador, quien integra la información disponible y el conocimiento del contexto.',q:'¿Qué conviene conservar, modificar o descartar?',ai:'Ayudar a refinar la alternativa seleccionada después de la decisión.',human:'Asumir la decisión final sobre pertinencia, coherencia y viabilidad.',prompt:'Use la IA para mejorar la opción elegida, no para sustituir la decisión de diseño.'}
+generar:{tag:'Momento 1',title:'Generar',lead:'La IA ayuda a abrir posibilidades. La primera respuesta se toma como punto de partida, no como solución final.',q:'¿Qué opciones distintas podría explorar?',ai:'Proponer evidencias, experiencias o variantes a partir del mismo resultado.',human:'Revisar si las opciones realmente responden al propósito y al contexto.',iterate:'<strong>Ejemplo de instrucción para iterar:</strong> “Dame tres alternativas realmente diferentes para este mismo resultado. Evita repetir la misma idea con otro formato y explica brevemente qué permitiría observar cada opción”.'},
+comparar:{tag:'Momento 2',title:'Comparar',lead:'Después de generar, conviene detener la producción y contrastar las alternativas disponibles.',q:'¿Qué permite observar cada opción y bajo qué condiciones?',ai:'Organizar diferencias, ventajas, limitaciones y requerimientos de cada alternativa.',human:'Definir qué criterios pesan más para este proyecto.',iterate:'<strong>Ejemplo de instrucción para iterar:</strong> “Ahora compara las opciones que ya propusiste. No agregues nuevas. Señala qué permite observar cada una, sus principales ventajas y sus posibles limitaciones en este contexto”.'},
+auditar:{tag:'Momento 3',title:'Auditar',lead:'La IA cambia de rol: deja de proponer y funciona como una segunda mirada crítica.',q:'¿Qué podría estar desalineado, incompleto o sustentado en supuestos?',ai:'Detectar vacíos, incoherencias, supuestos y condiciones no consideradas.',human:'Valorar si cada observación realmente exige un ajuste.',iterate:'<strong>Ejemplo de instrucción para iterar:</strong> “Revisa críticamente la opción que estamos considerando. No me des todavía una solución nueva. Dime qué podría estar desalineado, qué supuesto estás detectando y qué información convendría verificar antes de seguir”.'},
+decidir:{tag:'Momento 4',title:'Decidir',lead:'La decisión final permanece en manos del diseñador, quien integra la información disponible y el conocimiento del contexto.',q:'¿Qué conviene conservar, modificar o descartar?',ai:'Ayudar a refinar la alternativa seleccionada después de la decisión.',human:'Asumir la decisión final sobre pertinencia, coherencia y viabilidad.',iterate:'<strong>Ejemplo de instrucción para iterar:</strong> “Me quedo con esta opción. Ayúdame a ajustarla tomando en cuenta las observaciones anteriores, pero conserva su propósito central y respeta las restricciones del proyecto”.'}
 };
 function showStep(key,btn){
  document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));
  btn.classList.add('active');
  const d=data[key];
- document.getElementById('panel').innerHTML=`<div class="panel-top"><span class="badge">${d.tag}</span><h3>${d.title}</h3></div><p>${d.lead}</p><div class="grid"><div class="item"><strong>Pregunta guía</strong><span>${d.q}</span></div><div class="item"><strong>La IA puede apoyar en</strong><span>${d.ai}</span></div><div class="item"><strong>El diseñador decide</strong><span>${d.human}</span></div><div class="item"><strong>Clave de interacción</strong><span>${d.prompt}</span></div></div>`;
+ document.getElementById('panel').innerHTML=`<div class="panel-top"><span class="badge">${d.tag}</span><h3>${d.title}</h3></div><p>${d.lead}</p><div class="grid"><div class="item"><strong>Pregunta guía</strong><span>${d.q}</span></div><div class="item"><strong>La IA puede apoyar en</strong><span>${d.ai}</span></div><div class="item"><strong>El diseñador decide</strong><span>${d.human}</span></div></div><div class="iterate">${d.iterate}</div>`;
 }
 showStep('generar',document.querySelector('.step.active'));
 </script>
