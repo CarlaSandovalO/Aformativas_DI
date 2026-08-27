@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI2-1 Auditar criterios</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.wrap{max-width:1000px;margin:0 auto;padding:4px}
+.intro{font-size:15px;line-height:1.45;color:#526B76;margin:0 0 12px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.card{border:1.5px solid #C6DCE1;border-radius:10px;background:#F8FCFD;padding:12px 10px;font-family:inherit;text-align:left;cursor:pointer;transition:.18s ease;min-height:86px}
+.card:hover{border-color:#00B3C7;transform:translateY(-1px)}
+.card.active{background:#2D8692;border-color:#2D8692;color:#fff}
+.card strong{display:block;font-size:15px;line-height:1.2;margin-bottom:5px}
+.card span{display:block;font-size:12.5px;line-height:1.35;color:#607985}
+.card.active span{color:#EAF7F9}
+.panel{border:1px solid #D6EEF2;border-radius:10px;background:#fff;padding:14px 16px;animation:fade .2s ease}
+.panel h3{font-size:18px;margin:0 0 7px;color:#0B2B3D}
+.question{font-size:15px;line-height:1.5;color:#35505C;margin:0 0 12px}
+.iteration{border-left:4px solid #00B3C7;background:#F5FBFC;padding:11px 13px;border-radius:6px}
+.iteration strong{display:block;font-size:13.5px;color:#0B2B3D;margin-bottom:4px}
+.iteration p{font-size:13.5px;line-height:1.45;color:#35505C;margin:0}
+@keyframes fade{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.cards{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="intro">Haga clic en cada criterio para descubrir qué conviene revisar y cómo puede continuar la conversación con la IA.</p>
+  <div class="cards">
+    <button class="card active" type="button" onclick="showItem('alineacion',this)"><strong>Alineación</strong><span>Resultado y evidencia</span></button>
+    <button class="card" type="button" onclick="showItem('supuestos',this)"><strong>Supuestos</strong><span>Lo que se da por cierto</span></button>
+    <button class="card" type="button" onclick="showItem('condiciones',this)"><strong>Condiciones</strong><span>Contexto y restricciones</span></button>
+    <button class="card" type="button" onclick="showItem('factibilidad',this)"><strong>Factibilidad</strong><span>Tiempo y recursos</span></button>
+  </div>
+  <div id="panel" class="panel"></div>
+</div>
+<script>
+const data={
+  alineacion:{title:'Alineación',q:'¿La evidencia realmente permite demostrar el resultado esperado?',i:'Revisa nuevamente la relación entre el resultado y la evidencia. Dime qué parte del resultado queda claramente demostrada y cuál podría quedar poco visible. No propongas una nueva evidencia todavía.'},
+  supuestos:{title:'Supuestos',q:'¿Qué información se está dando por cierta sin haber sido confirmada?',i:'Ahora identifica los supuestos que estás utilizando para hacer esta propuesta. Señala cuáles dependen de información que todavía no te he dado y cuáles debería validar antes de continuar.'},
+  condiciones:{title:'Condiciones',q:'¿Se consideraron participantes, modalidad, recursos y restricciones?',i:'Vuelve a revisar la propuesta usando únicamente las condiciones del contexto que ya te compartí. Indica qué aspecto no está suficientemente considerado y qué dato adicional te ayudaría a revisarlo mejor.'},
+  factibilidad:{title:'Factibilidad',q:'¿La propuesta puede realizarse dentro del tiempo y las condiciones disponibles?',i:'Evalúa ahora la factibilidad de esta evidencia con el tiempo, recursos y modalidad disponibles. Señala qué podría volverla poco realista y qué ajuste mínimo permitiría conservar su intención.'}
+};
+function showItem(key,btn){
+  document.querySelectorAll('.card').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const d=data[key];
+  document.getElementById('panel').innerHTML=`<h3>${d.title}</h3><p class="question">${d.q}</p><div class="iteration"><strong>Ejemplo de instrucción para iterar</strong><p>${d.i}</p></div>`;
+}
+showItem('alineacion',document.querySelector('.card.active'));
+</script>
+</body>
+</html>
