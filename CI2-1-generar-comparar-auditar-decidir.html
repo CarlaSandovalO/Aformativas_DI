@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI2-1 Generar comparar auditar decidir</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.wrap{max-width:1000px;margin:0 auto;padding:4px}
+.intro{margin:0 0 12px;font-size:15px;line-height:1.45;color:#526B76}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.step{border:1.5px solid #C6DCE1;border-radius:10px;background:#F8FCFD;padding:12px 8px;cursor:pointer;font-family:inherit;text-align:center;transition:.18s ease}
+.step:hover{border-color:#00B3C7;transform:translateY(-1px)}
+.step.active{background:#0B2B3D;border-color:#0B2B3D;color:#fff}
+.icon{width:42px;height:42px;border-radius:50%;margin:0 auto 7px;display:flex;align-items:center;justify-content:center;border:1.5px solid #00B3C7;background:#fff;color:#00A8BA;font-size:21px;font-weight:700}
+.step.active .icon{background:#F4FAFB}
+.step strong{display:block;font-size:16px;line-height:1.2}
+.step span{display:block;font-size:12.5px;line-height:1.3;color:#607985;margin-top:4px}
+.step.active span{color:#D6EEF2}
+.panel{border:1px solid #D6EEF2;border-radius:10px;background:#fff;padding:15px 16px;animation:fade .2s ease}
+.panel-top{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;background:#EAF7F9;color:#2D8692;border-radius:999px;padding:5px 9px}
+.panel h3{font-size:18px;margin:0;color:#0B2B3D}
+.panel p{font-size:14px;line-height:1.5;color:#35505C;margin:0 0 11px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.item{background:#F8FCFD;border:1px solid #DCE6E9;border-radius:8px;padding:10px 11px}
+.item strong{display:block;font-size:13.5px;margin-bottom:4px;color:#0B2B3D}
+.item span{font-size:13px;line-height:1.4;color:#526B76}
+.prompt{margin-top:10px;border-left:4px solid #00B3C7;background:#F5FBFC;padding:10px 12px;font-size:13px;line-height:1.45;color:#35505C}
+@keyframes fade{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:720px){.steps{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="intro">Haga clic en cada momento para observar cómo cambia el papel de la IA y la decisión del diseñador.</p>
+<div class="steps">
+<button class="step active" type="button" onclick="showStep('generar',this)"><div class="icon">+</div><strong>Generar</strong><span>Amplíe opciones</span></button>
+<button class="step" type="button" onclick="showStep('comparar',this)"><div class="icon">↔</div><strong>Comparar</strong><span>Contraste alternativas</span></button>
+<button class="step" type="button" onclick="showStep('auditar',this)"><div class="icon">⌕</div><strong>Auditar</strong><span>Busque debilidades</span></button>
+<button class="step" type="button" onclick="showStep('decidir',this)"><div class="icon">✓</div><strong>Decidir</strong><span>Conserve o ajuste</span></button>
+</div>
+<div id="panel" class="panel"></div>
+</div>
+<script>
+const data={
+generar:{tag:'Momento 1',title:'Generar',lead:'La IA ayuda a abrir posibilidades. La primera respuesta se toma como punto de partida, no como solución final.',q:'¿Qué opciones distintas podría explorar?',ai:'Proponer evidencias, experiencias o variantes a partir del mismo resultado.',human:'Revisar si las opciones realmente responden al propósito y al contexto.',prompt:'Pida varias alternativas claramente diferentes y evite que la IA elija por usted todavía.'},
+comparar:{tag:'Momento 2',title:'Comparar',lead:'Después de generar, conviene detener la producción y contrastar las alternativas disponibles.',q:'¿Qué permite observar cada opción y bajo qué condiciones?',ai:'Organizar diferencias, ventajas, limitaciones y requerimientos de cada alternativa.',human:'Definir qué criterios pesan más para este proyecto.',prompt:'Pida que compare las opciones sin añadir nuevas propuestas.'},
+auditar:{tag:'Momento 3',title:'Auditar',lead:'La IA cambia de rol: deja de proponer y funciona como una segunda mirada crítica.',q:'¿Qué podría estar desalineado, incompleto o sustentado en supuestos?',ai:'Detectar vacíos, incoherencias, supuestos y condiciones no consideradas.',human:'Valorar si cada observación realmente exige un ajuste.',prompt:'Indique explícitamente: “No proponga una nueva solución todavía; primero señale qué debería revisarse”.'},
+decidir:{tag:'Momento 4',title:'Decidir',lead:'La decisión final permanece en manos del diseñador, quien integra la información disponible y el conocimiento del contexto.',q:'¿Qué conviene conservar, modificar o descartar?',ai:'Ayudar a refinar la alternativa seleccionada después de la decisión.',human:'Asumir la decisión final sobre pertinencia, coherencia y viabilidad.',prompt:'Use la IA para mejorar la opción elegida, no para sustituir la decisión de diseño.'}
+};
+function showStep(key,btn){
+ document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');
+ const d=data[key];
+ document.getElementById('panel').innerHTML=`<div class="panel-top"><span class="badge">${d.tag}</span><h3>${d.title}</h3></div><p>${d.lead}</p><div class="grid"><div class="item"><strong>Pregunta guía</strong><span>${d.q}</span></div><div class="item"><strong>La IA puede apoyar en</strong><span>${d.ai}</span></div><div class="item"><strong>El diseñador decide</strong><span>${d.human}</span></div><div class="item"><strong>Clave de interacción</strong><span>${d.prompt}</span></div></div>`;
+}
+showStep('generar',document.querySelector('.step.active'));
+</script>
+</body>
+</html>
