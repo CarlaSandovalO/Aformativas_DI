@@ -18,29 +18,31 @@ html,body{margin:0;padding:0;background:#ffffff;font-family:Poppins,Arial,sans-s
 .bank-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:15px;font-weight:700;color:#0B2B3D}
 .bank-title .dot{width:10px;height:10px;border-radius:50%;background:#00B3C7;flex:0 0 auto}
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.card{background:#fff;border:1px solid #D5E5E9;border-radius:12px;padding:13px 14px;cursor:grab;font-size:14px;line-height:1.45;color:#284551;box-shadow:0 2px 7px rgba(11,43,61,.05);transition:.18s ease;position:relative;padding-left:44px}
+.card{background:#fff;border:1px solid #D5E5E9;border-radius:12px;padding:12px 14px 12px 44px;cursor:grab;font-size:14px;line-height:1.45;color:#284551;box-shadow:0 2px 7px rgba(11,43,61,.05);transition:.18s ease;position:relative;min-width:0;overflow-wrap:break-word}
 .card:before{content:attr(data-letter);position:absolute;left:13px;top:13px;width:22px;height:22px;border-radius:50%;background:#EEF7F9;color:#2D8692;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
 .card:hover{transform:translateY(-1px);border-color:#62BED3;box-shadow:0 5px 12px rgba(11,43,61,.08)}
 .card.dragging{opacity:.45}
-.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:17px}
-.zone{border-radius:15px;overflow:hidden;min-height:280px;display:flex;flex-direction:column;background:#fff;box-shadow:0 3px 10px rgba(11,43,61,.05)}
+.top-zones{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:14px}
+.bottom-zone{margin-bottom:17px}
+.zone{border-radius:15px;overflow:hidden;display:flex;flex-direction:column;background:#fff;box-shadow:0 3px 10px rgba(11,43,61,.05)}
 .zone.result{border:2px solid #47B8C8}.zone.evidence{border:2px solid #E7A34B}.zone.audit{border:2px solid #8D79C8}
-.zone-head{padding:15px 15px 12px;display:flex;align-items:center;gap:10px;color:#fff}
+.zone-head{padding:15px 16px 12px;display:flex;align-items:center;gap:10px;color:#fff}
 .result .zone-head{background:#2D9EAD}.evidence .zone-head{background:#D58A2D}.audit .zone-head{background:#735FB4}
 .icon{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .zone-title{font-size:16px;font-weight:700;line-height:1.2}.zone-question{font-size:12.5px;line-height:1.35;opacity:.92;margin-top:3px}
-.drop-area{flex:1;padding:12px;display:flex;flex-direction:column;gap:9px;min-height:185px;background:#fff}
+.drop-area{padding:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-height:150px;background:#fff;align-content:start}
+.audit .drop-area{grid-template-columns:repeat(2,minmax(0,1fr));min-height:135px}
 .drop-area.over{background:#F7FBFC}
-.placeholder{border:1.5px dashed #CEDDE1;border-radius:10px;padding:14px 12px;text-align:center;color:#7A919B;font-size:13px;line-height:1.4;margin:auto 0}
-.zone .card{width:100%;font-size:13.5px;background:#fff}
+.placeholder{grid-column:1/-1;border:1.5px dashed #CEDDE1;border-radius:10px;padding:16px 12px;text-align:center;color:#7A919B;font-size:13px;line-height:1.4;margin:auto 0}
+.zone .card{width:100%;font-size:14px;line-height:1.45;min-height:0}
 .correct{border:2px solid #55AE72!important;background:#F2FBF5!important}.incorrect{border:2px solid #D96B6B!important;background:#FFF5F5!important}
 .actions{display:flex;gap:10px;justify-content:center;margin:18px 0 14px}
 .btn{border:0;border-radius:10px;padding:11px 22px;font:700 14px Poppins,Arial,sans-serif;cursor:pointer;transition:.15s ease}
 .btn-primary{background:#00AFC2;color:#fff}.btn-primary:hover{background:#0798A8}.btn-secondary{background:#EEF5F6;color:#0B2B3D;border:1px solid #D6E4E7}.btn-secondary:hover{background:#E4EEF0}
 .feedback{display:none;border-radius:11px;padding:13px 15px;font-size:14px;line-height:1.5;margin:0 0 14px}.feedback.ok{display:block;background:#EFF9F2;border:1px solid #B8DFC3;color:#285A37}.feedback.error{display:block;background:#FFF5F5;border:1px solid #EAC0C0;color:#813737}.feedback strong{font-weight:700}
 .closing{text-align:center;font-size:14px;line-height:1.5;color:#526B76;padding:3px 12px 8px}.closing strong{color:#0B2B3D}
-@media(max-width:820px){.zones{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.zone{min-height:auto}.drop-area{min-height:130px}}
+@media(max-width:820px){.top-zones{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.drop-area,.audit .drop-area{grid-template-columns:1fr;min-height:125px}}
 @media(max-width:560px){.wrap{padding:4px}.hero{padding:18px}.hero h1{font-size:19px}}
 </style>
 </head>
@@ -52,21 +54,21 @@ html,body{margin:0;padding:0;background:#ffffff;font-family:Poppins,Arial,sans-s
     <p>Distinga qué corresponde al aprendizaje esperado, qué funciona como evidencia y qué instrucción ayuda a revisar la coherencia con IA.</p>
   </div>
 
-  <p class="instructions">Arrastre cada tarjeta al espacio que corresponda. Lea el sentido completo de cada frase antes de decidir: algunas describen lo que el participante debe lograr, otras muestran cómo demostrar ese aprendizaje y otras son instrucciones para pedir a la IA una revisión crítica.</p>
+  <p class="instructions">Arrastre cada tarjeta al espacio que corresponda. Lea el sentido completo de cada frase antes de decidir: algunas expresan lo que el participante debe lograr, otras muestran cómo demostrar ese aprendizaje y otras son instrucciones para pedir a la IA una revisión crítica.</p>
 
   <div class="bank">
     <div class="bank-title"><span class="dot"></span>Tarjetas para clasificar</div>
     <div class="cards" id="cardBank">
-      <div class="card" draggable="true" data-type="resultado" data-letter="A">Analizar alternativas para resolver un conflicto laboral y justificar la decisión más adecuada según el contexto.</div>
+      <div class="card" draggable="true" data-type="resultado" data-letter="A">Analizar alternativas para resolver un conflicto laboral y justificar la decisión más adecuada.</div>
       <div class="card" draggable="true" data-type="evidencia" data-letter="B">Análisis de un caso con comparación de alternativas y justificación de una decisión.</div>
-      <div class="card" draggable="true" data-type="auditoria" data-letter="C">Revisa si esta evidencia realmente permite demostrar el resultado esperado y señala posibles desajustes.</div>
+      <div class="card" draggable="true" data-type="auditoria" data-letter="C">Revisa si esta evidencia realmente permite demostrar el resultado y señala posibles desajustes.</div>
       <div class="card" draggable="true" data-type="resultado" data-letter="D">Elaborar una recomendación de mejora a partir del análisis de una situación de desempeño.</div>
       <div class="card" draggable="true" data-type="evidencia" data-letter="E">Entrega de una recomendación argumentada basada en la situación analizada y en criterios definidos.</div>
-      <div class="card" draggable="true" data-type="auditoria" data-letter="F">Identifica supuestos, vacíos de información y aspectos del contexto que deberían revisarse antes de aceptar esta propuesta.</div>
+      <div class="card" draggable="true" data-type="auditoria" data-letter="F">Identifica supuestos, vacíos de información y aspectos del contexto que conviene revisar antes de aceptar la propuesta.</div>
     </div>
   </div>
 
-  <div class="zones">
+  <div class="top-zones">
     <div class="zone result">
       <div class="zone-head">
         <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle><path d="M15 9l5-5"></path><path d="M17 4h3v3"></path></svg></div>
@@ -82,7 +84,9 @@ html,body{margin:0;padding:0;background:#ffffff;font-family:Poppins,Arial,sans-s
       </div>
       <div class="drop-area" data-zone="evidencia"><div class="placeholder">Arrastre aquí el producto o desempeño que permite observar el aprendizaje.</div></div>
     </div>
+  </div>
 
+  <div class="bottom-zone">
     <div class="zone audit">
       <div class="zone-head">
         <div class="icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"></circle><path d="M14.5 14.5L20 20"></path><path d="M8 10l1.5 1.5L12.5 8"></path></svg></div>
