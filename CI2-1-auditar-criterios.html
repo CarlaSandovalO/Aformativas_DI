@@ -20,12 +20,9 @@ html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-seri
 .panel{border:1px solid #D6EEF2;border-radius:10px;background:#fff;padding:15px 16px;animation:fade .2s ease}
 .panel h3{font-size:18px;margin:0 0 7px;color:#0B2B3D}
 .question{font-size:15px;line-height:1.5;color:#35505C;margin:0 0 12px}
-.detail{background:#E7F7F9;border:1px solid #62BED3;border-radius:9px;padding:11px 13px;margin-bottom:11px}
+.detail{background:#E7F7F9;border:1px solid #62BED3;border-radius:9px;padding:11px 13px}
 .detail strong{display:block;font-size:13.5px;margin-bottom:4px;color:#0B2B3D}
 .detail p{font-size:13.5px;line-height:1.45;color:#35505C;margin:0}
-.iteration{border-left:5px solid #00B3C7;background:#fff;padding:11px 13px}
-.iteration strong{display:block;font-size:13.5px;color:#0B2B3D;margin-bottom:4px}
-.iteration p{font-size:13.5px;line-height:1.45;color:#35505C;margin:0}
 @keyframes fade{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.cards{grid-template-columns:1fr}}
@@ -47,26 +44,22 @@ const data={
   alineacion:{
     title:'Alineación',
     q:'¿La evidencia permite demostrar realmente el resultado de aprendizaje?',
-    d:'Revise si la evidencia hace visible la acción o desempeño expresado en el resultado y si alguna parte importante queda fuera.',
-    p:'Revisa la relación entre el resultado y la evidencia seleccionada. Indica qué parte del resultado queda claramente demostrada y cuál podría quedar poco visible. No propongas una nueva evidencia todavía.'
+    d:'Revise si la evidencia hace visible la acción o desempeño expresado en el resultado y si alguna parte importante queda fuera.'
   },
   preparacion:{
     title:'Preparación',
     q:'¿Las experiencias permiten practicar lo que después se solicitará en la evidencia?',
-    d:'Compruebe que el participante tenga oportunidades suficientes para desarrollar y practicar los conocimientos, decisiones y desempeños requeridos.',
-    p:'Revisa las experiencias propuestas y compáralas con la evidencia seleccionada. Señala qué acciones se practican suficientemente, cuáles aparecen poco y qué podría llegar a pedirse sin preparación previa. No hagas cambios todavía.'
+    d:'Compruebe que el participante tenga oportunidades suficientes para desarrollar y practicar los conocimientos, decisiones y desempeños requeridos.'
   },
   progresion:{
     title:'Progresión',
     q:'¿La secuencia avanza con una complejidad adecuada y con los apoyos necesarios?',
-    d:'Busque saltos de dificultad, prácticas demasiado tempranas o apoyos que desaparecen antes de que el participante pueda actuar con mayor autonomía.',
-    p:'Analiza la progresión de las experiencias. Identifica saltos de complejidad, apoyos insuficientes o momentos en los que se exige autonomía demasiado pronto. Explica primero qué debería revisar.'
+    d:'Busque saltos de dificultad, prácticas demasiado tempranas o apoyos que desaparecen antes de que el participante pueda actuar con mayor autonomía.'
   },
   factibilidad:{
     title:'Factibilidad',
     q:'¿El diseño puede realizarse con el tiempo, los recursos y las condiciones disponibles?',
-    d:'Contraste la propuesta con la modalidad, duración, carga de trabajo, recursos y restricciones definidas para el proyecto.',
-    p:'Evalúa la factibilidad de este diseño considerando el tiempo, la modalidad, los recursos y las restricciones que ya definimos. Señala qué parte podría ser poco realista y por qué. No ajustes la propuesta todavía.'
+    d:'Contraste la propuesta con la modalidad, duración, carga de trabajo, recursos y restricciones definidas para el proyecto.'
   }
 };
 const cards=[...document.querySelectorAll('.card')];
@@ -76,7 +69,7 @@ function showItem(key,btn){
   btn.classList.add('active');
   btn.setAttribute('aria-pressed','true');
   const d=data[key];
-  panel.innerHTML=`<h3>${d.title}</h3><p class="question">${d.q}</p><div class="detail"><strong>Qué conviene observar</strong><p>${d.d}</p></div><div class="iteration"><strong>Ejemplo de prompt para iterar</strong><p>“${d.p}”</p></div>`;
+  panel.innerHTML=`<h3>${d.title}</h3><p class="question">${d.q}</p><div class="detail"><strong>Qué conviene observar</strong><p>${d.d}</p></div>`;
 }
 cards.forEach(btn=>btn.addEventListener('click',()=>showItem(btn.dataset.key,btn)));
 cards.forEach(btn=>btn.setAttribute('aria-pressed','false'));
