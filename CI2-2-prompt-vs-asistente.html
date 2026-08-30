@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt vs Asistente de IA</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.wrap{max-width:1000px;margin:0 auto;padding:4px}
+.intro{font-size:15px;line-height:1.5;color:#526B76;margin:0 0 14px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px}
+.tab{border:1.5px solid #C6DCE1;border-radius:10px;background:#F8FCFD;padding:12px 10px;cursor:pointer;font-family:inherit;text-align:left;min-height:82px}
+.tab.active{background:#2D8692;border-color:#2D8692;color:#fff}
+.tab strong{display:block;font-size:15px;margin-bottom:4px}
+.tab span{font-size:12.5px;line-height:1.35;color:#607985}
+.tab.active span{color:#EAF7F9}
+.panel{border:1px solid #D6EEF2;border-radius:10px;padding:15px 16px;background:#fff}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{border-radius:10px;padding:14px;border:1px solid #D6EEF2;background:#F4FAFB}
+.card.example{background:#E7F7F9;border-color:#62BED3}
+.card h3{font-size:16px;margin:0 0 7px}
+.card p{font-size:13.5px;line-height:1.5;color:#35505C;margin:0}
+.note{margin-top:10px;border-left:5px solid #00B3C7;padding:11px 13px;background:#fff;font-size:13.5px;line-height:1.45;color:#35505C}
+@media(max-width:700px){.tabs,.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="intro">Explore tres situaciones para decidir cuándo basta un prompt y cuándo puede aportar más valor un asistente de IA.</p>
+  <div class="tabs" role="group" aria-label="Situaciones de uso">
+    <button class="tab active" type="button" data-key="puntual"><strong>Tarea puntual</strong><span>Una necesidad concreta</span></button>
+    <button class="tab" type="button" data-key="recurrente"><strong>Tarea recurrente</strong><span>Mismos criterios, varias veces</span></button>
+    <button class="tab" type="button" data-key="cambiante"><strong>Tarea cambiante</strong><span>Contexto y criterios variables</span></button>
+  </div>
+  <div id="panel" class="panel" aria-live="polite"></div>
+</div>
+<script>
+const data={
+  puntual:{
+    prompt:'Pedir tres alternativas de evidencia para un resultado específico.',
+    assistant:'Crear un asistente sería innecesario si la tarea se resolverá una sola vez.',
+    decision:'Aquí suele bastar un prompt claro y contextualizado.'
+  },
+  recurrente:{
+    prompt:'Repetir cada vez el contexto, los criterios de revisión y los límites.',
+    assistant:'Mantener una función estable para revisar propuestas usando los mismos criterios y restricciones.',
+    decision:'Aquí un asistente puede ahorrar repetición y aportar consistencia.'
+  },
+  cambiante:{
+    prompt:'Adaptar la instrucción a cada proyecto, contexto o necesidad nueva.',
+    assistant:'Podría quedar demasiado rígido si sus criterios cambian constantemente.',
+    decision:'Aquí conviene valorar si realmente existe una función suficientemente estable como para reutilizarla.'
+  }
+};
+const tabs=[...document.querySelectorAll('.tab')];
+const panel=document.getElementById('panel');
+function show(key,btn){
+  tabs.forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const d=data[key];
+  panel.innerHTML=`<div class="cols"><div class="card"><h3>Con un prompt</h3><p>${d.prompt}</p></div><div class="card example"><h3>Con un asistente</h3><p>${d.assistant}</p></div></div><div class="note"><strong>Decisión:</strong> ${d.decision}</div>`;
+}
+tabs.forEach(btn=>btn.addEventListener('click',()=>show(btn.dataset.key,btn)));
+show('puntual',tabs[0]);
+</script>
+</body>
+</html>
