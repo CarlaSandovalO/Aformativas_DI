@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurar asistente de IA</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.wrap{max-width:1000px;margin:0 auto;padding:4px}
+.intro{font-size:15px;line-height:1.5;color:#526B76;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.field{background:#F4FAFB;border:1px solid #D6EEF2;border-radius:10px;padding:12px}
+.field label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+.field textarea{width:100%;min-height:88px;resize:vertical;border:1px solid #BFD8DF;border-radius:8px;padding:10px;font-family:inherit;font-size:14px;color:#0B2B3D;background:#fff}
+.field textarea:focus{outline:3px solid rgba(0,179,199,.18);border-color:#00B3C7}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+button{border:0;border-radius:8px;padding:10px 14px;font-family:inherit;font-weight:700;cursor:pointer}
+.primary{background:#2D8692;color:#fff}
+.secondary{background:#E7F7F9;color:#0B2B3D;border:1px solid #62BED3}
+.output{border:1px solid #62BED3;background:#E7F7F9;border-radius:10px;padding:14px;display:none}
+.output h3{font-size:16px;margin:0 0 8px}
+.output p{font-size:13.5px;line-height:1.5;color:#35505C;margin:0 0 7px}
+.empty{font-size:13.5px;color:#7A8E97;margin:0}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="intro">Complete los cuatro elementos básicos. La ficha final le ayudará a visualizar una primera configuración antes de llevarla a la herramienta de IA que utilice.</p>
+  <div class="grid">
+    <div class="field"><label for="proposito">Propósito</label><textarea id="proposito" placeholder="¿Para qué existe el asistente y qué tarea debe apoyar?"></textarea></div>
+    <div class="field"><label for="contexto">Contexto</label><textarea id="contexto" placeholder="¿Qué información debe considerar al responder?"></textarea></div>
+    <div class="field"><label for="criterios">Criterios</label><textarea id="criterios" placeholder="¿Qué criterios o principios debe aplicar?"></textarea></div>
+    <div class="field"><label for="limites">Límites</label><textarea id="limites" placeholder="¿Qué no debe asumir, inventar o decidir?"></textarea></div>
+  </div>
+  <div class="actions">
+    <button class="primary" type="button" id="generar">Ver ficha de configuración</button>
+    <button class="secondary" type="button" id="ejemplo">Cargar ejemplo</button>
+    <button class="secondary" type="button" id="limpiar">Limpiar</button>
+  </div>
+  <div id="salida" class="output" aria-live="polite"></div>
+</div>
+<script>
+const ids=['proposito','contexto','criterios','limites'];
+const get=id=>document.getElementById(id);
+const salida=get('salida');
+function val(id){return get(id).value.trim()}
+function render(){
+  const data=ids.map(id=>val(id));
+  if(data.every(x=>!x)){
+    salida.style.display='block';
+    salida.innerHTML='<p class="empty">Complete al menos un elemento para generar la ficha.</p>';
+    return;
+  }
+  salida.style.display='block';
+  salida.innerHTML=`<h3>Ficha de configuración</h3>
+  <p><strong>Propósito:</strong> ${data[0]||'Pendiente de definir'}</p>
+  <p><strong>Contexto:</strong> ${data[1]||'Pendiente de definir'}</p>
+  <p><strong>Criterios:</strong> ${data[2]||'Pendiente de definir'}</p>
+  <p><strong>Límites:</strong> ${data[3]||'Pendiente de definir'}</p>`;
+}
+get('generar').addEventListener('click',render);
+get('ejemplo').addEventListener('click',()=>{
+  get('proposito').value='Apoyar la revisión de propuestas de Diseño Instruccional antes de tomar decisiones.';
+  get('contexto').value='Considerar participantes, modalidad, duración, recursos, restricciones y resultados definidos.';
+  get('criterios').value='Revisar alineación entre resultados, evidencias y experiencias, además de pertinencia y factibilidad.';
+  get('limites').value='No inventar información faltante, no modificar decisiones sin explicarlo y no asumir que toda propuesta necesita cambios.';
+  render();
+});
+get('limpiar').addEventListener('click',()=>{
+  ids.forEach(id=>get(id).value='');
+  salida.style.display='none';
+  salida.innerHTML='';
+});
+</script>
+</body>
+</html>
