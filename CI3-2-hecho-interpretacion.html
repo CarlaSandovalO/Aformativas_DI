@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hecho o interpretación</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,sans-serif;background:#F8FCFD;color:#0B2B3D}
+  .wrap{max-width:980px;margin:0 auto;padding:22px}
+  .card{background:#fff;border:1px solid #DCE6E9;border-radius:16px;padding:22px;box-shadow:0 2px 8px rgba(11,43,61,.06)}
+  h1{font-size:26px;margin:0 0 8px}
+  .lead{margin:0 0 18px;line-height:1.55}
+  .instructions{background:#E7F7F9;border:1px solid #62BED3;border-radius:12px;padding:14px 16px;margin-bottom:18px;line-height:1.5}
+  .status{min-height:24px;margin:12px 0;font-weight:700}
+  .board{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+  .zone{min-height:180px;border:2px dashed #62BED3;border-radius:14px;padding:14px;background:#F4FAFB}
+  .zone h2{font-size:18px;margin:0 0 10px;text-align:center}
+  .items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+  .item{border:1px solid #D6EEF2;border-radius:12px;background:#fff;padding:12px;cursor:grab;line-height:1.4}
+  .item:focus{outline:3px solid #00B3C7;outline-offset:2px}
+  .item.selected{border:2px solid #00B3C7;background:#E7F7F9}
+  .placed{margin:8px 0;cursor:default}
+  .correct{border-color:#2D8692;background:#F4FAFB}
+  .wrong{border-color:#B85C5C;background:#FFF7F7}
+  .feedback{font-size:13px;margin-top:6px;line-height:1.35}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  button{border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+  .primary{background:#0B2B3D;color:#fff}
+  .secondary{background:#E7F7F9;color:#0B2B3D;border:1px solid #62BED3}
+  .score{margin-top:16px;padding:14px 16px;border-left:5px solid #2D8692;background:#fff}
+  @media(max-width:700px){.board,.items{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Hecho o interpretación</h1>
+    <p class="lead">Clasifique cada afirmación según corresponda. Puede arrastrarla a una categoría o seleccionarla y luego hacer clic en <strong>Hecho</strong> o <strong>Interpretación</strong>.</p>
+    <div class="instructions"><strong>Propósito:</strong> practicar la diferencia entre información observable y conclusiones que requieren verificación antes de una conversación de retroalimentación.</div>
+
+    <div id="status" class="status" aria-live="polite"></div>
+
+    <div class="board">
+      <div class="zone" id="hecho" tabindex="0" aria-label="Categoría Hecho">
+        <h2>Hecho</h2>
+      </div>
+      <div class="zone" id="interpretacion" tabindex="0" aria-label="Categoría Interpretación">
+        <h2>Interpretación</h2>
+      </div>
+    </div>
+
+    <div id="items" class="items"></div>
+
+    <div class="actions">
+      <button class="secondary" id="btnHecho">Enviar a Hecho</button>
+      <button class="secondary" id="btnInterpretacion">Enviar a Interpretación</button>
+      <button class="primary" id="btnRevisar">Revisar respuestas</button>
+      <button class="secondary" id="btnReiniciar">Reiniciar</button>
+    </div>
+
+    <div id="score" class="score" style="display:none" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+const data = [
+  {id:1,text:"Llegó 15 minutos tarde a la reunión.",cat:"hecho",fb:"Puede observarse y verificarse mediante la hora de llegada."},
+  {id:2,text:"No está comprometido con el equipo.",cat:"interpretacion",fb:"Expresa una conclusión sobre la actitud de la persona; requiere evidencia adicional."},
+  {id:3,text:"Entregó el informe dos días después de la fecha acordada.",cat:"hecho",fb:"La fecha de entrega puede comprobarse."},
+  {id:4,text:"No le interesa mejorar.",cat:"interpretacion",fb:"Atribuye una intención que no ha sido verificada."},
+  {id:5,text:"Interrumpió tres veces durante la conversación.",cat:"hecho",fb:"Describe un comportamiento observable y cuantificable."},
+  {id:6,text:"Está a la defensiva.",cat:"interpretacion",fb:"Es una valoración del comportamiento, no un dato directamente verificable."},
+  {id:7,text:"No respondió dos mensajes enviados durante la semana.",cat:"hecho",fb:"Puede comprobarse revisando los mensajes enviados y las respuestas."},
+  {id:8,text:"No valora las opiniones de los demás.",cat:"interpretacion",fb:"Generaliza una intención o actitud a partir de una interpretación."}
+];
+
+let selected=null;
+const placements={};
+
+function makeItem(d){
+  const el=document.createElement("div");
+  el.className="item";
+  el.draggable=true;
+  el.tabIndex=0;
+  el.dataset.id=d.id;
+  el.textContent=d.text;
+  el.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain",d.id));
+  el.addEventListener("click",()=>selectItem(el,d.id));
+  el.addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();selectItem(el,d.id);}
+  });
+  return el;
+}
+
+function selectItem(el,id){
+  document.querySelectorAll(".item").forEach(x=>x.classList.remove("selected"));
+  selected=id;
+  el.classList.add("selected");
+  document.getElementById("status").textContent="Afirmación seleccionada. Elija una categoría.";
+}
+
+function place(id,cat){
+  const item=document.querySelector('.item[data-id="'+id+'"]');
+  if(!item)return;
+  placements[id]=cat;
+  item.classList.remove("selected","correct","wrong");
+  item.classList.add("placed");
+  item.querySelector(".feedback")?.remove();
+  document.getElementById(cat).appendChild(item);
+  selected=null;
+  document.getElementById("status").textContent="Afirmación ubicada en "+(cat==="hecho"?"Hecho":"Interpretación")+".";
+}
+
+["hecho","interpretacion"].forEach(cat=>{
+  const zone=document.getElementById(cat);
+  zone.addEventListener("dragover",e=>e.preventDefault());
+  zone.addEventListener("drop",e=>{e.preventDefault();place(Number(e.dataTransfer.getData("text/plain")),cat);});
+});
+
+document.getElementById("btnHecho").onclick=()=>{if(selected)place(selected,"hecho")};
+document.getElementById("btnInterpretacion").onclick=()=>{if(selected)place(selected,"interpretacion")};
+
+document.getElementById("btnRevisar").onclick=()=>{
+  let ok=0;
+  data.forEach(d=>{
+    const el=document.querySelector('.item[data-id="'+d.id+'"]');
+    el.classList.remove("correct","wrong");
+    el.querySelector(".feedback")?.remove();
+    const fb=document.createElement("div");
+    fb.className="feedback";
+    if(placements[d.id]===d.cat){
+      ok++; el.classList.add("correct");
+      fb.textContent="Correcto.";
+    }else{
+      el.classList.add("wrong");
+      fb.textContent="Revise: "+d.fb;
+    }
+    el.appendChild(fb);
+  });
+  const score=document.getElementById("score");
+  score.style.display="block";
+  score.innerHTML="<strong>Resultado: "+ok+" de "+data.length+"</strong><br>"+(ok===data.length?"Excelente. Distinguió correctamente hechos e interpretaciones.":"Revise las afirmaciones marcadas y vuelva a intentarlo.");
+};
+
+document.getElementById("btnReiniciar").onclick=init;
+
+function init(){
+  selected=null;
+  Object.keys(placements).forEach(k=>delete placements[k]);
+  const items=document.getElementById("items");
+  items.innerHTML="";
+  document.getElementById("hecho").querySelectorAll(".item").forEach(x=>x.remove());
+  document.getElementById("interpretacion").querySelectorAll(".item").forEach(x=>x.remove());
+  data.forEach(d=>items.appendChild(makeItem(d)));
+  document.getElementById("score").style.display="none";
+  document.getElementById("score").innerHTML="";
+  document.getElementById("status").textContent="";
+}
+init();
+</script>
+</body>
+</html>
