@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>¿Está alineado?</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:8px;background:#F4FAFB;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.activity{max-width:1000px;margin:0 auto;background:#FFFFFF;border:1px solid #D6EEF2;border-radius:14px;overflow:hidden}
+.screen{display:none}
+.screen.active{display:block}
+.cover{padding:42px 38px 44px;text-align:center}
+.cover-icon{width:62px;height:62px;border-radius:50%;margin:0 auto 18px;background:#00B3C7;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:700}
+.cover h1{margin:0 0 8px;font-size:27px;color:#0B2B3D}
+.cover h2{margin:0 auto 18px;max-width:720px;font-size:20px;line-height:1.4;font-weight:500;color:#078A9A}
+.cover p{max-width:750px;margin:0 auto 22px;font-size:15px;line-height:1.6;color:#526B76}
+.cover-topics{max-width:700px;margin:0 auto 24px;padding:12px 18px;background:#F4FAFB;border:1px solid #D6EEF2;border-radius:10px;font-size:14px;font-weight:600}
+.progress{display:none;justify-content:center;align-items:center;gap:7px;padding:10px 16px;background:#F8FCFD;border-bottom:1px solid #DCE6E9}
+.progress.show{display:flex}
+.step{width:27px;height:27px;border-radius:50%;border:1.5px solid #B9DBE1;background:#FFFFFF;color:#6B8791;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.step.active{background:#00B3C7;border-color:#00B3C7;color:#FFFFFF}
+.step.done{background:#2D8692;border-color:#2D8692;color:#FFFFFF}
+.line{width:46px;height:2px;background:#CBE5E9}
+.content{display:none;padding:25px 38px 34px}
+.kicker{margin:0 0 10px;text-align:center;color:#078A9A;text-transform:uppercase;letter-spacing:.6px;font-size:12px;font-weight:700}
+.context{max-width:850px;margin:0 auto 18px;padding:15px 17px;background:#F4FAFB;border-left:5px solid #2D8692;font-size:14px;line-height:1.55;color:#314753}
+.question{max-width:850px;margin:0 auto 20px;text-align:center;font-size:19px;line-height:1.45;font-weight:600}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;max-width:850px;margin:0 auto}
+.options.three{grid-template-columns:repeat(3,1fr)}
+.option{min-height:90px;border:1.5px solid #C6DCE1;border-radius:11px;background:#FFFFFF;padding:15px 13px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;line-height:1.4;color:#0B2B3D;transition:.15s ease}
+.option:hover:not(:disabled),.option:focus:not(:disabled){background:#F8FCFD;border-color:#00B3C7;outline:none}
+.option:disabled{cursor:default}
+.option.correct{border:2px solid #2D8692;background:#F0FAF5}
+.option.wrong{border:2px solid #D66A63;background:#FFF4F3}
+.feedback{display:none;max-width:850px;margin:17px auto 0;border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.5}
+.feedback.show{display:block}
+.feedback.ok{background:#F0FAF5;border:1px solid #B7DFC9;color:#17633F}
+.feedback.bad{background:#FFF3F3;border:1px solid #F1BBBB;color:#8C3333}
+.feedback strong{display:block;margin-bottom:3px}
+.actions{display:none;max-width:850px;margin:15px auto 0;justify-content:flex-end}
+.actions.show{display:flex}
+.btn{border:0;border-radius:9px;background:#00A6B8;color:#FFFFFF;padding:10px 19px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.btn:hover,.btn:focus{background:#078A9A}
+.btn.secondary{background:#EAF8F8;color:#087D8D;border:1px solid #B7E4E6}
+.finish{text-align:center;padding:34px 22px}
+.finish-icon{width:58px;height:58px;border-radius:50%;margin:0 auto 16px;background:#00B3C7;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:700}
+.finish h2{margin:0 0 10px;font-size:24px}
+.finish p{max-width:700px;margin:0 auto 22px;font-size:15px;line-height:1.55;color:#526B76}
+.key{max-width:720px;margin:0 auto 22px;background:#0B2B3D;color:#FFFFFF;border-radius:11px;padding:15px 18px;font-size:14px;line-height:1.5}
+@media(max-width:700px){
+  body{padding:4px}
+  .cover{padding:30px 18px 32px}
+  .cover h1{font-size:23px}
+  .cover h2{font-size:18px}
+  .content{padding:20px 15px 27px}
+  .question{font-size:17px}
+  .options,.options.three{grid-template-columns:1fr}
+  .option{min-height:auto}
+  .line{width:26px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="activity">
+
+  <div class="screen active" id="cover">
+    <div class="cover">
+      <div class="cover-icon">✓?</div>
+
+      <h1>¿Está alineado?</h1>
+
+      <h2>
+        Revise las decisiones antes de construir el instrumento de evaluación
+      </h2>
+
+      <p>
+        En cada situación deberá identificar la alternativa que mantiene mayor coherencia
+        entre el resultado, la evidencia y los criterios de evaluación.
+        Si su respuesta no es correcta, revise la retroalimentación e inténtelo nuevamente.
+      </p>
+
+      <div class="cover-topics">
+        Criterios pertinentes
+        &nbsp;·&nbsp;
+        Indicadores observables
+        &nbsp;·&nbsp;
+        Niveles diferenciados
+      </div>
+
+      <button class="btn" type="button" onclick="startActivity()">
+        Comenzar →
+      </button>
+    </div>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="step active" id="step1">1</div>
+    <div class="line"></div>
+    <div class="step" id="step2">2</div>
+    <div class="line"></div>
+    <div class="step" id="step3">3</div>
+  </div>
+
+  <div class="content" id="content">
+
+    <div class="screen active" id="q1">
+      <p class="kicker">Decisión 1 · Criterios</p>
+
+      <div class="context">
+        <strong>Resultado de aprendizaje:</strong>
+        Conducir conversaciones de retroalimentación aplicando criterios de preparación,
+        comunicación y seguimiento acordes con la situación.
+        <br><br>
+        <strong>Evidencia:</strong>
+        Resolución de un caso en el que el estudiante prepara y plantea una conversación de retroalimentación.
+      </div>
+
+      <div class="question">
+        ¿Cuál de los siguientes criterios está menos alineado con el resultado y la evidencia?
+      </div>
+
+      <div class="options">
+        <button class="option" type="button" onclick="answer(1,'A',this)">Uso de información objetiva</button>
+        <button class="option" type="button" onclick="answer(1,'B',this)">Claridad de la comunicación</button>
+        <button class="option" type="button" onclick="answer(1,'C',this)">Seguimiento de acuerdos</button>
+        <button class="option" type="button" onclick="answer(1,'D',this)">Diseño visual del documento</button>
+      </div>
+
+      <div class="feedback" id="feedback1"></div>
+      <div class="actions" id="actions1"></div>
+    </div>
+
+    <div class="screen" id="q2">
+      <p class="kicker">Decisión 2 · Indicadores</p>
+
+      <div class="context">
+        <strong>Criterio:</strong> Claridad de la comunicación.
+        <br><br>
+        El indicador debe permitir reconocer ese criterio a partir de algo que pueda observarse en la evidencia.
+      </div>
+
+      <div class="question">
+        ¿Cuál indicador está formulado de manera más observable?
+      </div>
+
+      <div class="options three">
+        <button class="option" type="button" onclick="answer(2,'A',this)">Demuestra buena comunicación.</button>
+        <button class="option" type="button" onclick="answer(2,'B',this)">Tiene una actitud adecuada al comunicarse.</button>
+        <button class="option" type="button" onclick="answer(2,'C',this)">Formula el mensaje de manera clara, específica y respetuosa.</button>
+      </div>
+
+      <div class="feedback" id="feedback2"></div>
+      <div class="actions" id="actions2"></div>
+    </div>
+
+    <div class="screen" id="q3">
+      <p class="kicker">Decisión 3 · Niveles de desempeño</p>
+
+      <div class="context">
+        <strong>Criterio:</strong> Uso de información objetiva.
+        <br><br>
+        Los niveles deben mostrar una progresión observable, no limitarse a utilizar calificativos generales.
+      </div>
+
+      <div class="question">
+        ¿Cuál conjunto diferencia mejor los niveles de desempeño?
+      </div>
+
+      <div class="options">
+        <button class="option" type="button" onclick="answer(3,'A',this)">Excelente · Bueno · Regular</button>
+
+        <button class="option" type="button" onclick="answer(3,'B',this)">
+          <strong>Avanzado:</strong> distingue hechos e interpretaciones y fundamenta sus decisiones.<br><br>
+          <strong>Esperado:</strong> distingue la mayoría con pocas imprecisiones.<br><br>
+          <strong>En proceso:</strong> confunde hechos e interpretaciones en varias partes del análisis.
+        </button>
+
+        <button class="option" type="button" onclick="answer(3,'C',this)">Lo hace siempre · Lo hace algunas veces · No lo hace</button>
+        <button class="option" type="button" onclick="answer(3,'D',this)">Nivel alto · Nivel medio · Nivel bajo</button>
+      </div>
+
+      <div class="feedback" id="feedback3"></div>
+      <div class="actions" id="actions3"></div>
+    </div>
+
+    <div class="screen" id="finish">
+      <div class="finish">
+        <div class="finish-icon">✓</div>
+
+        <h2>Actividad completada</h2>
+
+        <p>
+          Antes de construir un instrumento, conviene comprobar que los criterios sean pertinentes,
+          los indicadores observables y los niveles suficientemente diferenciados.
+        </p>
+
+        <div class="key">
+          <strong>Idea clave:</strong><br>
+          No todo lo que puede observarse debe evaluarse.
+          Cada criterio debe aportar evidencia relevante del resultado de aprendizaje.
+        </div>
+
+        <button class="btn secondary" type="button" onclick="restartActivity()">
+          Volver a realizar
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const correctAnswers = {1:"D",2:"C",3:"B"};
+
+const correctFeedback = {
+  1:"El diseño visual puede observarse, pero no aporta evidencia directa del desempeño planteado en este resultado. Los criterios deben centrarse en aquello que realmente permite valorar la capacidad de conducir una conversación de retroalimentación.",
+  2:"Este indicador describe una conducta que puede identificarse directamente en la evidencia. En cambio, expresiones como “buena comunicación” o “actitud adecuada” son demasiado generales y requieren mayor precisión.",
+  3:"Estos descriptores muestran cambios concretos en el desempeño y permiten distinguir qué caracteriza cada nivel. La progresión no depende únicamente de cambiar una etiqueta."
+};
+
+const wrongFeedback = {
+  1:"Revise nuevamente el resultado. Pregúntese cuál de los criterios no aporta información relevante sobre la preparación, comunicación o seguimiento de una conversación de retroalimentación.",
+  2:"Un indicador debería describir algo que pueda observarse en el trabajo del estudiante. Evite formulaciones generales o valoraciones difíciles de comprobar.",
+  3:"Los nombres de los niveles no son suficientes. Busque la alternativa que describe diferencias concretas y observables entre los desempeños."
+};
+
+function startActivity(){
+  document.getElementById("cover").classList.remove("active");
+  document.getElementById("progress").classList.add("show");
+  document.getElementById("content").style.display="block";
+  document.getElementById("q1").classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function answer(questionNumber,selected,button){
+  const screen=document.getElementById("q"+questionNumber);
+  const options=screen.querySelectorAll(".option");
+  const feedback=document.getElementById("feedback"+questionNumber);
+  const actions=document.getElementById("actions"+questionNumber);
+
+  options.forEach(function(option){option.disabled=true;});
+  feedback.className="feedback show";
+  actions.className="actions show";
+
+  if(selected===correctAnswers[questionNumber]){
+    button.classList.add("correct");
+    feedback.classList.add("ok");
+    feedback.innerHTML="<strong>Decisión acertada</strong>"+correctFeedback[questionNumber];
+    actions.innerHTML='<button class="btn" type="button" onclick="nextQuestion('+questionNumber+')">Continuar →</button>';
+  }else{
+    button.classList.add("wrong");
+    feedback.classList.add("bad");
+    feedback.innerHTML="<strong>Revise su decisión</strong>"+wrongFeedback[questionNumber];
+    actions.innerHTML='<button class="btn" type="button" onclick="retryQuestion('+questionNumber+')">Intentar de nuevo</button>';
+  }
+}
+
+function retryQuestion(questionNumber){
+  const screen=document.getElementById("q"+questionNumber);
+
+  screen.querySelectorAll(".option").forEach(function(option){
+    option.disabled=false;
+    option.classList.remove("correct","wrong");
+  });
+
+  const feedback=document.getElementById("feedback"+questionNumber);
+  const actions=document.getElementById("actions"+questionNumber);
+
+  feedback.className="feedback";
+  feedback.innerHTML="";
+  actions.className="actions";
+  actions.innerHTML="";
+}
+
+function nextQuestion(current){
+  document.getElementById("q"+current).classList.remove("active");
+
+  const currentStep=document.getElementById("step"+current);
+
+  if(currentStep){
+    currentStep.classList.remove("active");
+    currentStep.classList.add("done");
+  }
+
+  if(current<3){
+    const next=current+1;
+    document.getElementById("q"+next).classList.add("active");
+    document.getElementById("step"+next).classList.add("active");
+  }else{
+    document.getElementById("progress").classList.remove("show");
+    document.getElementById("finish").classList.add("active");
+  }
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function restartActivity(){
+  document.querySelectorAll(".screen").forEach(function(screen){
+    screen.classList.remove("active");
+  });
+
+  document.getElementById("cover").classList.add("active");
+  document.getElementById("progress").classList.remove("show");
+  document.getElementById("content").style.display="none";
+
+  document.querySelectorAll(".step").forEach(function(step){
+    step.classList.remove("active","done");
+  });
+
+  document.getElementById("step1").classList.add("active");
+
+  for(let q=1;q<=3;q++){
+    const screen=document.getElementById("q"+q);
+
+    screen.querySelectorAll(".option").forEach(function(option){
+      option.disabled=false;
+      option.classList.remove("correct","wrong");
+    });
+
+    document.getElementById("feedback"+q).className="feedback";
+    document.getElementById("feedback"+q).innerHTML="";
+    document.getElementById("actions"+q).className="actions";
+    document.getElementById("actions"+q).innerHTML="";
+  }
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
