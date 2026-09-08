@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Confiaría en esta evaluación?</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:8px;background:#F4FAFB;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.activity{max-width:1000px;margin:0 auto;background:#FFFFFF;border:1px solid #D6EEF2;border-radius:14px;overflow:hidden}
+.screen{display:none}
+.screen.active{display:block}
+.cover{padding:42px 38px 44px;text-align:center}
+.cover-icon{width:62px;height:62px;border-radius:50%;margin:0 auto 18px;background:#00B3C7;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700}
+.cover h1{margin:0 0 8px;font-size:27px;color:#0B2B3D}
+.cover h2{margin:0 auto 18px;max-width:720px;font-size:20px;line-height:1.4;font-weight:500;color:#078A9A}
+.cover p{max-width:760px;margin:0 auto 22px;font-size:15px;line-height:1.6;color:#526B76}
+.cover-topics{max-width:760px;margin:0 auto 24px;padding:12px 18px;background:#F4FAFB;border:1px solid #D6EEF2;border-radius:10px;font-size:14px;font-weight:600}
+.progress{display:none;justify-content:center;align-items:center;gap:7px;padding:10px 16px;background:#F8FCFD;border-bottom:1px solid #DCE6E9}
+.progress.show{display:flex}
+.step{width:27px;height:27px;border-radius:50%;border:1.5px solid #B9DBE1;background:#FFFFFF;color:#6B8791;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.step.active{background:#00B3C7;border-color:#00B3C7;color:#FFFFFF}
+.step.done{background:#2D8692;border-color:#2D8692;color:#FFFFFF}
+.line{width:46px;height:2px;background:#CBE5E9}
+.content{display:none;padding:24px 36px 34px}
+.kicker{margin:0 0 10px;text-align:center;color:#078A9A;text-transform:uppercase;letter-spacing:.6px;font-size:12px;font-weight:700}
+.context{max-width:860px;margin:0 auto 14px;padding:14px 16px;background:#F4FAFB;border-left:5px solid #2D8692;font-size:14px;line-height:1.55;color:#314753}
+.ai-response{max-width:860px;margin:0 auto 18px;padding:14px 16px;background:#E7F7F9;border:1px solid #62BED3;border-radius:10px;font-size:14px;line-height:1.55}
+.question{max-width:860px;margin:0 auto 18px;text-align:center;font-size:19px;line-height:1.45;font-weight:600}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;max-width:860px;margin:0 auto}
+.option{min-height:86px;border:1.5px solid #C6DCE1;border-radius:11px;background:#FFFFFF;padding:15px 13px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;line-height:1.4;color:#0B2B3D;transition:.15s ease}
+.option:hover:not(:disabled),.option:focus:not(:disabled){background:#F8FCFD;border-color:#00B3C7;outline:none}
+.option:disabled{cursor:default}
+.option.correct{border:2px solid #2D8692;background:#F0FAF5}
+.option.wrong{border:2px solid #D66A63;background:#FFF4F3}
+.feedback{display:none;max-width:860px;margin:17px auto 0;border-radius:10px;padding:14px 16px;font-size:14px;line-height:1.5}
+.feedback.show{display:block}
+.feedback.ok{background:#F0FAF5;border:1px solid #B7DFC9;color:#17633F}
+.feedback.bad{background:#FFF3F3;border:1px solid #F1BBBB;color:#8C3333}
+.feedback strong{display:block;margin-bottom:3px}
+.actions{display:none;max-width:860px;margin:15px auto 0;justify-content:flex-end}
+.actions.show{display:flex}
+.btn{border:0;border-radius:9px;background:#00A6B8;color:#FFFFFF;padding:10px 19px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.btn:hover,.btn:focus{background:#078A9A}
+.btn.secondary{background:#EAF8F8;color:#087D8D;border:1px solid #B7E4E6}
+.finish{text-align:center;padding:34px 22px}
+.finish-icon{width:58px;height:58px;border-radius:50%;margin:0 auto 16px;background:#00B3C7;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:700}
+.finish h2{margin:0 0 10px;font-size:24px}
+.finish p{max-width:720px;margin:0 auto 22px;font-size:15px;line-height:1.55;color:#526B76}
+.key{max-width:760px;margin:0 auto 22px;background:#0B2B3D;color:#FFFFFF;border-radius:11px;padding:15px 18px;font-size:14px;line-height:1.5}
+@media(max-width:700px){
+  body{padding:4px}
+  .cover{padding:30px 18px 32px}
+  .cover h1{font-size:23px}
+  .cover h2{font-size:18px}
+  .content{padding:20px 15px 27px}
+  .question{font-size:17px}
+  .options{grid-template-columns:1fr}
+  .option{min-height:auto}
+  .line{width:26px}
+}
+</style>
+</head>
+<body>
+
+<div class="activity">
+
+  <div class="screen active" id="cover">
+    <div class="cover">
+      <div class="cover-icon">AI?</div>
+      <h1>¿Confiaría en esta evaluación?</h1>
+      <h2>Revise críticamente una valoración generada con inteligencia artificial</h2>
+      <p>
+        En cada caso observará una respuesta de IA vinculada con una evaluación.
+        Identifique si puede utilizarse tal como está o si presenta un problema que requiere revisión.
+      </p>
+      <div class="cover-topics">
+        Instrumento establecido · Evidencia observable · Juicio profesional
+      </div>
+      <button class="btn" type="button" onclick="startActivity()">Comenzar →</button>
+    </div>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="step active" id="step1">1</div>
+    <div class="line"></div>
+    <div class="step" id="step2">2</div>
+    <div class="line"></div>
+    <div class="step" id="step3">3</div>
+  </div>
+
+  <div class="content" id="content">
+
+    <div class="screen active" id="q1">
+      <p class="kicker">Caso 1 · Respeto al instrumento</p>
+
+      <div class="context">
+        <strong>Instrumento:</strong> la rúbrica valora cuatro criterios: uso de información objetiva,
+        claridad de la comunicación, orientación a la mejora y seguimiento de acuerdos.
+      </div>
+
+      <div class="ai-response">
+        <strong>Respuesta de IA:</strong><br>
+        “El estudiante alcanza el nivel Esperado en claridad de la comunicación y orientación a la mejora.
+        Sin embargo, obtiene un nivel En desarrollo en <strong>presentación visual</strong>, porque el documento
+        utiliza poco formato y no incluye elementos gráficos.”
+      </div>
+
+      <div class="question">
+        ¿Qué problema identifica?
+      </div>
+
+      <div class="options">
+        <button class="option" type="button" onclick="answer(1,'A',this)">
+          La IA agregó un criterio que no forma parte del instrumento.
+        </button>
+        <button class="option" type="button" onclick="answer(1,'B',this)">
+          La IA debería valorar siempre la presentación visual de cualquier trabajo.
+        </button>
+        <button class="option" type="button" onclick="answer(1,'C',this)">
+          No hay problema porque la IA puede ampliar la rúbrica si detecta otros aspectos.
+        </button>
+        <button class="option" type="button" onclick="answer(1,'D',this)">
+          El problema es que utilizó niveles de desempeño.
+        </button>
+      </div>
+
+      <div class="feedback" id="feedback1"></div>
+      <div class="actions" id="actions1"></div>
+    </div>
+
+    <div class="screen" id="q2">
+      <p class="kicker">Caso 2 · Evidencia que sustenta la valoración</p>
+
+      <div class="context">
+        <strong>Criterio:</strong> seguimiento de acuerdos.<br><br>
+        <strong>Respuesta del estudiante:</strong> “Le explicaría el problema y propondría una acción para mejorar.”
+      </div>
+
+      <div class="ai-response">
+        <strong>Respuesta de IA:</strong><br>
+        “El estudiante alcanza el nivel Avanzado en seguimiento porque seguramente establecería una reunión posterior
+        y verificaría el cumplimiento de los acuerdos.”
+      </div>
+
+      <div class="question">
+        ¿Puede aceptarse esta valoración?
+      </div>
+
+      <div class="options">
+        <button class="option" type="button" onclick="answer(2,'A',this)">
+          Sí, porque la IA puede completar acciones que parecen lógicas.
+        </button>
+        <button class="option" type="button" onclick="answer(2,'B',this)">
+          Sí, si la explicación de la IA está bien redactada.
+        </button>
+        <button class="option" type="button" onclick="answer(2,'C',this)">
+          No, porque atribuye acciones de seguimiento que no aparecen en la evidencia.
+        </button>
+        <button class="option" type="button" onclick="answer(2,'D',this)">
+          No, porque nunca debe utilizarse IA para revisar una evidencia.
+        </button>
+      </div>
+
+      <div class="feedback" id="feedback2"></div>
+      <div class="actions" id="actions2"></div>
+    </div>
+
+    <div class="screen" id="q3">
+      <p class="kicker">Caso 3 · Reconocer límites</p>
+
+      <div class="context">
+        <strong>Criterio:</strong> seguimiento de acuerdos.<br><br>
+        El fragmento compartido del trabajo solo contiene la apertura y el mensaje principal de la conversación.
+        No incluye la parte final de la propuesta.
+      </div>
+
+      <div class="ai-response">
+        <strong>Respuesta de IA:</strong><br>
+        “Con la evidencia disponible no es posible determinar el nivel alcanzado en el criterio de seguimiento.
+        Se necesita revisar la parte del trabajo donde el estudiante plantea los acuerdos o acciones posteriores.”
+      </div>
+
+      <div class="question">
+        ¿Cómo valora esta respuesta?
+      </div>
+
+      <div class="options">
+        <button class="option" type="button" onclick="answer(3,'A',this)">
+          Es inadecuada porque la IA siempre debería asignar un nivel.
+        </button>
+        <button class="option" type="button" onclick="answer(3,'B',this)">
+          Es adecuada porque reconoce que la evidencia disponible no permite valorar el criterio.
+        </button>
+        <button class="option" type="button" onclick="answer(3,'C',this)">
+          Es inadecuada porque debería asumir el nivel Esperado.
+        </button>
+        <button class="option" type="button" onclick="answer(3,'D',this)">
+          Es adecuada únicamente si el estudiante autoriza que se complete la información.
+        </button>
+      </div>
+
+      <div class="feedback" id="feedback3"></div>
+      <div class="actions" id="actions3"></div>
+    </div>
+
+    <div class="screen" id="finish">
+      <div class="finish">
+        <div class="finish-icon">✓</div>
+        <h2>Actividad completada</h2>
+        <p>
+          Al utilizar IA para apoyar la evaluación, no basta con revisar si la respuesta parece clara o convincente.
+          Es necesario comprobar que respete el instrumento, se sustente en evidencia y reconozca los límites de la información disponible.
+        </p>
+        <div class="key">
+          <strong>Idea clave:</strong><br>
+          Una respuesta bien redactada no necesariamente es una buena evaluación.
+          La valoración debe poder justificarse con el instrumento y con evidencia observable.
+        </div>
+        <button class="btn secondary" type="button" onclick="restartActivity()">Volver a realizar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const correctAnswers={1:"A",2:"C",3:"B"};
+
+const correctFeedback={
+  1:"La valoración debe mantenerse dentro de los criterios establecidos. Si la IA detecta otro aspecto relevante puede señalarlo como observación, pero no incorporarlo automáticamente como criterio de evaluación.",
+  2:"La respuesta introduce una acción de seguimiento que el estudiante no expresó. La valoración debe sustentarse en la evidencia disponible, no en lo que la IA supone que el estudiante podría haber hecho.",
+  3:"Reconocer que la evidencia es insuficiente es una respuesta válida. Evita inventar información y permite solicitar la parte faltante antes de emitir una valoración."
+};
+
+const wrongFeedback={
+  1:"Revise qué aspectos están incluidos realmente en la rúbrica. La IA no debería ampliar el instrumento por su cuenta.",
+  2:"Pregúntese si la afirmación sobre una reunión posterior aparece realmente en el trabajo del estudiante.",
+  3:"No siempre es posible valorar todos los criterios. Una respuesta responsable puede indicar que falta evidencia antes de asignar un nivel."
+};
+
+function startActivity(){
+  document.getElementById("cover").classList.remove("active");
+  document.getElementById("progress").classList.add("show");
+  document.getElementById("content").style.display="block";
+  document.getElementById("q1").classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function answer(questionNumber,selected,button){
+  const screen=document.getElementById("q"+questionNumber);
+  const options=screen.querySelectorAll(".option");
+  const feedback=document.getElementById("feedback"+questionNumber);
+  const actions=document.getElementById("actions"+questionNumber);
+
+  options.forEach(function(option){option.disabled=true;});
+  feedback.className="feedback show";
+  actions.className="actions show";
+
+  if(selected===correctAnswers[questionNumber]){
+    button.classList.add("correct");
+    feedback.classList.add("ok");
+    feedback.innerHTML="<strong>Decisión acertada</strong>"+correctFeedback[questionNumber];
+    actions.innerHTML='<button class="btn" type="button" onclick="nextQuestion('+questionNumber+')">Continuar →</button>';
+  }else{
+    button.classList.add("wrong");
+    feedback.classList.add("bad");
+    feedback.innerHTML="<strong>Revise su decisión</strong>"+wrongFeedback[questionNumber];
+    actions.innerHTML='<button class="btn" type="button" onclick="retryQuestion('+questionNumber+')">Intentar de nuevo</button>';
+  }
+}
+
+function retryQuestion(questionNumber){
+  const screen=document.getElementById("q"+questionNumber);
+  screen.querySelectorAll(".option").forEach(function(option){
+    option.disabled=false;
+    option.classList.remove("correct","wrong");
+  });
+
+  const feedback=document.getElementById("feedback"+questionNumber);
+  const actions=document.getElementById("actions"+questionNumber);
+
+  feedback.className="feedback";
+  feedback.innerHTML="";
+  actions.className="actions";
+  actions.innerHTML="";
+}
+
+function nextQuestion(current){
+  document.getElementById("q"+current).classList.remove("active");
+  const currentStep=document.getElementById("step"+current);
+
+  if(currentStep){
+    currentStep.classList.remove("active");
+    currentStep.classList.add("done");
+  }
+
+  if(current<3){
+    const next=current+1;
+    document.getElementById("q"+next).classList.add("active");
+    document.getElementById("step"+next).classList.add("active");
+  }else{
+    document.getElementById("progress").classList.remove("show");
+    document.getElementById("finish").classList.add("active");
+  }
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function restartActivity(){
+  document.querySelectorAll(".screen").forEach(function(screen){
+    screen.classList.remove("active");
+  });
+
+  document.getElementById("cover").classList.add("active");
+  document.getElementById("progress").classList.remove("show");
+  document.getElementById("content").style.display="none";
+
+  document.querySelectorAll(".step").forEach(function(step){
+    step.classList.remove("active","done");
+  });
+
+  document.getElementById("step1").classList.add("active");
+
+  for(let q=1;q<=3;q++){
+    const screen=document.getElementById("q"+q);
+    screen.querySelectorAll(".option").forEach(function(option){
+      option.disabled=false;
+      option.classList.remove("correct","wrong");
+    });
+
+    document.getElementById("feedback"+q).className="feedback";
+    document.getElementById("feedback"+q).innerHTML="";
+    document.getElementById("actions"+q).className="actions";
+    document.getElementById("actions"+q).innerHTML="";
+  }
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
