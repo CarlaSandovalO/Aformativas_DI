@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rúbrica resultante</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:10px;background:#FFFFFF;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
+.wrap{max-width:1100px;margin:0 auto}
+.intro{background:#E7F7F9;border:1px solid #62BED3;border-radius:12px;padding:16px;text-align:center}
+.intro h2{font-size:18px;margin:0 0 8px}
+.intro p{font-size:13px;margin:0 0 12px;color:#526B76;line-height:1.5}
+.btn{border:0;border-radius:9px;background:#00A6B8;color:#fff;padding:10px 18px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.btn:hover,.btn:focus{background:#078A9A;outline:none}
+.rubrica{display:none;margin-top:14px;background:#FFFFFF;border:1px solid #DCE6E9;border-radius:12px;padding:10px;overflow-x:auto}
+.rubrica.show{display:block}
+table{width:100%;border-collapse:collapse;font-size:11px;line-height:1.35;min-width:980px}
+td{padding:7px;border-bottom:1px solid #E6ECEE;vertical-align:top}
+.head td{background:#F4FAFB;border-bottom:1px solid #DCE6E9}
+.note{background:#FFFFFF;border-left:5px solid #2D8692;padding:12px 14px;margin-top:12px;font-size:12px;line-height:1.5}
+.close{display:none;text-align:right;margin-top:10px}
+.close.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h2>Ejemplo de una rúbrica resultante</h2>
+    <p>Observe cómo los criterios, las ponderaciones y los niveles de desempeño se integran en un instrumento aplicable.</p>
+    <button class="btn" id="toggleBtn" type="button" onclick="toggleRubrica()">Ver rúbrica resultante</button>
+  </div>
+
+  <div class="rubrica" id="rubrica">
+    <table>
+      <tbody>
+        <tr class="head">
+          <td><strong>Criterio</strong></td>
+          <td style="text-align:center"><strong>Ponderación</strong></td>
+          <td><strong>Nivel 4 · Avanzado<br>100 %</strong></td>
+          <td><strong>Nivel 3 · Esperado<br>75 %</strong></td>
+          <td><strong>Nivel 2 · En desarrollo<br>50 %</strong></td>
+          <td><strong>Nivel 1 · Inicial<br>25 %</strong></td>
+        </tr>
+
+        <tr>
+          <td><strong>Uso de información objetiva</strong></td>
+          <td style="text-align:center"><strong>25 %</strong></td>
+          <td>Distingue consistentemente hechos verificables de interpretaciones y fundamenta sus decisiones con información específica del caso.</td>
+          <td>Distingue hechos e interpretaciones en la mayoría del análisis, con pocas imprecisiones.</td>
+          <td>Distingue algunos hechos e interpretaciones, pero mantiene varias afirmaciones sin suficiente sustento.</td>
+          <td>Confunde de manera frecuente hechos e interpretaciones y formula conclusiones que no se sustentan en la información disponible.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Claridad de la comunicación</strong></td>
+          <td style="text-align:center"><strong>30 %</strong></td>
+          <td>Formula un mensaje claro, específico y respetuoso, relacionando de manera precisa la situación observada con el propósito de la conversación.</td>
+          <td>Formula un mensaje comprensible, específico y respetuoso, aunque presenta pequeñas oportunidades de precisión.</td>
+          <td>El mensaje comunica la idea principal, pero contiene formulaciones generales, poco específicas o parcialmente relacionadas con la situación.</td>
+          <td>El mensaje resulta poco claro o ambiguo y dificulta identificar el propósito de la conversación.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Orientación a la mejora</strong></td>
+          <td style="text-align:center"><strong>25 %</strong></td>
+          <td>Propone acciones concretas, viables y directamente relacionadas con la situación para orientar la mejora.</td>
+          <td>Propone acciones concretas y relacionadas con la situación, aunque podrían especificarse algunos aspectos de su aplicación.</td>
+          <td>Propone acciones generales de mejora, con relación parcial con la situación analizada.</td>
+          <td>No propone acciones concretas de mejora o plantea acciones que no responden directamente a la situación.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Seguimiento de acuerdos</strong></td>
+          <td style="text-align:center"><strong>20 %</strong></td>
+          <td>Define acciones de seguimiento, responsables o acuerdos y establece cómo se verificarán los avances.</td>
+          <td>Define una acción de seguimiento pertinente y establece cómo se revisarán los avances.</td>
+          <td>Menciona una acción posterior, pero no precisa suficientemente cómo se realizará el seguimiento.</td>
+          <td>No define una acción concreta de seguimiento o cierre de los acuerdos.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>¿Cómo se obtiene la puntuación?</strong>
+      Cada criterio aporta un porcentaje de la calificación total. El porcentaje alcanzado en el nivel de desempeño se aplica al valor del criterio.
+      Por ejemplo, si <strong>Claridad de la comunicación</strong> vale 30 % y el estudiante alcanza el nivel <strong>Esperado (75 %)</strong>,
+      obtiene 22.5 puntos de los 30 posibles.
+    </div>
+  </div>
+
+  <div class="close" id="closeWrap">
+    <button class="btn" type="button" onclick="toggleRubrica()">Ocultar rúbrica</button>
+  </div>
+</div>
+
+<script>
+function toggleRubrica(){
+  const r=document.getElementById('rubrica');
+  const c=document.getElementById('closeWrap');
+  const b=document.getElementById('toggleBtn');
+  const visible=r.classList.toggle('show');
+  c.classList.toggle('show',visible);
+  b.style.display=visible?'none':'inline-block';
+  if(visible){r.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+</script>
+</body>
+</html>
