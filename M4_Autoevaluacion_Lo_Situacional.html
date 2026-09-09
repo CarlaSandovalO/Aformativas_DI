@@ -3,79 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pausa para reflexión - Lo situacional</title>
+<title>Módulo 4 · Autoevaluación Lo situacional</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#F4FAFB;font-family:Poppins,Arial,sans-serif;color:#0B2B3D}
-body{padding:10px}
-.wrap{max-width:1000px;margin:0 auto;background:#fff;border:1px solid #D6EEF2;border-radius:14px;overflow:hidden}
-.hero{padding:38px 34px 32px;text-align:center;border-bottom:1px solid #E2F0F2}
-.kicker{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#078A9A;margin-bottom:8px}
-h1{font-size:28px;line-height:1.25;margin:0 0 8px} .subtitle{font-size:19px;color:#078A9A;margin:0 0 16px;font-weight:500}
-.hero p{max-width:760px;margin:0 auto;font-size:15.5px;line-height:1.6;color:#526B76}
-.notice{max-width:820px;margin:20px auto 0;background:#F4FAFB;border:1px solid #D6EEF2;border-radius:10px;padding:13px 16px;font-size:14px;line-height:1.5;color:#35505C}
-.content{padding:28px 32px 34px}
-.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 auto 24px;max-width:800px}
-.scale div{background:#F8FCFD;border:1px solid #D6EEF2;border-radius:9px;padding:10px;text-align:center;font-size:12.5px;line-height:1.35;color:#526B76}.scale strong{display:block;color:#0B2B3D;font-size:15px;margin-bottom:3px}
-.section{margin:0 0 28px}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}.badge{width:36px;height:36px;border-radius:50%;background:#00A6B8;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:0 0 auto}.section h2{font-size:19px;margin:0}.section-desc{font-size:14px;color:#657D87;margin:4px 0 0}
-.item{border:1px solid #DCEBED;border-radius:11px;padding:15px 16px;margin:10px 0;background:#FCFEFE}.statement{font-size:14.5px;line-height:1.5;margin-bottom:12px;color:#284551}.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.likert label{cursor:pointer;border:1px solid #CFE1E5;border-radius:8px;padding:9px 5px;text-align:center;font-size:13px;background:#fff;transition:.15s}.likert input{position:absolute;opacity:0;pointer-events:none}.likert label:has(input:checked){background:#E5F7F8;border-color:#00A6B8;color:#076E7B;font-weight:700}.likert label:hover{border-color:#00A6B8;background:#F3FBFC}
-.reflection{margin-top:14px;padding:14px;background:#F8FCFD;border-radius:10px;border:1px solid #D6EEF2}.reflection label{display:block;font-size:14px;font-weight:700;margin-bottom:8px}.reflection textarea{width:100%;min-height:82px;resize:vertical;border:1px solid #C7DDE1;border-radius:8px;padding:10px;font:14px/1.45 inherit;color:#284551;background:#fff}
-.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}.btn{border:0;border-radius:9px;background:#00A6B8;color:#fff;padding:11px 18px;font:700 14px inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn:hover{background:#078A9A}.btn.secondary{background:#EAF8F8;color:#087D8D;border:1px solid #B7E4E6}.btn.ghost{background:#fff;color:#526B76;border:1px solid #CFE1E5}
-.warning{display:none;margin:18px auto 0;max-width:760px;background:#FFF6E9;border:1px solid #F2D39D;color:#7A5317;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.45}
-.results{display:none;margin-top:30px;border-top:1px solid #DCEBED;padding-top:26px}.results h2{text-align:center;font-size:22px;margin:0 0 6px}.results-intro{text-align:center;color:#657D87;font-size:14px;line-height:1.5;max-width:720px;margin:0 auto 20px}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:820px;margin:0 auto}.result-card{border:1px solid #D6EEF2;border-radius:11px;padding:15px;background:#FCFEFE}.result-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:9px}.result-name{font-weight:700}.score{font-size:18px;font-weight:700;color:#078A9A}.bar{height:9px;background:#E8F1F3;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:#00A6B8;border-radius:99px;width:0;transition:.4s}.overall{max-width:820px;margin:14px auto 0;background:#F4FAFB;border:1px solid #D6EEF2;border-radius:11px;padding:15px;text-align:center}.overall strong{font-size:18px;color:#0B2B3D}.guidance{max-width:820px;margin:14px auto 0;background:#F0FAF5;border:1px solid #B7DFC9;border-radius:11px;padding:14px 16px;font-size:14px;line-height:1.55;color:#285A37}.privacy{text-align:center;font-size:12.5px;color:#7A919B;margin-top:18px}
-@media(max-width:720px){body{padding:4px}.hero{padding:30px 18px 26px}.content{padding:22px 14px 28px}.scale{grid-template-columns:1fr}.likert{grid-template-columns:repeat(5,minmax(46px,1fr));overflow-x:auto}.result-grid{grid-template-columns:1fr}}
-@media print{body{background:#fff;padding:0}.wrap{border:0}.actions,.scale,.warning,.privacy{display:none!important}.item{break-inside:avoid}.results{display:block!important}.hero{padding-top:10px}}
+html,body{margin:0;padding:0;background:#F7F9FC;font-family:'Montserrat',Arial,Helvetica,sans-serif;color:#081019}
+body{padding:8px}
+.app{max-width:980px;height:464px;margin:0 auto;background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.top{padding:12px 18px 9px;border-bottom:1px solid #E5E7EB;background:#fff}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:#D08E2F;margin-bottom:3px}
+.title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font-size:22px;line-height:1.15;margin:0;color:#152c4a}
+.step-label{font-size:12px;color:#667085;white-space:nowrap}
+.progress{height:5px;background:#EDF1F5;border-radius:99px;margin-top:9px;overflow:hidden}
+.progress span{display:block;height:100%;background:#D08E2F;width:0;transition:.2s}
+.stage{flex:1;min-height:0;padding:14px 18px 10px;display:flex;align-items:stretch}
+.card{width:100%;border:1px solid #E1E3E6;border-radius:10px;padding:16px 18px;background:#FCFCFD;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.intro-card{text-align:center;align-items:center}
+.intro-card h2{font-size:20px;color:#152c4a;margin:0 0 8px}
+.intro-card p{max-width:760px;margin:0 auto 10px;font-size:14px;line-height:1.48;color:#475467}
+.notice{max-width:760px;background:#F7F9FC;border-left:4px solid #D08E2F;border-radius:8px;padding:9px 12px;font-size:12.5px;line-height:1.42;color:#475467;text-align:left}
+.scale-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;max-width:760px;margin-top:10px}
+.scale-mini div{border:1px solid #E1E3E6;border-radius:7px;padding:6px 4px;font-size:10.5px;color:#667085}.scale-mini strong{display:block;color:#152c4a;font-size:13px}
+.section-tag{font-size:12px;font-weight:700;color:#D08E2F;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
+.question{font-size:17px;line-height:1.4;color:#152c4a;font-weight:700;margin:0 0 15px}
+.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.likert label{cursor:pointer;border:1px solid #D0D5DD;border-radius:8px;padding:10px 5px;text-align:center;font-size:13px;background:#fff;color:#344054;transition:.15s}
+.likert input{position:absolute;opacity:0;pointer-events:none}
+.likert label:has(input:checked){background:#FFF7EA;border-color:#D08E2F;color:#7A4A06;font-weight:700}
+.reflection-label{font-size:17px;line-height:1.35;color:#152c4a;font-weight:700;margin:0 0 10px}
+textarea{width:100%;height:120px;resize:none;border:1px solid #D0D5DD;border-radius:8px;padding:10px 12px;font:13.5px/1.45 'Montserrat',Arial,sans-serif;color:#344054;background:#fff}
+.result-card{justify-content:flex-start}
+.result-card h2{font-size:19px;color:#152c4a;margin:0 0 4px;text-align:center}
+.result-intro{font-size:12px;color:#667085;text-align:center;margin:0 0 9px}
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.result-item{border:1px solid #E1E3E6;border-radius:8px;padding:9px 10px;background:#fff}
+.result-top{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:700}.score{color:#D08E2F}
+.bar{height:6px;background:#EDF1F5;border-radius:99px;margin-top:6px;overflow:hidden}.bar span{display:block;height:100%;background:#D08E2F}
+.guidance{margin-top:8px;background:#F7F9FC;border-left:4px solid #D08E2F;border-radius:7px;padding:8px 10px;font-size:11.5px;line-height:1.38;color:#475467}
+.nav{height:58px;flex:0 0 58px;border-top:1px solid #E5E7EB;padding:8px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff}
+.nav-left,.nav-right{display:flex;gap:8px}
+.btn{border:0;border-radius:8px;padding:9px 14px;font:700 12.5px 'Montserrat',Arial,sans-serif;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn.primary{background:#152c4a;color:#fff}
+.btn.gold{background:#D08E2F;color:#fff}
+.btn.secondary{background:#F2F4F7;color:#344054;border:1px solid #D0D5DD}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.warning{font-size:11.5px;color:#B54708;margin-top:8px;display:none}
+.print-footer{display:none}
+@media(max-width:650px){
+ body{padding:4px}.app{height:472px}.top{padding:10px 12px 8px}h1{font-size:18px}.step-label{font-size:10px}
+ .stage{padding:10px 10px 8px}.card{padding:13px 12px}.question,.reflection-label{font-size:15px}
+ .likert{gap:4px}.likert label{padding:9px 2px;font-size:12px}
+ .nav{padding:8px 10px}.btn{padding:8px 9px;font-size:11.5px}
+ .result-grid{grid-template-columns:1fr 1fr}
+}
+@media print{
+ html,body{background:#fff}.app{height:auto;border:0;overflow:visible}.top,.nav{display:none!important}.stage{display:block;padding:0}.card{display:none!important}
+ .print-sheet{display:block!important;padding:22px 28px 55px}.print-sheet h1{font-size:22px;margin-bottom:12px}
+ .print-sheet h2{font-size:16px;color:#152c4a;margin:16px 0 6px}.print-sheet p{font-size:11.5px;line-height:1.4;margin:4px 0}
+ .print-footer{display:block;position:fixed;left:0;right:0;bottom:0;border-top:1px solid #D0D5DD;padding:8px 18px;text-align:center;font-size:9.5px;color:#667085;background:#fff}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <div class="kicker">Pausa para reflexión · Kit del Negociador</div>
-    <h1>Lo situacional</h1>
-    <div class="subtitle">Autoevaluación del negociador</div>
-    <p>Responde pensando en una negociación real reciente o próxima. Esta actividad no busca asignarte una calificación, sino ayudarte a reconocer cómo analizas a las personas, el contexto y las posibilidades antes de negociar.</p>
-    <div class="notice">Selecciona una respuesta en cada afirmación. Al finalizar recibirás un resultado descriptivo por dimensión. Tus respuestas se procesan únicamente en este navegador y no se envían a un servidor.</div>
+<div class="app">
+  <div class="top">
+    <div class="kicker">Actividad formativa · Módulo 4</div>
+    <div class="title-row">
+      <h1>Autoevaluación del negociador: Lo situacional</h1>
+      <div class="step-label" id="stepLabel"></div>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
   </div>
 
-  <div class="content">
-    <div class="scale">
-      <div><strong>1</strong>Totalmente en desacuerdo</div>
-      <div><strong>2</strong>En desacuerdo</div>
-      <div><strong>3</strong>Ni de acuerdo ni en desacuerdo</div>
-      <div><strong>4</strong>De acuerdo</div>
-      <div><strong>5</strong>Totalmente de acuerdo</div>
+  <main class="stage" id="stage"></main>
+
+  <div class="nav">
+    <div class="nav-left">
+      <button class="btn secondary" id="prevBtn">Anterior</button>
     </div>
-
-    <form id="quizForm"></form>
-
-    <div class="actions">
-      <button type="button" class="btn" id="calcBtn">Ver mis resultados</button>
-      <a class="btn secondary" href="M4_Autoevaluacion_Lo_Situacional.xlsx" download>Descargar versión en Excel</a>
-      <button type="button" class="btn ghost" id="resetBtn">Limpiar respuestas</button>
+    <div class="nav-right">
+      <button class="btn secondary" id="excelBtn" style="display:none">Descargar Excel</button>
+      <button class="btn secondary" id="pdfBtn" style="display:none">Guardar PDF</button>
+      <button class="btn gold" id="nextBtn">Comenzar</button>
     </div>
-    <div class="warning" id="warning">Completa las 17 afirmaciones antes de calcular tus resultados.</div>
-
-    <section class="results" id="results">
-      <h2>Tu autoevaluación situacional</h2>
-      <p class="results-intro">Los promedios muestran cómo valoraste tu práctica actual en cada dimensión. No corresponden a un diagnóstico ni a un nivel de competencia.</p>
-      <div class="result-grid" id="resultGrid"></div>
-      <div class="overall">Promedio general: <strong id="overallScore">-</strong> / 5</div>
-      <div class="guidance" id="guidance"></div>
-      <div class="actions">
-        <button type="button" class="btn secondary" onclick="window.print()">Imprimir / guardar como PDF</button>
-      </div>
-      <div class="privacy">Conserva esta reflexión: forma parte de tu Kit del Negociador.</div>
-    </section>
   </div>
 </div>
+
+<div class="print-sheet" id="printSheet" style="display:none"></div>
+<div class="print-footer">Material elaborado por Rybs Ideas, para la Certificación en Modelo Estratégico de Negociación</div>
+
 <script>
 const sections=[
- {key:'personas',title:'Personas',subtitle:'Comprensión del Opuesto Complemento (O.C.)',items:[
+ {key:'personas',title:'Personas',subtitle:'Comprensión del Opuesto Complemento (OC)',items:[
   'Antes de negociar, dedico tiempo a analizar quién es mi Opuesto Complemento.',
-  'Considero los posibles intereses, necesidades, actitudes y valores del O.C., no solo sus demandas.',
-  'Soy consciente de que puedo enfrentar un O.C.D. y adapto mi estrategia a ello.',
-  'Observo señales verbales y no verbales para comprender mejor al O.C.',
-  'Evito asumir que el O.C. piensa o decide como yo.'
+  'Considero los posibles intereses, necesidades, actitudes y valores del OC, no solo sus demandas.',
+  'Soy consciente de que puedo enfrentar un OCD y adapto mi estrategia a ello.',
+  'Observo señales verbales y no verbales para comprender mejor al OC.',
+  'Evito asumir que el OC piensa o decide como yo.'
  ],reflection:'¿Qué tan preparado(a) llegas normalmente a la mesa respecto a las personas con las que negocias?'},
  {key:'contexto',title:'Contexto',subtitle:'Lectura del entorno negociador',items:[
   'Analizo el contexto cultural y relacional antes de negociar.',
@@ -97,50 +122,151 @@ const sections=[
  ],reflection:'Elabora una conclusión sobre el capítulo y los ajustes que incorporarás para la siguiente negociación.'}
 ];
 
-const form=document.getElementById('quizForm');
-sections.forEach((sec,si)=>{
- const block=document.createElement('section'); block.className='section';
- block.innerHTML=`<div class="section-head"><div class="badge">${si+1}</div><div><h2>${sec.title}</h2><p class="section-desc">${sec.subtitle}</p></div></div>`;
- sec.items.forEach((text,ii)=>{
-   const item=document.createElement('div'); item.className='item';
-   const name=`${sec.key}_${ii+1}`;
-   item.innerHTML=`<div class="statement">${ii+1}. ${text}</div><div class="likert">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="${name}" value="${v}">${v}</label>`).join('')}</div>`;
-   block.appendChild(item);
- });
- const ref=document.createElement('div'); ref.className='reflection';
- ref.innerHTML=`<label for="ref_${sec.key}">${sec.reflection}</label><textarea id="ref_${sec.key}" placeholder="Escribe aquí tu reflexión..."></textarea>`;
- block.appendChild(ref); form.appendChild(block);
+const steps=[{type:'intro'}];
+sections.forEach(sec=>{
+ sec.items.forEach((q,i)=>steps.push({type:'question',sec,index:i}));
+ steps.push({type:'reflection',sec});
 });
+steps.push({type:'results'});
 
-function calculate(){
- const scores={}; let totalAnswered=0,totalSum=0,totalItems=0;
- sections.forEach(sec=>{
-   let sum=0,count=0;
-   sec.items.forEach((_,ii)=>{
-     totalItems++;
-     const chosen=document.querySelector(`input[name="${sec.key}_${ii+1}"]:checked`);
-     if(chosen){const v=Number(chosen.value);sum+=v;count++;totalSum+=v;totalAnswered++;}
-   });
-   scores[sec.key]={name:sec.title,avg:count?sum/count:0,count};
- });
- const warning=document.getElementById('warning');
- if(totalAnswered!==totalItems){warning.style.display='block';document.getElementById('results').style.display='none';warning.scrollIntoView({behavior:'smooth',block:'center'});return;}
- warning.style.display='none';
- const grid=document.getElementById('resultGrid');grid.innerHTML='';
- let lowest=null;
- Object.entries(scores).forEach(([key,data])=>{
-   if(!lowest||data.avg<lowest.avg) lowest={key,...data};
-   const card=document.createElement('div');card.className='result-card';
-   card.innerHTML=`<div class="result-top"><div class="result-name">${data.name}</div><div class="score">${data.avg.toFixed(1)}</div></div><div class="bar"><span style="width:${data.avg/5*100}%"></span></div>`;
-   grid.appendChild(card);
- });
- document.getElementById('overallScore').textContent=(totalSum/totalItems).toFixed(1);
- document.getElementById('guidance').innerHTML=`Observa tus resultados. La dimensión con el promedio más bajo en esta autoevaluación es <strong>${lowest.name}</strong>. Úsala como punto de partida para revisar qué prácticas deseas fortalecer. También considera tus respuestas abiertas: pueden ayudarte a definir ajustes concretos para tu próxima negociación.`;
- const results=document.getElementById('results');results.style.display='block';results.scrollIntoView({behavior:'smooth',block:'start'});
+let current=0;
+const answers={};
+const reflections={};
+const stage=document.getElementById('stage');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const excelBtn=document.getElementById('excelBtn');
+const pdfBtn=document.getElementById('pdfBtn');
+const stepLabel=document.getElementById('stepLabel');
+const progressBar=document.getElementById('progressBar');
+
+function render(){
+ const step=steps[current];
+ const pct=(current/(steps.length-1))*100;
+ progressBar.style.width=pct+'%';
+ stepLabel.textContent=current===0?'Inicio':current===steps.length-1?'Resultados':`${current} de ${steps.length-2}`;
+ prevBtn.disabled=current===0;
+ excelBtn.style.display=step.type==='results'?'inline-flex':'none';
+ pdfBtn.style.display=step.type==='results'?'inline-flex':'none';
+ nextBtn.style.display=step.type==='results'?'none':'inline-flex';
+ nextBtn.textContent=current===0?'Comenzar':current===steps.length-2?'Ver resultados':'Siguiente';
+
+ if(step.type==='intro'){
+   stage.innerHTML=`<section class="card intro-card">
+     <h2>Observa tu forma de analizar una negociación</h2>
+     <p>Responde pensando en una negociación real reciente o próxima. Esta actividad no busca asignarte una calificación, sino ayudarte a reconocer cómo analizas a las personas, el contexto y las posibilidades antes de negociar.</p>
+     <div class="notice">Selecciona una respuesta en cada afirmación. Al finalizar recibirás un resultado descriptivo por dimensión. Tus respuestas se procesan únicamente en este navegador.</div>
+     <div class="scale-mini">
+       <div><strong>1</strong>Totalmente en desacuerdo</div><div><strong>2</strong>En desacuerdo</div><div><strong>3</strong>Ni de acuerdo ni en desacuerdo</div><div><strong>4</strong>De acuerdo</div><div><strong>5</strong>Totalmente de acuerdo</div>
+     </div>
+   </section>`;
+   return;
+ }
+ if(step.type==='question'){
+   const sec=step.sec, name=`${sec.key}_${step.index+1}`, val=answers[name]||'';
+   stage.innerHTML=`<section class="card">
+     <div class="section-tag">${sec.title} · ${sec.subtitle}</div>
+     <div class="question">${step.index+1}. ${sec.items[step.index]}</div>
+     <div class="likert">
+       ${[1,2,3,4,5].map(v=>`<label><input type="radio" name="q" value="${v}" ${String(v)===String(val)?'checked':''}>${v}</label>`).join('')}
+     </div>
+     <div class="warning" id="warn">Selecciona una respuesta para continuar.</div>
+   </section>`;
+   stage.querySelectorAll('input[name="q"]').forEach(el=>el.addEventListener('change',()=>{answers[name]=Number(el.value);document.getElementById('warn').style.display='none';}));
+   return;
+ }
+ if(step.type==='reflection'){
+   const sec=step.sec;
+   stage.innerHTML=`<section class="card">
+     <div class="section-tag">${sec.title} · Reflexión</div>
+     <div class="reflection-label">${sec.reflection}</div>
+     <textarea id="reflection" placeholder="Escribe aquí tu reflexión...">${reflections[sec.key]||''}</textarea>
+   </section>`;
+   const t=document.getElementById('reflection');
+   t.addEventListener('input',()=>reflections[sec.key]=t.value);
+   return;
+ }
+ renderResults();
 }
 
-document.getElementById('calcBtn').addEventListener('click',calculate);
-document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('¿Deseas borrar todas tus respuestas?')){form.reset();document.querySelectorAll('textarea').forEach(t=>t.value='');document.getElementById('results').style.display='none';document.getElementById('warning').style.display='none';window.scrollTo({top:0,behavior:'smooth'});}});
+function canAdvance(){
+ const step=steps[current];
+ if(step.type!=='question') return true;
+ const name=`${step.sec.key}_${step.index+1}`;
+ if(!answers[name]){document.getElementById('warn').style.display='block';return false}
+ return true;
+}
+
+function getScores(){
+ const scores={}; let total=0,count=0;
+ sections.forEach(sec=>{
+   let sum=0,n=0;
+   sec.items.forEach((_,i)=>{const v=answers[`${sec.key}_${i+1}`]; if(v){sum+=v;n++;total+=v;count++;}});
+   scores[sec.key]={name:sec.title,avg:n?sum/n:0};
+ });
+ return {scores,overall:count?total/count:0};
+}
+
+function renderResults(){
+ const {scores,overall}=getScores();
+ let lowest=null;
+ Object.entries(scores).forEach(([key,d])=>{if(!lowest||d.avg<lowest.avg)lowest={key,...d}});
+ stage.innerHTML=`<section class="card result-card">
+   <h2>Tu autoevaluación situacional</h2>
+   <p class="result-intro">Los promedios muestran cómo valoraste tu práctica actual. No corresponden a un diagnóstico ni a un nivel de competencia.</p>
+   <div class="result-grid">
+     ${Object.values(scores).map(d=>`<div class="result-item"><div class="result-top"><span>${d.name}</span><span class="score">${d.avg.toFixed(1)} / 5</span></div><div class="bar"><span style="width:${d.avg/5*100}%"></span></div></div>`).join('')}
+   </div>
+   <div class="guidance">Promedio general: <strong>${overall.toFixed(1)} / 5</strong>. La dimensión con el promedio más bajo es <strong>${lowest.name}</strong>. Úsala como punto de partida para revisar qué prácticas deseas fortalecer y retoma también tus respuestas abiertas.</div>
+ </section>`;
+ buildPrintSheet(scores,overall,lowest);
+}
+
+function buildPrintSheet(scores,overall,lowest){
+ let html=`<h1>Autoevaluación del negociador: Lo situacional</h1><p><strong>Módulo 4 · Actividad formativa</strong></p>`;
+ sections.forEach(sec=>{
+   html+=`<h2>${sec.title}</h2>`;
+   sec.items.forEach((q,i)=>html+=`<p>${i+1}. ${q}<br><strong>Respuesta:</strong> ${answers[`${sec.key}_${i+1}`]||'Sin respuesta'} / 5</p>`);
+   html+=`<p><strong>Reflexión:</strong> ${escapeHtml(reflections[sec.key]||'Sin respuesta')}</p>`;
+ });
+ html+=`<h2>Resultados</h2>`;
+ Object.values(scores).forEach(d=>html+=`<p><strong>${d.name}:</strong> ${d.avg.toFixed(1)} / 5</p>`);
+ html+=`<p><strong>Promedio general:</strong> ${overall.toFixed(1)} / 5</p><p>Dimensión con menor promedio: <strong>${lowest.name}</strong>.</p>`;
+ document.getElementById('printSheet').innerHTML=html;
+}
+
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+
+function downloadExcel(){
+ if(typeof XLSX==='undefined'){alert('No fue posible cargar el generador de Excel. Verifica tu conexión e inténtalo nuevamente.');return}
+ const rows=[
+  ['Módulo','4 - Lo situacional'],
+  ['Actividad','Autoevaluación del negociador'],
+  [],
+  ['Dimensión','N.º','Afirmación','Respuesta (1-5)']
+ ];
+ sections.forEach(sec=>{
+   sec.items.forEach((q,i)=>rows.push([sec.title,i+1,q,answers[`${sec.key}_${i+1}`]||'']));
+   rows.push([sec.title,'','Reflexión',reflections[sec.key]||'']);
+ });
+ const {scores,overall}=getScores();
+ rows.push([],['RESULTADOS']);
+ Object.values(scores).forEach(d=>rows.push([d.name,'','','Promedio: '+d.avg.toFixed(1)]));
+ rows.push(['Promedio general','','',overall.toFixed(1)]);
+ rows.push([]);
+ rows.push(['Material elaborado por Rybs Ideas, para la Certificación en Modelo Estratégico de Negociación']);
+ const ws=XLSX.utils.aoa_to_sheet(rows);
+ ws['!cols']=[{wch:23},{wch:8},{wch:95},{wch:20}];
+ const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,ws,'Autoevaluación');
+ XLSX.writeFile(wb,'M4_Autoevaluacion_Lo_Situacional.xlsx');
+}
+
+prevBtn.addEventListener('click',()=>{if(current>0){current--;render()}});
+nextBtn.addEventListener('click',()=>{if(canAdvance()&&current<steps.length-1){current++;render()}});
+excelBtn.addEventListener('click',downloadExcel);
+pdfBtn.addEventListener('click',()=>window.print());
+render();
 </script>
 </body>
 </html>
